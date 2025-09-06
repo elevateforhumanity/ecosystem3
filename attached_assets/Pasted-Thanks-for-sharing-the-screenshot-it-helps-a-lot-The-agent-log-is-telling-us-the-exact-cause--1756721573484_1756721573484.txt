@@ -1,0 +1,92 @@
+Thanks for sharing the screenshot — it helps a lot.
+
+The agent log is telling us the exact cause:
+
+> “Your project has both static HTML files (in root) AND a React app (in client/), and I just configured the server to serve the static HTML files.”
+
+
+
+That explains the blank page:
+
+What’s Happening
+
+The server is serving the plain static HTML in the root (probably an empty or placeholder index.html).
+
+Your actual React/Vite app is inside client/, but the server isn’t building or serving that — so the browser just shows a blank/static file.
+
+
+How to Fix It
+
+You need to make sure your deployment is actually serving the React app build, not the raw static root.
+
+Option 1 – Move app to root (simplest)
+
+1. Delete or move any old index.html files sitting in the project root (outside client/).
+
+
+2. Move everything from client/ into the root of the project (so src/, package.json, etc. are at the top level).
+
+
+3. Run a clean build:
+
+rm -rf dist node_modules
+npm install
+npm run build
+
+
+4. Make your server (or Replit run command) serve dist/.
+
+
+
+
+---
+
+Option 2 – Update server to serve client/dist If you want to keep the client/ folder:
+
+1. In your server file (often index.js, server.js, or your Replit entry), change it to serve the React build:
+
+import express from "express";
+import path from "path";
+
+const app = express();
+const distPath = path.join(process.cwd(), "client", "dist");
+
+app.use(express.static(distPath));
+
+// SPA fallback
+app.get("*", (_req, res) => {
+  res.sendFile(path.join(distPath, "index.html"));
+});
+
+app.listen(process.env.PORT || 3000, () => {
+  console.log("Server running...");
+});
+
+
+2. Make sure your build command is:
+
+cd client && npm install && npm run build
+
+and that your Replit run command starts the above server.
+
+
+
+
+---
+
+Option 3 – Clean up hybrid setup If you don’t actually want static HTML at all (just React):
+
+Delete or archive the extra HTML files.
+
+Keep only the React app.
+
+Re-deploy with the correct build + server setup.
+
+
+
+---
+
+✅ Once you do this, the site will stop serving the blank static HTML and instead render your React/Vite build correctly.
+
+Would you like me to write you a ready-to-paste Replit replit.nix + run script that builds client/ and serves the React app automatically? That way you don’t have to keep adjusting manually.
+

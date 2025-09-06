@@ -1,0 +1,63 @@
+
+[
+  {
+    "name": "Indiana Department of Workforce Development",
+    "logo": "/branding/partners/indiana-connect-logo.png",
+    "description": "Official state workforce development partner providing WIOA funding and career pathway programs.",
+    "link": "https://www.in.gov/dwd/"
+  },
+  {
+    "name": "Indianapolis Workforce Board",
+    "logo": "/branding/partners/efh-logo.png",
+    "description": "Local workforce investment board serving Marion County with job training and placement services.",
+    "link": "#"
+  },
+  {
+    "name": "CompTIA Technology Certification",
+    "logo": "/branding/partners/comptia-logo.png",
+    "description": "Industry-leading IT certification programs for high-demand technology careers.",
+    "link": "https://www.comptia.org"
+  },
+  {
+    "name": "Microsoft Azure Certifications",
+    "logo": "/branding/partners/microsoft-logo.png",
+    "description": "Cloud computing and digital skills certification programs with guaranteed job placement assistance.",
+    "link": "https://docs.microsoft.com/en-us/learn/certifications/"
+  },
+  {
+    "name": "Google Cloud Professional Training",
+    "logo": "/branding/partners/google-cloud-logo.png",
+    "description": "Enterprise cloud technology training with direct pathways to high-paying tech careers.",
+    "link": "https://cloud.google.com/training"
+  },
+  {
+    "name": "IBEW Local 481 Electrical Union",
+    "logo": "/branding/partners/ibew-logo.png",
+    "description": "Electrical apprenticeship programs leading to union careers with excellent benefits and wages.",
+    "link": "https://www.ibew481.com"
+  },
+  {
+    "name": "Sheet Metal Workers Local 20",
+    "logo": "/branding/partners/smw-logo.png",
+    "description": "Advanced manufacturing and HVAC apprenticeships with immediate job placement upon completion.",
+    "link": "#"
+  },
+  {
+    "name": "Indiana Manufacturers Association",
+    "logo": "/branding/partners/ima-logo.png",
+    "description": "Manufacturing skills training and Industry 4.0 preparation programs with employer partnerships.",
+    "link": "https://www.indianamanufacturers.org"
+  },
+  {
+    "name": "Indiana Hospital Association",
+    "logo": "/branding/partners/iha-logo.png",
+    "description": "Healthcare workforce development including nursing, medical assistant, and healthcare IT programs.",
+    "link": "https://www.ihaconnection.org"
+  },
+  {
+    "name": "Beauty Professionals of Indiana",
+    "logo": "/branding/partners/bpi-logo.png",
+    "description": "Cosmetology, esthetics, and salon management certification programs with business development training.",
+    "link": "#"
+  }
+]

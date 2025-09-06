@@ -1,0 +1,1 @@
+export default function NewCourse(){return(<main style={{padding:32}}><h1>New Course</h1><form><input placeholder="Title"/><br/><textarea placeholder="Description"/><br/><button>Create</button></form></main>)}

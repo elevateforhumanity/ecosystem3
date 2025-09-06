@@ -1,0 +1,477 @@
+Awesome—here’s the finished kit to give you multiple sister sites with shared memory plus:
+
+Case-manager approval flow (no payment required)
+
+Coupon validation with real price reductions at checkout
+
+
+I’m plugging this straight into what you already have: Stripe Pay backend + Supabase Auth+DB.
+
+
+---
+
+1) Supabase: add two tables
+
+Run in Supabase SQL editor:
+
+-- COUPONS
+create table if not exists public.coupons (
+  id uuid primary key default gen_random_uuid(),
+  code text unique not null,
+  type text not null check (type in ('amount','percent')),
+  value integer not null,                   -- cents if amount, 1..100 if percent
+  active boolean default true,
+  max_redemptions integer,                  -- null = unlimited
+  redeemed_count integer default 0,
+  allowed_programs text[],                  -- null or array of slugs
+  starts_at timestamptz, ends_at timestamptz,
+  created_at timestamptz default now()
+);
+
+-- CASE-MANAGER APPROVALS
+create table if not exists public.case_manager_approvals (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid references public.app_users(id) on delete cascade,
+  student_email text not null,
+  program_slug text not null,
+  voucher_id text,
+  case_manager_email text not null,
+  funding_source text,
+  status text not null default 'pending',   -- pending|approved|declined
+  token_hash text not null,                 -- hash of one-time token in links
+  created_at timestamptz default now(),
+  decided_at timestamptz
+);
+
+-- RLS (server will use service key; clients do NOT need direct access)
+alter table public.coupons enable row level security;
+alter table public.case_manager_approvals enable row level security;
+create policy "deny all coupons" on public.coupons for all using (false);
+create policy "deny all approvals" on public.case_manager_approvals for all using (false);
+
+> These tables are server-only (accessed by your Pay backend via the Supabase Service Role key).
+
+
+
+
+---
+
+2) Pay backend: env vars
+
+Add to your StripeIntegrate .env:
+
+# Supabase (server-side)
+SUPABASE_URL=https://YOUR-PROJECT.supabase.co
+SUPABASE_SERVICE_KEY=YOUR_SERVICE_ROLE_KEY
+
+# Email (choose one provider you already use)
+EMAIL_FROM="EFH <no-reply@elevateforhumanity.org>"
+RESEND_API_KEY= # or SENDGRID_API_KEY / MAILGUN_API_KEY ...
+
+# Case-manager approval link signing
+APPROVAL_SECRET=super_long_random_string
+APPROVAL_BASE_URL=https://pay.elevateforhumanity.org/approvals
+
+Install deps:
+
+npm i @supabase/supabase-js jsonwebtoken crypto-js node-fetch@3
+
+(If you already have node-fetch/jsonwebtoken, skip.)
+
+
+---
+
+3) Pay backend: coupon validation API
+
+Add src/routes/coupons.js:
+
+import { Router } from 'express';
+import { createClient } from '@supabase/supabase-js';
+
+const supa = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY);
+export const coupons = Router();
+
+/**
+ * Validate a coupon for a program.
+ * Body: { code, program_slug, list_price_cents? }
+ * Returns: { valid, reason?, discounted_cents?, type?, value? }
+ */
+coupons.post('/api/coupons/validate', async (req, res) => {
+  try {
+    const { code = '', program_slug = '', list_price_cents } = req.body || {};
+    if (!code || !program_slug) return res.status(400).json({ valid:false, reason:'Missing code or program_slug' });
+
+    const { data: c } = await supa.from('coupons').select('*').eq('code', code.toUpperCase()).single();
+    if (!c) return res.json({ valid:false, reason:'Invalid code' });
+    const now = new Date();
+    if (!c.active) return res.json({ valid:false, reason:'Inactive' });
+    if (c.starts_at && now < new Date(c.starts_at)) return res.json({ valid:false, reason:'Not started' });
+    if (c.ends_at && now > new Date(c.ends_at)) return res.json({ valid:false, reason:'Expired' });
+    if (c.max_redemptions && c.redeemed_count >= c.max_redemptions) return res.json({ valid:false, reason:'Redemption limit reached' });
+    if (Array.isArray(c.allowed_programs) && c.allowed_programs.length && !c.allowed_programs.includes(program_slug)) {
+      return res.json({ valid:false, reason:'Not eligible for this program' });
+    }
+
+    let discounted_cents = undefined;
+    if (typeof list_price_cents === 'number') {
+      if (c.type === 'amount') discounted_cents = Math.max(0, list_price_cents - c.value);
+      else if (c.type === 'percent') discounted_cents = Math.round(list_price_cents * (1 - c.value/100));
+    }
+
+    res.json({ valid:true, type:c.type, value:c.value, discounted_cents });
+  } catch (e) { res.status(500).json({ valid:false, reason:e.message }); }
+});
+
+Client use (optional UI):
+
+async function previewCoupon(code, slug, listCents){
+  const r = await fetch('https://pay.elevateforhumanity.org/api/coupons/validate', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ code, program_slug: slug, list_price_cents: listCents })
+  });
+  return r.json(); // {valid, discounted_cents,...}
+}
+
+
+---
+
+4) Pay backend: apply coupon at checkout
+
+Update your existing /api/checkout route to read metadata.coupon and, if valid, lower the unit_amount for this session by creating a one-off price.
+
+Modify src/routes/checkout.js (only the session creation logic):
+
+import { Router } from 'express';
+import Stripe from 'stripe';
+import { config } from '../config.js';
+import { createClient } from '@supabase/supabase-js';
+
+const stripe = new Stripe(config.stripe.secretKey, { apiVersion: '2024-06-20' });
+const supa = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY);
+export const checkout = Router();
+
+checkout.post('/api/checkout', async (req, res, next) => {
+  try {
+    const { priceId, productName, unitAmount, quantity = 1, currency = 'usd', metadata = {} } = req.body || {};
+    const { coupon: couponCode, program_slug } = metadata || {};
+
+    // Helper to compute discount if coupon present
+    async function getDiscountedCents(listCents) {
+      if (!couponCode) return null;
+      const { data: c } = await supa.from('coupons').select('*').eq('code', couponCode.toUpperCase()).single();
+      if (!c) return null;
+      const now = new Date();
+      if (!c.active) return null;
+      if (c.starts_at && now < new Date(c.starts_at)) return null;
+      if (c.ends_at && now > new Date(c.ends_at)) return null;
+      if (c.max_redemptions && c.redeemed_count >= c.max_redemptions) return null;
+      if (Array.isArray(c.allowed_programs) && c.allowed_programs.length && program_slug && !c.allowed_programs.includes(program_slug)) return null;
+
+      if (c.type === 'amount') return Math.max(0, listCents - c.value);
+      if (c.type === 'percent') return Math.round(listCents * (1 - c.value/100));
+      return null;
+    }
+
+    let line_items = [];
+
+    if (priceId) {
+      // If a fixed priceId is given, we create a one-off discounted price (so Stripe shows the real discounted total)
+      let effectivePriceId = priceId;
+      if (couponCode) {
+        // Look up original price to get amount
+        const price = await stripe.prices.retrieve(priceId);
+        const base = price.unit_amount;
+        const discounted = await getDiscountedCents(base);
+        if (typeof discounted === 'number' && discounted !== base) {
+          const tmpPrice = await stripe.prices.create({
+            currency,
+            unit_amount: discounted,
+            product: price.product,
+          });
+          effectivePriceId = tmpPrice.id;
+        }
+      }
+      line_items.push({ price: effectivePriceId, quantity });
+    } else {
+      if (!productName || !Number.isInteger(unitAmount)) {
+        return res.status(400).json({ error: 'Provide priceId OR (productName & unitAmount in cents).' });
+      }
+      const discounted = await getDiscountedCents(unitAmount);
+      const finalAmount = typeof discounted === 'number' ? discounted : unitAmount;
+      const product = await stripe.products.create({ name: productName, metadata });
+      const price = await stripe.prices.create({ product: product.id, unit_amount: finalAmount, currency });
+      line_items.push({ price: price.id, quantity });
+    }
+
+    const session = await stripe.checkout.sessions.create({
+      mode: 'payment',
+      line_items,
+      success_url: config.stripe.successUrl + '?session_id={CHECKOUT_SESSION_ID}',
+      cancel_url: config.stripe.cancelUrl,
+      metadata
+    });
+
+    res.json({ id: session.id, url: session.url });
+  } catch (e) {
+    next(e);
+  }
+});
+
+> This ensures the Stripe Checkout shows the discounted price.
+(We create a temporary price when needed—totally fine.)
+
+
+
+Optional: in webhook, increment redeemed_count for single-use coupons.
+
+
+---
+
+5) Case-manager approval (no payment)
+
+5a) Two new endpoints
+
+Create src/routes/approvals.js:
+
+import { Router } from 'express';
+import { createClient } from '@supabase/supabase-js';
+import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
+
+const supa = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY);
+const SECRET = process.env.APPROVAL_SECRET;
+const BASE = process.env.APPROVAL_BASE_URL; // e.g., https://pay.elevateforhumanity.org/approvals
+
+export const approvals = Router();
+
+/**
+ * Student requests approval (from any site).
+ * Body: { student_email, program_slug, voucher_id?, case_manager_email, funding_source? }
+ */
+approvals.post('/api/approvals/request', async (req, res) => {
+  try {
+    const { student_email, program_slug, voucher_id, case_manager_email, funding_source } = req.body || {};
+    if (!student_email || !program_slug || !case_manager_email) {
+      return res.status(400).json({ ok:false, error:'Missing fields' });
+    }
+
+    // Create one-time token (JWT) with short expiry (72h)
+    const payload = { student_email, program_slug, voucher_id, case_manager_email, funding_source };
+    const token = jwt.sign(payload, SECRET, { algorithm:'HS256', expiresIn: '72h' });
+    const token_hash = crypto.createHash('sha256').update(token).digest('hex');
+
+    await supa.from('case_manager_approvals').insert({
+      student_email, program_slug, voucher_id, case_manager_email, funding_source, token_hash, status:'pending'
+    });
+
+    const approveUrl = `${BASE}/accept?token=${encodeURIComponent(token)}`;
+    const declineUrl = `${BASE}/decline?token=${encodeURIComponent(token)}`;
+
+    // Send email to case manager (pseudo—use your provider)
+    await sendCaseManagerEmail({
+      to: case_manager_email,
+      student_email, program_slug, voucher_id, funding_source,
+      approveUrl, declineUrl
+    });
+
+    res.json({ ok:true });
+  } catch (e) {
+    res.status(500).json({ ok:false, error:e.message });
+  }
+});
+
+// Public GET endpoints from email buttons:
+approvals.get('/approvals/accept', async (req, res) => {
+  await handleDecision(req, res, 'approved');
+});
+
+approvals.get('/approvals/decline', async (req, res) => {
+  await handleDecision(req, res, 'declined');
+});
+
+// --- helpers ---
+async function handleDecision(req, res, decision) {
+  try {
+    const token = String(req.query.token || '');
+    const payload = jwt.verify(token, SECRET, { algorithms:['HS256'] });
+    const token_hash = crypto.createHash('sha256').update(token).digest('hex');
+
+    // Find pending record
+    const { data: rec } = await supa
+      .from('case_manager_approvals')
+      .select('*')
+      .eq('token_hash', token_hash)
+      .eq('status','pending')
+      .single();
+
+    if (!rec) return res.status(400).send('This approval link is invalid or already used.');
+
+    // Mark decided
+    await supa.from('case_manager_approvals')
+      .update({ status: decision, decided_at: new Date().toISOString() })
+      .eq('id', rec.id);
+
+    if (decision === 'approved') {
+      // Mark enrollment active in Supabase (no payment)
+      await markEnrollmentActive({
+        student_email: payload.student_email,
+        program_slug: payload.program_slug
+      });
+      // Optionally: add a note with voucher details
+      await addNote(payload.student_email, {
+        voucher_id: payload.voucher_id || null,
+        funding_source: payload.funding_source || null,
+        approved_by: payload.case_manager_email
+      });
+      return res.send('✅ Approved. The student has been activated for this program.');
+    }
+    return res.send('❌ Declined. The student and staff have been notified.');
+  } catch (e) {
+    return res.status(400).send('Invalid or expired link.');
+  }
+}
+
+async function markEnrollmentActive({ student_email, program_slug }) {
+  const { data: appUser } = await supa.from('app_users').select('id').eq('email', student_email).single();
+  if (!appUser) return;
+  await supa.from('enrollments').upsert({
+    user_id: appUser.id,
+    program_slug,
+    status: 'active',
+    started_at: new Date().toISOString()
+  }, { onConflict: 'user_id,program_slug' });
+}
+
+async function addNote(student_email, bodyObj) {
+  const { data: appUser } = await supa.from('app_users').select('id').eq('email', student_email).single();
+  if (!appUser) return;
+  await supa.from('notes').insert({ user_id: appUser.id, author: 'system', body: JSON.stringify(bodyObj) });
+}
+
+// Replace with your provider (Resend/SendGrid/Mailgun)
+async function sendCaseManagerEmail({ to, student_email, program_slug, voucher_id, funding_source, approveUrl, declineUrl }) {
+  const subject = `EFH Approval Request – ${student_email} → ${program_slug}`;
+  const html = `
+    <p>Case Manager,</p>
+    <p><strong>${student_email}</strong> is requesting voucher approval for program <strong>${program_slug}</strong>.</p>
+    <p>Voucher ID: <strong>${voucher_id || '-'}</strong><br/>Funding Source: <strong>${funding_source || '-'}</strong></p>
+    <p>Click to decide:</p>
+    <p><a href="${approveUrl}">✅ Approve</a> &nbsp;&nbsp; <a href="${declineUrl}">❌ Decline</a></p>
+    <p>This link expires in 72 hours.</p>
+  `;
+
+  // Example with Resend
+  if (process.env.RESEND_API_KEY) {
+    const r = await fetch('https://api.resend.com/emails', {
+      method:'POST',
+      headers:{ 'Authorization':`Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type':'application/json' },
+      body: JSON.stringify({ from: process.env.EMAIL_FROM, to, subject, html })
+    });
+    if (!r.ok) console.warn('Resend email failed', await r.text());
+  } else {
+    console.log('EMAIL to:', to, '\n', subject, '\n', html);
+  }
+}
+
+Wire routes in src/server.js:
+
+import { coupons } from './routes/coupons.js';
+import { approvals } from './routes/approvals.js';
+app.use(coupons);
+app.use(approvals);
+
+
+---
+
+6) Frontend: two buttons for each program
+
+On your Programs site cards, add both actions:
+
+<div class="row">
+  <!-- Pay now -->
+  <button class="btn" onclick="efhEnroll({
+    programName:'Business Startup & Marketing',
+    priceId:'', amountUSD:4950,
+    metadata:{ program:'Business Startup & Marketing', program_slug:'business', coupon: (localStorage.getItem('EFH_FUNDING') ? JSON.parse(localStorage.getItem('EFH_FUNDING')).coupon : '') }
+  })">Pay Now – $4,950</button>
+
+  <!-- Ask for voucher approval -->
+  <button class="btn" onclick="efhRequestApproval('business')">Request Voucher Approval</button>
+</div>
+
+Add this tiny helper (once per page, after your drawer script so it already captures voucher/case manager info):
+
+<script>
+async function efhRequestApproval(program_slug){
+  // read saved funding fields from the drawer helper
+  const f = JSON.parse(localStorage.getItem('EFH_FUNDING') || '{}');
+  const emailPrompt = prompt('Enter your email to send the approval request:'); // or get from Supabase session
+  if (!emailPrompt) return;
+
+  const r = await fetch('https://pay.elevateforhumanity.org/api/approvals/request', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({
+      student_email: emailPrompt.trim(),
+      program_slug,
+      voucher_id: f.voucher_id || '',
+      case_manager_email: f.case_manager_email || '',
+      funding_source: f.funding_source || ''
+    })
+  });
+  const d = await r.json();
+  if (d.ok) alert('Sent! Your case manager received an approval link.');
+  else alert('Could not send request: ' + (d.error || 'Unknown error'));
+}
+</script>
+
+> If you already have Supabase auth on the page, replace the prompt() with the signed-in user’s email.
+
+
+
+
+---
+
+7) Webhook: coupon redemption count (optional)
+
+In your existing Stripe webhook handler on success:
+
+if (session.metadata?.coupon) {
+  await supaAdmin.rpc('increment_coupon', { p_code: session.metadata.coupon.toUpperCase() })
+  .catch(()=>{ /* ignore if no function */ });
+}
+
+Create an RPC (optional) to update counts:
+
+create or replace function public.increment_coupon(p_code text)
+returns void language plpgsql as $$
+begin
+  update public.coupons set redeemed_count = coalesce(redeemed_count,0) + 1
+  where code = p_code;
+end $$;
+
+
+---
+
+8) What this gives you
+
+Students can either Pay Now (with coupon applied) or Request Voucher Approval.
+
+Case managers get a secure, expiring link to approve/decline.
+
+On approve, the student’s enrollment is activated in Supabase (no payment).
+
+All sister sites read the same shared memory (enrollments, notes, preferences).
+
+Coupons are validated on your server and lower Stripe’s visible checkout total.
+
+
+
+---
+
+If you want, I can also add:
+
+an Approvals dashboard page (admin-only) to list pending/approved items,
+
+an inline coupon field on your landing “Enroll” cards that previews the discounted price before redirecting to Stripe.
+
+

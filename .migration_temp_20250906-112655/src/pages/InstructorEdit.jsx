@@ -1,0 +1,1 @@
+export default function EditCourse(){const slug=location.hash.split('/')[3]||'demo-course';return(<main style={{padding:32}}><h1>Edit Course: {slug}</h1><p>Modules/Lessons builder placeholder</p></main>)}

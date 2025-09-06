@@ -1,0 +1,108 @@
+Awesome—here are drop-in minimal configs that make Replit reliably launch server.mjs and keep the workflow alive.
+
+
+---
+
+.replit (root)
+
+Use the resilient version: it tries to build the client, but if that fails it still starts the server and serves the last good dist/.
+
+# Runs from project root
+run = "bash -lc '(cd client && npm run quick) || echo \"[WARN] quick build failed — serving last dist\"; npm run start'"
+
+# (Optional) show logs in the console pane
+entrypoint = "server.mjs"
+
+> If you want the absolute simplest version (no pre-build), use: run = "bash -lc 'npm run start'"
+
+
+
+
+---
+
+package.json (root)
+
+Make sure you have a start script that launches your hardened server:
+
+{
+  "name": "efh-root",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs"
+  },
+  "dependencies": {
+    "compression": "^1.7.4",
+    "express": "^4.19.2",
+    "helmet": "^7.0.0",
+    "morgan": "^1.10.0"
+  }
+}
+
+> If you already have a root package.json, just ensure the "start" script and the listed deps exist.
+
+
+
+
+---
+
+client/package.json (for reference)
+
+You already added these, but here’s the expected shape so the .replit command works:
+
+{
+  "name": "efh-client",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "clean": "rm -rf node_modules dist package-lock.json && npm install && npm run build",
+    "quick": "rm -rf dist && npm run build"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.26.1",
+    "vite": "^5.0.0"
+  }
+}
+
+
+---
+
+(Optional) replit.nix
+
+Pin Node 20 so build/runtime are consistent:
+
+{ pkgs }: {
+  deps = [
+    pkgs.nodejs_20
+    pkgs.nodePackages.npm
+  ];
+}
+
+
+---
+
+Quick test
+
+1. In the Replit shell (root):
+
+
+
+npm install         # installs root deps (express/helmet/…)
+cd client && npm install && cd ..
+
+2. Hit Run.
+
+You should see: EFH server running on http://localhost:5000 | mode=quick
+
+Open /health (should be healthy) and /debug.
+
+
+
+
+If anything still halts, paste the last 10 console lines—I’ll patch the precise failure.
+

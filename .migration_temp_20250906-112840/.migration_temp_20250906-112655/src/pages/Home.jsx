@@ -1,0 +1,1 @@
+export default function Home(){return(<main style={{padding:32}}><h1>Elevate for Humanity — LMS</h1><p>Catalog (demo)</p><ul><li><a href="#" onClick={()=>location.hash='#/course/demo-course'}>Demo Course</a></li></ul><nav style={{marginTop:16}}><a href="#/instructor">Instructor</a> · <a href="#/student">Student</a> · <a href="#/analytics">Analytics</a></nav></main>)}

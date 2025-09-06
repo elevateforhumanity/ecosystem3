@@ -1,0 +1,144 @@
+Got it—when a custom domain randomly shows a blank/“Google-y” page after a deploy, it’s almost always one of these:
+
+1. DNS still points to an old host (Durable/Google Sites/etc.)
+
+
+2. A Service Worker or cached old bundle is hijacking the page
+
+
+3. Your server is running but not serving the built SPA (no static middleware / wrong fallback)
+
+
+4. The container returns an empty 200/204 on / (so Chrome shows a blank page)
+
+
+
+Here’s a fast, do-this-now fix list you can run through without guessing:
+
+A) Kill any bad cache on your device
+
+Open the site, then in the address bar type: view-source:https://elevateforhumanity.org
+
+If you see your HTML, the server is fine and a Service Worker is likely the culprit.
+
+
+In DevTools Console (Android Chrome: ⋮ → “Desktop site” → ⋮ → Developer tools if you can, or do this on desktop):
+
+// Unregister all service workers (then hard-refresh)
+if ('serviceWorker' in navigator) {
+  const regs = await navigator.serviceWorker.getRegistrations();
+  for (const r of regs) await r.unregister();
+  caches.keys().then(keys => keys.forEach(k => caches.delete(k)));
+  location.reload(true);
+}
+
+Also try a hard reload: long-press the reload icon → “Empty cache and hard reload”.
+
+
+B) Make sure your app actually serves content on /
+
+If you’re deploying a React/Vite SPA, your Node server must serve the built files and fall back to index.html:
+
+// simple-server.js
+const path = require("path");
+const express = require("express");
+const app = express();
+
+const PORT = process.env.PORT || 5000;
+
+// Serve the built app (adjust 'dist' if your build folder is different)
+app.use(express.static(path.join(__dirname, "dist")));
+
+// Health check (Cloud Run friendly)
+app.get("/healthz", (req, res) => res.status(200).send("ok"));
+
+// SPA fallback so deep links don’t 404/blank
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "dist", "index.html"));
+});
+
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server running on ${PORT}`);
+});
+
+Your package.json should have:
+
+{
+  "scripts": {
+    "build": "vite build",
+    "start": "node simple-server.js"
+  }
+}
+
+Your .replit:
+
+[deployment]
+run = ["node", "simple-server.js"]
+deploymentTarget = "cloudrun"
+
+Then build before deploying:
+
+npm ci
+npm run build
+
+(Confirm a dist/ folder exists with index.html.)
+
+C) Verify DNS really points to your Replit deployment
+
+If A & B are right but the domain still shows a blank/Google page while the Replit preview URL works, it’s DNS:
+
+In Replit → Deployments → Custom Domain, add elevateforhumanity.org and let Replit generate the exact DNS records.
+
+In your DNS (where the domain is registered), set:
+
+Apex/root (@): the A/AAAA records Replit shows (Replit sometimes gives A records; use exactly what it provides).
+
+www: CNAME to the Replit target it shows (often something like cname.replit.com).
+
+
+Remove any old records that point to ghs.googlehosted.com, google-site-verification, or a previous host (Durable/etc.). Old CNAMEs are the #1 cause of the “Google blank page”.
+
+
+Tip to confirm: after saving DNS, use your phone’s hotspot or a different network to test (to dodge local resolver cache).
+
+D) Quick smoke tests (no guessing)
+
+Hit the preview URL that Replit gives you. If it renders: server is fine → it’s DNS or cache.
+
+On the domain, load https://elevateforhumanity.org/healthz
+
+If you see ok, the container is serving requests.
+
+If you get a different page/error, you’re reaching another host → DNS still wrong.
+
+
+Check headers from a terminal (or an online header checker):
+
+curl -I https://elevateforhumanity.org
+
+If server: or cf-ray/google hints don’t match your stack, DNS isn’t pointed at Replit yet.
+
+
+
+E) If you run a pure static build (no Node)
+
+If you don’t want Node at all, deploy Replit’s static container or use Replit’s Nix + serve:
+
+{
+  "scripts": {
+    "build": "vite build",
+    "start": "npx serve -s dist -l ${PORT:-5000}"
+  }
+}
+
+.replit stays:
+
+[deployment]
+run = ["npx","serve","-s","dist","-l","$PORT"]
+deploymentTarget = "cloudrun"
+
+
+---
+
+If you paste the three snippets above (simple-server.js, package.json, .replit) and rebuild, you’ll eliminate the “blank page” from server misconfig; then fix DNS as noted to stop the Google/old-host page.
+

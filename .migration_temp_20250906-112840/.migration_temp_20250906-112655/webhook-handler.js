@@ -1,0 +1,71 @@
+
+// Webhook Handler for Payment Processing with Revenue Splits
+const express = require('express');
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const PaymentProcessor = require('./payment-processing-with-splits');
+
+const app = express();
+const paymentProcessor = new PaymentProcessor();
+
+// Webhook endpoint
+app.post('/webhook', express.raw({type: 'application/json'}), async (request, response) => {
+  const sig = request.headers['stripe-signature'];
+  let event;
+
+  try {
+    event = stripe.webhooks.constructEvent(request.body, sig, process.env.STRIPE_WEBHOOK_SECRET);
+  } catch (err) {
+    console.log(`❌ Webhook signature verification failed:`, err.message);
+    return response.status(400).send(`Webhook Error: ${err.message}`);
+  }
+
+  // Handle the event
+  switch (event.type) {
+    case 'checkout.session.completed':
+      const session = event.data.object;
+      console.log(`✅ Checkout completed: ${session.id}`);
+      
+      // Get the payment intent
+      const paymentIntent = await stripe.paymentIntents.retrieve(session.payment_intent);
+      
+      // Process the successful payment with splits and notifications
+      await paymentProcessor.handleSuccessfulPayment(paymentIntent);
+      break;
+      
+    case 'payment_intent.succeeded':
+      const payment = event.data.object;
+      console.log(`💰 Payment succeeded: ${payment.id} - $${payment.amount/100}`);
+      
+      // If this wasn't already handled by checkout.session.completed
+      if (!payment.metadata.processed) {
+        await paymentProcessor.handleSuccessfulPayment(payment);
+      }
+      break;
+      
+    case 'transfer.created':
+      const transfer = event.data.object;
+      console.log(`📤 Transfer created: $${transfer.amount/100} to ${transfer.destination}`);
+      break;
+      
+    default:
+      console.log(`🔔 Unhandled event type ${event.type}`);
+  }
+
+  response.json({received: true});
+});
+
+// Health check endpoint
+app.get('/webhook/health', (req, res) => {
+  res.json({ 
+    status: 'healthy', 
+    timestamp: new Date().toISOString(),
+    webhook_endpoint: '/webhook'
+  });
+});
+
+const PORT = process.env.WEBHOOK_PORT || 3001;
+app.listen(PORT, () => {
+  console.log(`🎣 Webhook server running on port ${PORT}`);
+});
+
+module.exports = app;

@@ -1,0 +1,21 @@
+run = "node backend-api.js"
+entrypoint = "backend-api.js"
+
+[env]
+NODE_ENV = "production"
+
+[packager]
+language = "nodejs"
+
+[packager.features]
+packageSearch = true
+guessImports = true
+enabledForHosting = false
+
+[deployment]
+run = ["node", "backend-api.js"]
+deploymentTarget = "cloudrun"
+
+[[ports]]
+localPort = 5000
+externalPort = 80

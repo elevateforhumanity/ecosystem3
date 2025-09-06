@@ -1,0 +1,100 @@
+modules = ["postgresql-16", "nodejs-20", "python-3.11"]
+run = "node simple-server.js"
+
+[deployment]
+run = ["sh", "-c", ""]
+deploymentTarget = "cloudrun"
+build = ["sh", "-c", "cd client && npm install && npm run build"]
+
+[nix]
+channel = "stable-25_05"
+packages = ["jq", "zip"]
+
+[[ports]]
+localPort = 5000
+externalPort = 80
+
+[agent]
+
+[workflows]
+runButton = "Production Server"
+
+[[workflows.workflow]]
+name = "\"start efh ecosystem\""
+mode = "sequential"
+author = 46393221
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node simple-server.js"
+
+[[workflows.workflow]]
+name = "EFH Server"
+author = 46393221
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node simple-server.cjs"
+
+[[workflows.workflow]]
+name = "EFH Backup Server"
+author = 46393221
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node backup-server.js"
+
+[[workflows.workflow]]
+name = "Optimize Storage"
+author = 46393221
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node tools/storage-optimizer.js"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node asset-cache-manager.js"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node tools/image-optimizer.js"
+
+[[workflows.workflow]]
+name = "Ultra Fast Server"
+author = 46393221
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node ultra-fast-server.cjs"
+
+[[workflows.workflow]]
+name = "Deploy Ready Server"
+author = 46393221
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node production-server.js"
+
+[[workflows.workflow]]
+name = "Working Server"
+author = 46393221
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node simple-server.cjs"
+
+[[workflows.workflow]]
+name = "Production Server"
+author = 46393221
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node simple-server.cjs"

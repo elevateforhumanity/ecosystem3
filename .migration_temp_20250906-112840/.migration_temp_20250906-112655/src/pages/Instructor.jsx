@@ -1,0 +1,1 @@
+export default function Instructor(){return(<main style={{padding:32}}><h1>Instructor Dashboard</h1><a href="#/instructor/new">+ New Course</a><ul><li>Demo Course — <a href="#/instructor/edit/demo-course">Edit</a></li></ul></main>)}

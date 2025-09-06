@@ -1,0 +1,386 @@
+Awesome — I’ll add both:
+
+1. an Admin “Approvals Dashboard” (single-file page)
+
+
+2. an inline Coupon field on program cards that previews the discounted price before Stripe
+
+
+
+Both work with the Supabase + Pay backend we set up.
+
+
+---
+
+1) Admin “Approvals Dashboard” (single file)
+
+What it does
+
+Lists pending / approved / declined case-manager approvals
+
+Lets an admin approve/decline right from the UI (calls your existing Pay backend routes)
+
+Filters & quick search
+
+Requires the user to be admin (simple allowlist)
+
+
+A) Add an “admin allowlist” table/policy in Supabase
+
+Run this SQL once:
+
+create table if not exists public.admin_emails (
+  email text primary key,
+  created_at timestamptz default now()
+);
+
+-- Optional: seed your email(s)
+insert into public.admin_emails(email) values
+  ('you@yourorg.org')
+on conflict do nothing;
+
+-- Allow signed-in users to read only this table row if it's their email
+alter table public.admin_emails enable row level security;
+create policy "self_read_admin_emails" on public.admin_emails
+for select using (email = auth.email());
+
+> This gives us a simple way to check if the signed-in user is allowed.
+The dashboard only reads admin_emails; all write actions go through your Pay server.
+
+
+
+B) Create approvals-admin.html (drop this on pay or www)
+
+> Replace SUPABASE_URL, SUPABASE_ANON_KEY, and PAY_ORIGIN (your Pay backend origin).
+
+
+
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EFH – Approvals Admin</title>
+<style>
+  :root{--max:1100px;--pad:16px;--r:12px;--ink:#111;--muted:#666;--line:#ececec}
+  *{box-sizing:border-box} body{margin:0;font-family:system-ui,Arial,sans-serif;color:var(--ink)}
+  header{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--line);z-index:10}
+  .wrap{max-width:var(--max);margin:0 auto;padding:12px var(--pad)}
+  .brand{font-weight:900}
+  .btn{padding:8px 12px;border:1px solid #111;border-radius:10px;background:#fff;cursor:pointer}
+  .muted{color:var(--muted)} .input{padding:10px;border:1px solid var(--line);border-radius:10px}
+  table{width:100%;border-collapse:collapse}
+  th,td{padding:10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;font-size:14px}
+  th{font-weight:700;background:#fafafa}
+  .pill{padding:3px 8px;border-radius:999px;border:1px solid var(--line);font-size:12px}
+  .pill.pending{background:#fff9e6} .pill.approved{background:#e9f9ef} .pill.declined{background:#fdeeee}
+  .row{display:flex;gap:10px;flex-wrap:wrap}
+  .grid{display:grid;gap:12px;grid-template-columns:1fr 1fr}
+  @media (max-width:900px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap row" style="justify-content:space-between;align-items:center">
+    <div class="brand">EFH • Approvals Admin</div>
+    <div class="row">
+      <input id="q" class="input" placeholder="Search email / slug / voucher…"/>
+      <select id="status" class="input">
+        <option value="">All</option>
+        <option>pending</option>
+        <option>approved</option>
+        <option>declined</option>
+      </select>
+      <button id="refresh" class="btn">Refresh</button>
+      <button id="signout" class="btn">Sign out</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap" style="padding-top:14px">
+  <div id="gate" class="muted">Checking access…</div>
+
+  <section id="panel" hidden>
+    <p class="muted">Signed in as <span id="who"></span>. <strong id="role"></strong></p>
+
+    <div class="grid">
+      <div>
+        <h3>Approvals</h3>
+        <table id="tbl">
+          <thead>
+            <tr>
+              <th>Student</th><th>Program</th><th>Voucher</th><th>Case Manager</th><th>Status</th><th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="rows"><tr><td colspan="6" class="muted">Loading…</td></tr></tbody>
+        </table>
+      </div>
+      <div>
+        <h3>Quick Stats</h3>
+        <div id="stats" class="muted">—</div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script type="module">
+  import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+  // TODO: set these:
+  const SUPABASE_URL = 'https://YOUR-PROJECT.supabase.co';
+  const SUPABASE_ANON_KEY = 'YOUR_PUBLIC_ANON_KEY';
+  const PAY_ORIGIN = 'https://pay.elevateforhumanity.org';
+
+  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, { auth: { persistSession: true, storage: localStorage } });
+
+  const gate = document.getElementById('gate');
+  const panel = document.getElementById('panel');
+  const who = document.getElementById('who');
+  const role = document.getElementById('role');
+  const rows = document.getElementById('rows');
+  const stats = document.getElementById('stats');
+  const q = document.getElementById('q');
+  const status = document.getElementById('status');
+  const refresh = document.getElementById('refresh');
+  const signout = document.getElementById('signout');
+
+  async function isAdmin() {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return { ok:false, reason:'Not signed in' };
+    who.textContent = user.email;
+
+    // check allowlist row exists for this email
+    const { data, error } = await supabase.from('admin_emails').select('email').eq('email', user.email).maybeSingle();
+    if (error) return { ok:false, reason:error.message };
+    if (!data) return { ok:false, reason:'Not authorized' };
+    return { ok:true };
+  }
+
+  async function signInIfNeeded() {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (user) return user;
+    const email = prompt('Admin email for magic link sign-in:');
+    if (!email) return null;
+    await supabase.auth.signInWithOtp({ email });
+    alert('Check your email for the magic link, then reload this page.');
+    return null;
+  }
+
+  async function loadApprovals() {
+    // This endpoint shows data server-side; client only calls Pay to fetch (no Supabase RLS exposure)
+    const url = new URL(PAY_ORIGIN + '/api/approvals/list');
+    if (q.value) url.searchParams.set('q', q.value.trim());
+    if (status.value) url.searchParams.set('status', status.value);
+    const r = await fetch(url.toString(), { credentials:'include' }).catch(()=>null);
+    if (!r || !r.ok) { rows.innerHTML = `<tr><td colspan="6">Could not load. Ensure /api/approvals/list exists.</td></tr>`; return; }
+    const data = await r.json(); // [{student_email, program_slug, voucher_id, case_manager_email, status, created_at, decided_at, id}]
+    if (!Array.isArray(data) || !data.length) { rows.innerHTML = `<tr><td colspan="6" class="muted">No approvals found.</td></tr>`; return; }
+
+    rows.innerHTML = data.map(x => {
+      const pill = `<span class="pill ${x.status}">${x.status}</span>`;
+      const dt = new Date(x.created_at).toLocaleString();
+      const dec = x.decided_at ? new Date(x.decided_at).toLocaleString() : '';
+      return `<tr>
+        <td><div>${x.student_email}</div><div class="muted" style="font-size:12px">${dt}</div></td>
+        <td>${x.program_slug}</td>
+        <td>${x.voucher_id || ''}</td>
+        <td>${x.case_manager_email}</td>
+        <td>${pill}${dec?`<div class="muted" style="font-size:12px">${dec}</div>`:''}</td>
+        <td>
+          ${x.status==='pending' ? `
+            <button class="btn" onclick="adminDecision('${x.id}','approved')">Approve</button>
+            <button class="btn" onclick="adminDecision('${x.id}','declined')">Decline</button>
+          ` : '<span class="muted">—</span>'}
+        </td>
+      </tr>`;
+    }).join('');
+
+    // stats
+    const counts = data.reduce((a,x)=>{ a[x.status]=(a[x.status]||0)+1; return a; },{});
+    stats.textContent = `pending: ${counts.pending||0} • approved: ${counts.approved||0} • declined: ${counts.declined||0}`;
+  }
+
+  window.adminDecision = async (id, decision) => {
+    const ok = confirm(`Confirm ${decision.toUpperCase()}?`);
+    if (!ok) return;
+    const r = await fetch(PAY_ORIGIN + '/api/approvals/admin_decide', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ id, decision })
+    });
+    if (!r.ok) { alert('Failed'); return; }
+    await loadApprovals();
+  };
+
+  refresh.addEventListener('click', loadApprovals);
+  signout.addEventListener('click', async ()=>{ await supabase.auth.signOut(); location.reload(); });
+
+  (async ()=>{
+    const user = await signInIfNeeded(); // triggers magic link if not signed in
+    const check = await isAdmin();
+    if (!check.ok) { gate.textContent = check.reason + ' (ask an admin to add your email to admin_emails)'; return; }
+    gate.remove(); panel.hidden = false; role.textContent = '(admin)';
+    await loadApprovals();
+  })();
+</script>
+</body>
+</html>
+
+C) Add admin endpoints to your Pay backend
+
+Add a quick list + admin_decide (server reads Supabase directly; the HTML above calls these):
+
+// src/routes/approvals-admin.js
+import { Router } from 'express';
+import { createClient } from '@supabase/supabase-js';
+
+const supa = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY);
+export const approvalsAdmin = Router();
+
+// list with optional filters
+approvalsAdmin.get('/api/approvals/list', async (req, res) => {
+  const { q = '', status = '' } = req.query;
+  let qb = supa.from('case_manager_approvals').select('*').order('created_at', { ascending: false });
+  if (status) qb = qb.eq('status', status);
+  const { data, error } = await qb;
+  if (error) return res.status(500).json({ error: error.message });
+  const needle = q.toLowerCase();
+  const filtered = needle
+    ? (data||[]).filter(r =>
+        (r.student_email||'').toLowerCase().includes(needle) ||
+        (r.program_slug||'').toLowerCase().includes(needle) ||
+        (r.voucher_id||'').toLowerCase().includes(needle) ||
+        (r.case_manager_email||'').toLowerCase().includes(needle))
+    : data;
+  res.json(filtered);
+});
+
+// manual decision (no email token), for admins only (lightweight check)
+// In production, protect with your own admin auth/session.
+approvalsAdmin.post('/api/approvals/admin_decide', async (req, res) => {
+  const { id, decision } = req.body || {};
+  if (!id || !['approved','declined'].includes(decision)) return res.status(400).json({ error:'bad request' });
+
+  // Load record
+  const { data: rec, error } = await supa.from('case_manager_approvals').select('*').eq('id', id).single();
+  if (error || !rec) return res.status(404).json({ error:'not found' });
+  if (rec.status !== 'pending') return res.status(400).json({ error:'already decided' });
+
+  // Update status
+  await supa.from('case_manager_approvals')
+    .update({ status: decision, decided_at: new Date().toISOString() })
+    .eq('id', id);
+
+  // On approve → mark enrollment active
+  if (decision === 'approved') {
+    const { data: appUser } = await supa.from('app_users').select('id').eq('email', rec.student_email).single();
+    if (appUser) {
+      await supa.from('enrollments').upsert({
+        user_id: appUser.id, program_slug: rec.program_slug, status:'active', started_at: new Date().toISOString()
+      }, { onConflict: 'user_id,program_slug' });
+      await supa.from('notes').insert({
+        user_id: appUser.id, author:'admin', body: JSON.stringify({ via:'admin_decide', voucher_id: rec.voucher_id, funding_source: rec.funding_source })
+      });
+    }
+  }
+  res.json({ ok:true });
+});
+
+Wire it in your server:
+
+import { approvalsAdmin } from './routes/approvals-admin.js';
+app.use(approvalsAdmin);
+
+> For production, add an admin auth check (e.g., require a signed cookie or a header shared secret).
+
+
+
+
+---
+
+2) Inline Coupon field on cards (preview discount)
+
+Add this snippet once per page (below your enroll helper). It renders a mini coupon input per card and calls your /api/coupons/validate endpoint to show the actual discounted price before sending to Stripe.
+
+<script>
+  // Configure this map with your slugs + list price in cents
+  const EFH_PRICES = {
+    'business': 495000,     // $4,950.00
+    'cpr-ems': 12500,       // $125.00
+    'building-tech': 295000 // $2,950.00
+  };
+
+  async function efhPreviewCoupon(slug, code){
+    const r = await fetch('https://pay.elevateforhumanity.org/api/coupons/validate', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ code, program_slug: slug, list_price_cents: EFH_PRICES[slug] })
+    });
+    return r.json(); // {valid, discounted_cents, type, value, reason}
+  }
+
+  async function efhApplyCoupon(slug){
+    const code = (document.getElementById(`cp_${slug}`).value || '').trim();
+    const out = document.getElementById(`cpout_${slug}`);
+    if (!code) { out.textContent = 'Enter a code.'; return; }
+    out.textContent = 'Checking…';
+    const res = await efhPreviewCoupon(slug, code);
+    if (!res.valid) { out.textContent = `Not valid: ${res.reason || 'unknown'}`; return; }
+    const cents = res.discounted_cents ?? EFH_PRICES[slug];
+    const dollars = (cents/100).toLocaleString(undefined, { style:'currency', currency:'USD' });
+    out.textContent = `Applied. New total: ${dollars}`;
+    // persist coupon so the actual checkout carries it
+    const f = JSON.parse(localStorage.getItem('EFH_FUNDING') || '{}');
+    f.coupon = code;
+    localStorage.setItem('EFH_FUNDING', JSON.stringify(f));
+  }
+</script>
+
+Now, on each program card, add a tiny coupon UI (works with your existing buttons and funding drawer):
+
+<!-- Example for Business -->
+<div class="row" style="align-items:center">
+  <input id="cp_business" class="input" placeholder="Coupon code" style="max-width:180px"/>
+  <button class="btn" onclick="efhApplyCoupon('business')">Apply</button>
+  <span id="cpout_business" class="muted" style="margin-left:8px"></span>
+</div>
+
+<!-- Your existing Pay Now button uses efhEnroll and will carry coupon from localStorage via the drawer wrapper -->
+<button class="btn" onclick="efhEnroll({
+  programName:'Business Startup & Marketing',
+  priceId:'', amountUSD:4950,
+  metadata:{ program:'Business Startup & Marketing', program_slug:'business' }
+})">Pay Now – $4,950</button>
+
+Repeat with IDs/slugs for cpr-ems, building-tech, etc.
+
+
+---
+
+Quick deploy checklist
+
+Supabase:
+
+Created admin_emails, added your email(s).
+
+(Already have) case_manager_approvals, coupons tables.
+
+
+Pay backend:
+
+Routes added: /api/coupons/validate, /api/approvals/request, /approvals/accept, /approvals/decline, /api/approvals/list, /api/approvals/admin_decide.
+
+ENV set: SUPABASE_URL, SUPABASE_SERVICE_KEY, APPROVAL_SECRET, APPROVAL_BASE_URL, email provider key.
+
+
+Frontend:
+
+approvals-admin.html uploaded (link it from your “More ▾ → Admin” if you like).
+
+Coupon snippet + small coupon UI blocks on program cards.
+
+(Already done) Account Drawer with voucher/funding fields.
+
+
+
+That’s everything wired.
+Want me to bundle this into a single zip of files (admin page + snippets) you can drop into Replit?
+
