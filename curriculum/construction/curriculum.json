@@ -1,0 +1,145 @@
+{
+  "program": "Construction Pre-Apprenticeship",
+  "delivery": "Hybrid (video + live/hands-on)",
+  "credentials": [
+    "OSHA 10",
+    "NCCER Core",
+    "First Aid/CPR",
+    "Forklift Certification"
+  ],
+  "funding": ["WIOA", "WRG", "OJT", "WEX", "JRI", "IMPLY", "INDY", "DOL", "2Exclusive LLCs"],
+  "description": "This Construction Pre-Apprenticeship program prepares students for entry-level roles in the construction industry. The curriculum blends video-based instruction, live expert sessions, and hands-on labs to ensure students gain both theoretical knowledge and practical skills. Graduates will earn stackable credentials recognized by employers and workforce agencies.",
+  "outcomes": [
+    "Demonstrate understanding of construction industry basics and career pathways.",
+    "Apply OSHA 10 safety standards on the jobsite.",
+    "Identify and use common construction tools safely.",
+    "Perform basic carpentry tasks.",
+    "Communicate effectively with team members and supervisors."
+  ],
+  "modules": [
+    {
+      "title": "Introduction to Construction",
+      "overview": "An overview of the construction industry, its career opportunities, and the skills needed for success.",
+      "lessons": [
+        {
+          "title": "Industry Overview",
+          "type": "video",
+          "videoUrl": "/curriculum/construction/videos/industry-overview.mp4",
+          "duration": "12:00",
+          "objectives": [
+            "Understand the scope of the construction industry",
+            "Identify major career pathways"
+          ],
+          "text": "This lesson introduces the construction industry, highlighting its importance to the economy and the variety of career paths available. Students will learn about different sectors, job roles, and the skills employers seek."
+        },
+        {
+          "title": "Live Q&A with Industry Expert",
+          "type": "live",
+          "instructions": "Schedule a live Zoom session with a local construction manager.",
+          "objectives": [
+            "Gain real-world insights from an industry professional",
+            "Ask questions about career development and job expectations"
+          ],
+          "text": "Students will participate in a live Q&A session with an experienced construction manager. Prepare questions in advance and be ready to discuss what a typical day is like on a jobsite."
+        }
+      ]
+    },
+    {
+      "title": "Safety & OSHA 10",
+      "overview": "Covers essential safety practices and prepares students for the OSHA 10 certification.",
+      "lessons": [
+        {
+          "title": "Safety Basics",
+          "type": "video",
+          "videoUrl": "/curriculum/construction/videos/safety-basics.mp4",
+          "duration": "15:00",
+          "objectives": [
+            "Recognize common jobsite hazards",
+            "Demonstrate basic PPE usage"
+          ],
+          "text": "This lesson covers the most common hazards found on construction sites and the importance of using personal protective equipment (PPE). Students will see demonstrations of proper PPE use."
+        },
+        {
+          "title": "OSHA 10 Module 1",
+          "type": "video",
+          "videoUrl": "/curriculum/construction/videos/osha10-1.mp4",
+          "duration": "20:00",
+          "objectives": [
+            "Explain OSHA's role in workplace safety",
+            "List worker rights and employer responsibilities"
+          ],
+          "text": "This video lesson introduces OSHA, its mission, and the rights and responsibilities of workers and employers under OSHA regulations."
+        },
+        {
+          "title": "Hands-On: PPE Practice",
+          "type": "hands-on",
+          "instructions": "Students practice donning and doffing PPE in the lab.",
+          "objectives": [
+            "Demonstrate correct use of hard hats, gloves, safety glasses, and vests"
+          ],
+          "text": "In this lab, students will practice putting on and removing PPE correctly, and will be evaluated on their technique."
+        }
+      ]
+    },
+    {
+      "title": "Basic Carpentry",
+      "overview": "Introduces students to basic carpentry tools and skills through video and hands-on practice.",
+      "lessons": [
+        {
+          "title": "Tool Identification",
+          "type": "video",
+          "videoUrl": "/curriculum/construction/videos/tool-id.mp4",
+          "duration": "10:00",
+          "objectives": [
+            "Identify common hand and power tools used in construction"
+          ],
+          "text": "This lesson demonstrates the names, uses, and safety considerations for the most common tools found on a construction site."
+        },
+        {
+          "title": "Hands-On: Build a Sawhorse",
+          "type": "hands-on",
+          "instructions": "Students build a basic sawhorse using provided materials.",
+          "objectives": [
+            "Apply measurement and cutting skills",
+            "Assemble a simple carpentry project"
+          ],
+          "text": "Students will use hand tools and follow a step-by-step guide to build a wooden sawhorse, reinforcing measurement, cutting, and assembly skills."
+        }
+      ]
+    }
+  ],
+  "assessment": {
+    "quizzes": [
+      {
+        "title": "OSHA 10 Safety Quiz",
+        "objectives": [
+          "Assess understanding of OSHA 10 safety standards"
+        ],
+        "instructions": "Complete the online quiz after finishing the OSHA 10 video lessons."
+      }
+    ],
+    "practical": [
+      {
+        "title": "Carpentry Skills Assessment",
+        "objectives": [
+          "Demonstrate safe and accurate use of tools",
+          "Successfully complete the sawhorse project"
+        ],
+        "instructions": "Instructor will observe and evaluate students during the hands-on lab."
+      }
+    ]
+  },
+  "completion": {
+    "requirements": [
+      "Complete all video and live lessons",
+      "Pass the OSHA 10 Safety Quiz",
+      "Successfully complete the hands-on carpentry project"
+    ],
+    "credentialsAwarded": [
+      "OSHA 10 Card",
+      "NCCER Core Certificate",
+      "First Aid/CPR Card",
+      "Forklift Certification (if offered)"
+    ]
+  }
+}
