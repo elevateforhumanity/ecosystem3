@@ -1,4 +1,4 @@
 # Changelog
 
-## Unreleased
-- Initial scaffolding, routing, quiz, mentors, dashboard
+## 1.0.0
+- Initial production baseline (tooling, tests, env validation, CI)

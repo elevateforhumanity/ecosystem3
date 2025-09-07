@@ -2,55 +2,48 @@
   "name": "workspace",
   "version": "1.0.0",
   "private": true,
+  "description": "Production-ready plain Vite + TypeScript skeleton",
+  "license": "MIT",
   "type": "module",
+  "engines": { "node": ">=20.0.0" },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "lint": "eslint -c .eslintrc.cjs . --ext .js,.jsx,.ts,.tsx --cache",
+    "lint": "eslint . --ext .ts --max-warnings=0",
     "format": "prettier -w .",
     "typecheck": "tsc --noEmit",
-    "check:imports": "node scripts/check-missing-imports.mjs",
-    "check:prod": "node scripts/prod-check.mjs",
-    "test": "vitest run",
+    "test": "vitest run --coverage",
     "test:watch": "vitest",
-    "analyze": "vite build && npx vite-bundle-visualizer",
-    "ci": "npm run lint && npm run typecheck && npm run test && npm run build && npm run check:prod",
-    "polish:all": "npm run lint -- --fix && npm run format && npm run typecheck && npm run test && npm run build && npm run check:prod"
-  },
-  "dependencies": {
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-router-dom": "^6.26.2",
-    "react-helmet-async": "^2.0.0"
+    "analyze": "vite build && npx rollup-plugin-visualizer dist/stats.html",
+    "env:check": "ts-node --swc src/env.ts --check",
+    "security:audit": "npm audit --omit=dev",
+    "security:full": "npm audit",
+    "size:check": "node scripts/size-check.mjs",
+    "check:prod": "node scripts/prod-check.mjs",
+    "ci": "npm run lint && npm run typecheck && npm run test && npm run build && npm run size:check",
+    "polish:all": "npm run format && npm run ci && npm run check:prod",
+    "release:tag": "node scripts/release-tag.mjs"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^7.0.0",
     "@typescript-eslint/parser": "^7.0.0",
-    "@vitejs/plugin-react": "^4.0.0",
-    "broken-link-checker": "^0.7.8",
+    "@vitest/coverage-v8": "^1.6.0",
     "eslint": "^9.0.0",
-    "eslint-config-prettier": "^9.0.0",ettier": "^9.0.0",
-    "eslint-plugin-react": "^7.34.0",",
-    "eslint-plugin-react-hooks": "^4.6.0", "eslint-plugin-react-hooks": "^4.6.0",
-    "globals": "^15.0.0",   "globals": "^15.0.0",
-    "prettier": "^3.2.0",    "prettier": "^3.2.0",
-
-
-
-
-
-
-
-
-
-
-}  }    "jsdom": "^24.0.0"    "@testing-library/jest-dom": "^6.4.0",    "@testing-library/react": "^14.2.0",    "vitest": "^1.6.0",    "vite": "^5.0.0",    "typescript": "^5.4.0",    "rollup-plugin-visualizer": "^5.12.0",    "rollup-plugin-visualizer": "^5.12.0",
+    "eslint-config-prettier": "^9.0.0",
+    "prettier": "^3.2.0",
+    "rollup-plugin-visualizer": "^5.12.0",
     "typescript": "^5.4.0",
     "vite": "^5.0.0",
     "vitest": "^1.6.0",
-    "@testing-library/react": "^14.2.0",
-    "@testing-library/jest-dom": "^6.4.0",
-    "jsdom": "^24.0.0"
-  }
+    "ts-node": "^10.9.2",
+    "zod": "^3.23.8"
+  },
+  "dependencies": {},
+  "keywords": [],
+  "homepage": ".",
+  "bugs": {},
+  "repository": {},
+  "optionalDependencies": {},
+  "packageManager": "npm"
 }

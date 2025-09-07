@@ -107,3 +107,31 @@ All sites share user data through Supabase:
 7. **Learning**: Access content based on enrollment status
 
 The system ensures seamless experience as users move between different parts of the ecosystem.
+
+# Workspace (Plain Vite + TypeScript)
+
+## Features
+- Strict TypeScript
+- ESLint + Prettier
+- Vitest + coverage
+- Environment validation (zod)
+- API helper (fetch + timeout + error)
+- Logging utility
+- Size & production checks
+- CI workflow + Dependabot
+
+## Commands
+npm run dev
+npm run lint
+npm run typecheck
+npm run test
+npm run build
+npm run check:prod
+
+## Release
+Increment version in package.json then:
+npm run release:tag
+
+## Environment
+Copy .env.example to .env (optional). Validate via:
+npm run env:check
