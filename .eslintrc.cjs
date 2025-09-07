@@ -18,7 +18,17 @@ module.exports = {
   rules: {
     "react/react-in-jsx-scope": "off",
     "react/jsx-uses-react": "off",
-    "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }]
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      { argsIgnorePattern: "^_", varsIgnorePattern: "^_" }
+    ]
   },
-  ignorePatterns: ["dist/", "build/", "coverage/", ".vercel/", ".next/", "node_modules/"]
+  ignorePatterns: [
+    "dist/",
+    "build/",
+    "coverage/",
+    ".vercel/",
+    ".next/",
+    "node_modules/"
+  ]
 };

@@ -18,7 +18,12 @@
 
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import { visualizer } from "rollup-plugin-visualizer";
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    // run with: npm run analyze (generates stats.html)
+    visualizer({ filename: "dist/stats.html", gzipSize: true, brotliSize: true, template: "treemap" })
+  ]
 });
