@@ -1,3 +1,21 @@
+/*
+  Copyright (c) 2025 Elevate for Humanity
+  Commercial License. No resale, sublicensing, or redistribution allowed.
+  See LICENSE file for details.
+*/
+
+/*
+  Copyright (c) 2025 Elevate for Humanity
+  Commercial License. No resale, sublicensing, or redistribution allowed.
+  See LICENSE file for details.
+*/
+
+/*
+  Copyright (c) 2025 Elevate for Humanity
+  Commercial License. No resale, sublicensing, or redistribution allowed.
+  See LICENSE file for details.
+*/
+
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY || 'sk_test_dummy');
 

@@ -1,0 +1,18 @@
+{
+  "program": "Drug Testing Collector",
+  "credentials": [
+    "DOT Collector Certification",
+    "Chain of Custody Training"
+  ],
+  "funding": ["WIOA", "WRG", "OJT", "WEX", "IMPLY", "INDY", "DOL", "2Exclusive LLCs"],
+  "modules": [
+    {
+      "title": "Drug Testing Procedures",
+      "lessons": [
+        { "title": "Collection Protocols", "type": "video" },
+        { "title": "Chain of Custody", "type": "quiz" }
+      ]
+    }
+  ],
+  "etpl_folder": "/curriculum/drug-testing-collector/"
+}

@@ -1,0 +1,26 @@
+{
+  "program": "Music & Dance Liberal Arts",
+  "credentials": [
+    "Arts Integration Certificate",
+    "Performance Readiness",
+    "Music Theory Basics"
+  ],
+  "funding": ["WIOA", "WRG", "WEX", "IMPLY", "INDY", "2Exclusive LLCs"],
+  "modules": [
+    {
+      "title": "Introduction to Performing Arts",
+      "lessons": [
+        { "title": "Music Appreciation", "type": "video" },
+        { "title": "Dance Styles Overview", "type": "video" }
+      ]
+    },
+    {
+      "title": "Performance Skills",
+      "lessons": [
+        { "title": "Stage Presence", "type": "video" },
+        { "title": "Ensemble Practice", "type": "assignment" }
+      ]
+    }
+  ],
+  "etpl_folder": "/curriculum/music-dance-liberal-arts/"
+}

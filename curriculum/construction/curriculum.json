@@ -141,5 +141,11 @@
       "First Aid/CPR Card",
       "Forklift Certification (if offered)"
     ]
-  }
+  },
+  "routes": [
+    {
+      "path": "/",
+      "element": "<Home />"
+    }
+  ]
 }

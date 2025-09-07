@@ -1,3 +1,21 @@
+/*
+  Copyright (c) 2025 Elevate for Humanity
+  Commercial License. No resale, sublicensing, or redistribution allowed.
+  See LICENSE file for details.
+*/
+
+/*
+  Copyright (c) 2025 Elevate for Humanity
+  Commercial License. No resale, sublicensing, or redistribution allowed.
+  See LICENSE file for details.
+*/
+
+/*
+  Copyright (c) 2025 Elevate for Humanity
+  Commercial License. No resale, sublicensing, or redistribution allowed.
+  See LICENSE file for details.
+*/
+
 // Shared enrollment functionality for all sister sites
 const PAY_API = "https://pay.elevateforhumanity.org/api/checkout";
 

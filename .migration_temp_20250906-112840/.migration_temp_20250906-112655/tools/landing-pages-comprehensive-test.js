@@ -1,3 +1,21 @@
+/*
+  Copyright (c) 2025 Elevate for Humanity
+  Commercial License. No resale, sublicensing, or redistribution allowed.
+  See LICENSE file for details.
+*/
+
+/*
+  Copyright (c) 2025 Elevate for Humanity
+  Commercial License. No resale, sublicensing, or redistribution allowed.
+  See LICENSE file for details.
+*/
+
+/*
+  Copyright (c) 2025 Elevate for Humanity
+  Commercial License. No resale, sublicensing, or redistribution allowed.
+  See LICENSE file for details.
+*/
+
 // tools/landing-pages-comprehensive-test.js - Complete landing page functionality and Google indexing test
 const http = require('http');
 const fs = require('fs');

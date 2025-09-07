@@ -1,0 +1,26 @@
+{
+  "program": "OTR (Over-the-Road) Truck Driving",
+  "credentials": [
+    "CDL Class A",
+    "DOT Safety",
+    "Logistics Basics"
+  ],
+  "funding": ["WIOA", "WRG", "OJT", "WEX", "IMPLY", "INDY", "DOL", "2Exclusive LLCs"],
+  "modules": [
+    {
+      "title": "CDL Preparation",
+      "lessons": [
+        { "title": "Driving Laws", "type": "video" },
+        { "title": "Vehicle Inspection", "type": "video" }
+      ]
+    },
+    {
+      "title": "On-the-Road Skills",
+      "lessons": [
+        { "title": "Trip Planning", "type": "assignment" },
+        { "title": "Safety Procedures", "type": "quiz" }
+      ]
+    }
+  ],
+  "etpl_folder": "/curriculum/otr-driving/"
+}

@@ -1,0 +1,26 @@
+{
+  "program": "CPR Instructor",
+  "credentials": [
+    "CPR Instructor Certification",
+    "First Aid",
+    "AED Training"
+  ],
+  "funding": ["WIOA", "WRG", "OJT", "WEX", "IMPLY", "INDY", "DOL", "2Exclusive LLCs"],
+  "modules": [
+    {
+      "title": "CPR Basics",
+      "lessons": [
+        { "title": "Adult CPR", "type": "video" },
+        { "title": "Child & Infant CPR", "type": "video" }
+      ]
+    },
+    {
+      "title": "Instructor Skills",
+      "lessons": [
+        { "title": "Teaching Techniques", "type": "video" },
+        { "title": "Assessment", "type": "quiz" }
+      ]
+    }
+  ],
+  "etpl_folder": "/curriculum/cpr-instructor/"
+}

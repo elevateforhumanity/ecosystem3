@@ -1,0 +1,25 @@
+{
+  "program": "Phlebotomy Technician",
+  "credentials": [
+    "Phlebotomy Certification",
+    "Bloodborne Pathogens",
+    "HIPAA"
+  ],
+  "funding": ["WIOA", "WRG", "OJT", "WEX", "IMPLY", "INDY", "DOL", "2Exclusive LLCs"],
+  "modules": [
+    {
+      "title": "Phlebotomy Basics",
+      "lessons": [
+        { "title": "Venipuncture Techniques", "type": "video" },
+        { "title": "Lab Safety", "type": "quiz" }
+      ]
+    },
+    {
+      "title": "Clinical Practice",
+      "lessons": [
+        { "title": "Hands-On Lab", "type": "assignment" }
+      ]
+    }
+  ],
+  "etpl_folder": "/curriculum/phlebotomy/"
+}

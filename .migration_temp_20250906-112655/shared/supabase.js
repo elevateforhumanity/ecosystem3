@@ -1,3 +1,21 @@
+/*
+  Copyright (c) 2025 Elevate for Humanity
+  Commercial License. No resale, sublicensing, or redistribution allowed.
+  See LICENSE file for details.
+*/
+
+/*
+  Copyright (c) 2025 Elevate for Humanity
+  Commercial License. No resale, sublicensing, or redistribution allowed.
+  See LICENSE file for details.
+*/
+
+/*
+  Copyright (c) 2025 Elevate for Humanity
+  Commercial License. No resale, sublicensing, or redistribution allowed.
+  See LICENSE file for details.
+*/
+
 // Shared Supabase client for all sister sites
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 

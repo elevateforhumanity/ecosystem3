@@ -1,3 +1,21 @@
+/*
+  Copyright (c) 2025 Elevate for Humanity
+  Commercial License. No resale, sublicensing, or redistribution allowed.
+  See LICENSE file for details.
+*/
+
+/*
+  Copyright (c) 2025 Elevate for Humanity
+  Commercial License. No resale, sublicensing, or redistribution allowed.
+  See LICENSE file for details.
+*/
+
+/*
+  Copyright (c) 2025 Elevate for Humanity
+  Commercial License. No resale, sublicensing, or redistribution allowed.
+  See LICENSE file for details.
+*/
+
 // Alternative entry point for the multi-site ecosystem
 const express = require('express');
 const path = require('path');

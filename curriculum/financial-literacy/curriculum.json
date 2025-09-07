@@ -1,0 +1,26 @@
+{
+  "program": "Financial Literacy",
+  "credentials": [
+    "Financial Literacy Certificate",
+    "Budgeting Basics",
+    "Credit Management"
+  ],
+  "funding": ["WIOA", "WRG", "WEX", "IMPLY", "INDY", "2Exclusive LLCs"],
+  "modules": [
+    {
+      "title": "Money Management",
+      "lessons": [
+        { "title": "Budgeting 101", "type": "video" },
+        { "title": "Saving & Investing", "type": "quiz" }
+      ]
+    },
+    {
+      "title": "Credit & Debt",
+      "lessons": [
+        { "title": "Understanding Credit", "type": "video" },
+        { "title": "Debt Reduction Strategies", "type": "assignment" }
+      ]
+    }
+  ],
+  "etpl_folder": "/curriculum/financial-literacy/"
+}
