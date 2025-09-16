@@ -6,6 +6,9 @@
   <url><loc>https://www.elevateforhumanity.org/hub</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
   <url><loc>https://www.elevateforhumanity.org/lms</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.elevateforhumanity.org/connect</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.elevateforhumanity.org/sister-sites</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.elevateforhumanity.org/healthcare-services</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.elevateforhumanity.org/operational-agreements</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.elevateforhumanity.org/compliance</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.elevateforhumanity.org/pay</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.elevateforhumanity.org/partners</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>

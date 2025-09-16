@@ -5,6 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Elevate for Humanity | Rise Forward Foundation | Workforce Development & Philanthropy</title>
     <meta name="description" content="Elevate for Humanity transforms lives through workforce development, AI/Data Science training, and philanthropic initiatives. Rise Forward Foundation creating pathways to prosperity.">
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXXXXX'); // Replace with your GA4 ID
+    </script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
@@ -462,6 +471,125 @@
             transform: translateY(-2px);
         }
 
+        /* Enhanced Autopilot Assistant */
+        .assistant {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 320px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            overflow: hidden;
+            display: none;
+            flex-direction: column;
+            z-index: 9999;
+            border: 1px solid #e5e7eb;
+        }
+        .assistant.open {
+            display: flex;
+            animation: slideUp 0.3s ease-out;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .assistant-header {
+            background: linear-gradient(135deg, var(--primary-purple), var(--primary-blue));
+            color: white;
+            padding: 1rem;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .assistant-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .assistant-body {
+            padding: 1rem;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .message {
+            margin-bottom: 1rem;
+            padding: 0.8rem;
+            border-radius: 12px;
+            max-width: 85%;
+        }
+        .bot-message {
+            background: var(--light-bg);
+            color: var(--soft-gray);
+            margin-right: auto;
+        }
+        .user-message {
+            background: var(--primary-purple);
+            color: white;
+            margin-left: auto;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .option-btn {
+            background: white;
+            border: 2px solid var(--primary-purple);
+            color: var(--primary-purple);
+            padding: 0.8rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+        .option-btn:hover {
+            background: var(--primary-purple);
+            color: white;
+            transform: translateX(5px);
+        }
+        .assistant-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, var(--primary-purple), var(--accent-green));
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 9998;
+            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.3);
+            transition: all 0.3s ease;
+        }
+        .assistant-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 40px rgba(124, 58, 237, 0.4);
+        }
+        .assistant-reset {
+            background: var(--accent-green);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            margin-top: 1rem;
+        }
+
         /* Foundation Section */
         .foundation-section {
             background: linear-gradient(135deg, var(--primary-purple), var(--primary-blue));
@@ -780,5 +908,23 @@
             <p>&copy; 2025 Selfish Inc. DBA Rise Foundation. All rights reserved.</p>
         </div>
     </footer>
+
+    <!-- Enhanced Autopilot Assistant -->
+    <div class="assistant" id="assistant">
+        <div class="assistant-header">
+            🤖 EFH Assistant
+            <button class="assistant-close" onclick="toggleAssistant()">×</button>
+        </div>
+        <div class="assistant-body" id="chat-box">
+            <!-- Chat messages will appear here -->
+        </div>
+        <button class="assistant-reset" onclick="resetChat()">🔄 Start Over</button>
+    </div>
+
+    <!-- Assistant Toggle Button -->
+    <button class="assistant-toggle" onclick="toggleAssistant()">💬</button>
+
+    <!-- Scripts -->
+    <script src="autopilot.js"></script>
 </body>
 </html>
