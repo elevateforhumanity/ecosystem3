@@ -1,4 +1,4 @@
-const REQUIRED = ['VITE_SENTRY_DSN'] as const  // add more as needed
+const REQUIRED = [] as const  // VITE_SENTRY_DSN is optional for builds
 
 function isProd() {
   return import.meta.env.MODE === 'production'

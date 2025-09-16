@@ -1,9 +1,9 @@
 [build]
-  command = "echo 'Static site ready for deployment'"
-  publish = "."
+  command = "npm run build"
+  publish = "dist"
 
 [build.environment]
-  NODE_VERSION = "18"
+  NODE_VERSION = "20"
   SECRETS_SCAN_SMART_DETECTION_ENABLED = "false"
 
 # Domain redirects handled in _redirects file to avoid conflicts
