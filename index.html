@@ -6,9 +6,7 @@
     <title>Elevate for Humanity | Rise Forward Foundation | Workforce Development & Philanthropy</title>
     <meta name="description" content="Elevate for Humanity transforms lives through workforce development, AI/Data Science training, and philanthropic initiatives. Rise Forward Foundation creating pathways to prosperity.">
     
-    <!-- Critical Resource Preloads -->
-    <link rel="preload" href="/videos/transformation-stories.mp4" as="video" type="video/mp4">
-    <link rel="preload" href="/videos/ai-lab-action.mp4" as="video" type="video/mp4">
+    <!-- Essential Resource Preloads -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
@@ -30,7 +28,7 @@
       "alternateName": "Rise Forward Foundation",
       "description": "Transforming lives through technology education, AI training, and workforce development programs.",
       "url": "https://elevateforhumanity.org",
-      "logo": "https://elevateforhumanity.org/images/logo.png",
+
       "address": {
         "@type": "PostalAddress",
         "addressCountry": "US",
@@ -201,74 +199,213 @@
             animation: heroFadeIn 2s ease-out;
         }
         
-        /* Video Integration Styles */
-        .video-section {
+        /* Clean Section Styles - No Video Dependencies */
+
+        /* Organic Visual Elements */
+        .program-visual {
             position: relative;
-            padding: 0;
-            margin: 0;
+            height: 200px;
+            border-radius: 15px;
+            margin-bottom: 1.5rem;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
-        .video-container {
-            position: relative;
-            width: 100%;
-            height: 70vh;
-            overflow: hidden;
-        }
-        .video-background {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: 1;
-        }
-        .video-overlay {
+        .visual-gradient {
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(135deg, rgba(76, 29, 149, 0.7) 0%, rgba(34, 197, 94, 0.6) 100%);
+            border-radius: 15px;
+        }
+        .ai-gradient {
+            background: linear-gradient(135deg, #22c55e 0%, #8b5cf6 100%);
+            animation: organicFlow 12s ease-in-out infinite;
+        }
+        .federal-gradient {
+            background: linear-gradient(135deg, #1e40af 0%, #059669 100%);
+            animation: organicFlow 15s ease-in-out infinite reverse;
+        }
+        .program-visual .program-icon {
+            font-size: 3rem;
             z-index: 2;
-        }
-        .video-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
+            position: relative;
             color: white;
-            z-index: 3;
-            max-width: 800px;
-            padding: 2rem;
+            margin-bottom: 0.5rem;
         }
-        .video-title {
-            font-size: 3.5rem;
+        .program-essence {
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            z-index: 2;
+            position: relative;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        /* Transformation Section */
+        .transformation-section {
+            padding: 120px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .transformation-container {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .transformation-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #4c1d95 0%, #22c55e 100%);
+            opacity: 0.05;
+            animation: organicFlow 20s ease-in-out infinite;
+        }
+        .transformation-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+        .transformation-title {
+            font-size: 4rem;
+            color: var(--gordonstoun-purple);
+            margin-bottom: 2rem;
             font-weight: 300;
-            margin-bottom: 1.5rem;
             letter-spacing: -0.02em;
         }
-        .video-subtitle {
+        .transformation-subtitle {
             font-size: 1.5rem;
+            color: var(--soft-gray);
             font-style: italic;
-            opacity: 0.9;
-            margin-bottom: 2rem;
+            margin-bottom: 4rem;
         }
-        .video-cta {
-            display: inline-block;
-            padding: 1rem 2.5rem;
-            background: rgba(255, 255, 255, 0.2);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50px;
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            backdrop-filter: blur(10px);
+        .transformation-stories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        .story-highlight {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
             transition: all 0.3s ease;
         }
-        .video-cta:hover {
-            background: rgba(255, 255, 255, 0.3);
+        .story-highlight:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+        }
+        .story-icon {
+            font-size: 2.5rem;
+            display: block;
+            margin-bottom: 1rem;
+        }
+        .story-highlight h4 {
+            color: var(--gordonstoun-purple);
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+        .transformation-cta {
+            display: inline-block;
+            padding: 1.2rem 2.5rem;
+            background: var(--gordonstoun-purple);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .transformation-cta:hover {
+            background: var(--deep-purple);
+            transform: translateY(-3px);
+        }
+
+        /* Innovation Section */
+        .innovation-section {
+            padding: 120px 0;
+            background: var(--light-bg);
+            position: relative;
+        }
+        .innovation-container {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .innovation-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #1e1b4b 0%, #059669 100%);
+            opacity: 0.03;
+            animation: organicFlow 25s ease-in-out infinite reverse;
+        }
+        .innovation-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+        .innovation-title {
+            font-size: 4rem;
+            color: var(--gordonstoun-purple);
+            margin-bottom: 2rem;
+            font-weight: 300;
+            letter-spacing: -0.02em;
+        }
+        .innovation-subtitle {
+            font-size: 1.5rem;
+            color: var(--soft-gray);
+            font-style: italic;
+            margin-bottom: 4rem;
+        }
+        .innovation-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        .feature-item {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+        .feature-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+        }
+        .feature-icon {
+            font-size: 2.5rem;
+            display: block;
+            margin-bottom: 1rem;
+        }
+        .feature-item h4 {
+            color: var(--gordonstoun-purple);
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+        .innovation-cta {
+            display: inline-block;
+            padding: 1.2rem 2.5rem;
+            background: var(--gordonstoun-purple);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .innovation-cta:hover {
+            background: var(--deep-purple);
             transform: translateY(-3px);
         }
         @keyframes heroFadeIn {
@@ -297,12 +434,19 @@
         }
         .hero .foundation {
             font-size: 1.4rem;
-            margin-bottom: 2.5rem;
+            margin-bottom: 1rem;
             font-style: italic;
             opacity: 0.9;
             color: var(--gold);
             font-weight: 400;
             letter-spacing: 0.05em;
+        }
+        .hero-descriptor {
+            font-size: 1.1rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.8;
+            color: #e2e8f0;
+            font-weight: 300;
         }
         .hero-cta {
             display: inline-flex;
@@ -516,14 +660,26 @@
             display: block;
         }
         .program-card h3 {
-            font-size: 1.5rem;
-            color: var(--primary-blue);
+            font-size: 1.8rem;
+            color: var(--gordonstoun-purple);
             margin-bottom: 1rem;
-            font-weight: 600;
+            font-weight: 400;
+            letter-spacing: -0.01em;
+            line-height: 1.3;
         }
         .program-card p {
             color: var(--soft-gray);
-            line-height: 1.7;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+        }
+        .program-card p:first-of-type {
+            font-style: italic;
+            color: var(--gordonstoun-purple);
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+        .program-card p:last-of-type {
             margin-bottom: 2rem;
         }
         .program-link {
@@ -620,7 +776,7 @@
             justify-content: center;
             align-items: center;
         }
-        .image-placeholder {
+        .foundation-visual {
             width: 350px;
             height: 350px;
             background: var(--premium-gradient);
@@ -636,28 +792,43 @@
             overflow: hidden;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .image-placeholder::before {
+        .foundation-visual::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: var(--card-gradient);
-            backdrop-filter: blur(10px);
+            background: 
+                radial-gradient(circle at 30% 30%, rgba(34, 197, 94, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 70% 70%, rgba(251, 191, 36, 0.2) 0%, transparent 50%);
+            animation: organicPulse 8s ease-in-out infinite alternate;
         }
-        .image-placeholder:hover {
+        @keyframes organicPulse {
+            0% { opacity: 0.6; transform: scale(1); }
+            100% { opacity: 1; transform: scale(1.05); }
+        }
+        .foundation-visual:hover {
             transform: translateY(-10px) scale(1.02);
             box-shadow: 0 40px 100px rgba(76, 29, 149, 0.4);
         }
-        .image-placeholder span {
+        .foundation-visual .visual-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+        .foundation-visual .visual-text {
             font-size: 1.5rem;
             font-weight: 600;
             margin-bottom: 0.5rem;
+            z-index: 2;
+            position: relative;
         }
-        .image-placeholder small {
+        .foundation-visual .visual-subtitle {
             font-size: 1rem;
             opacity: 0.9;
+            z-index: 2;
+            position: relative;
         }
         .umbrella-details {
             margin-top: 2rem;
@@ -1042,19 +1213,31 @@
         </div>
     </section>
 
-    <!-- Transformation Stories Video -->
-    <section class="video-section">
-        <div class="video-container">
-            <video class="video-background" autoplay muted loop playsinline loading="lazy" preload="metadata">
-                <source data-src="/videos/transformation-stories.mp4" type="video/mp4">
-                <!-- Fallback for browsers that don't support video -->
-                <div style="background: linear-gradient(135deg, #4c1d95 0%, #22c55e 100%); height: 100%;"></div>
-            </video>
-            <div class="video-overlay"></div>
-            <div class="video-content">
-                <h2 class="video-title">SEEDS OF CHANGE</h2>
-                <p class="video-subtitle">*Watch Maria transform from unemployed single mother to AI engineer in 8 months*</p>
-                <a href="/stories" class="video-cta">WITNESS THE TRANSFORMATION</a>
+    <!-- Transformation Stories Section -->
+    <section class="transformation-section">
+        <div class="transformation-container">
+            <div class="transformation-background"></div>
+            <div class="transformation-content">
+                <h2 class="transformation-title">SEEDS OF CHANGE</h2>
+                <p class="transformation-subtitle">*Where Every Story Becomes a Testament to Human Potential*</p>
+                <div class="transformation-stories">
+                    <div class="story-highlight">
+                        <span class="story-icon">🌱</span>
+                        <h4>Maria's Journey</h4>
+                        <p>Single mother to AI engineer in 8 months</p>
+                    </div>
+                    <div class="story-highlight">
+                        <span class="story-icon">🚀</span>
+                        <h4>James's Transformation</h4>
+                        <p>From incarceration to innovation leader</p>
+                    </div>
+                    <div class="story-highlight">
+                        <span class="story-icon">💡</span>
+                        <h4>Sarah's Success</h4>
+                        <p>Veteran to data science pioneer</p>
+                    </div>
+                </div>
+                <a href="/stories" class="transformation-cta">DISCOVER THEIR JOURNEYS</a>
             </div>
         </div>
     </section>
@@ -1097,9 +1280,10 @@
                     </div>
                 </div>
                 <div class="philanthropist-image">
-                    <div class="image-placeholder">
-                        <span>Rise Forward</span>
-                        <small>Foundation Leadership</small>
+                    <div class="foundation-visual">
+                        <div class="visual-icon">🌱</div>
+                        <div class="visual-text">Rise Forward</div>
+                        <div class="visual-subtitle">Foundation Leadership</div>
                     </div>
                 </div>
             </div>
@@ -1157,19 +1341,31 @@
         </div>
     </section>
 
-    <!-- AI Lab in Action Video -->
-    <section class="video-section">
-        <div class="video-container">
-            <video class="video-background" autoplay muted loop playsinline loading="lazy" preload="metadata">
-                <source data-src="/videos/ai-lab-action.mp4" type="video/mp4">
-                <!-- Fallback gradient -->
-                <div style="background: linear-gradient(135deg, #1e1b4b 0%, #059669 100%); height: 100%;"></div>
-            </video>
-            <div class="video-overlay"></div>
-            <div class="video-content">
-                <h2 class="video-title">THE LABORATORY OF DREAMS</h2>
-                <p class="video-subtitle">*Step inside our AI development spaces where the future is born daily*</p>
-                <a href="/facilities" class="video-cta">EXPLORE OUR SPACES</a>
+    <!-- Innovation Spaces Section -->
+    <section class="innovation-section">
+        <div class="innovation-container">
+            <div class="innovation-background"></div>
+            <div class="innovation-content">
+                <h2 class="innovation-title">THE LABORATORY OF DREAMS</h2>
+                <p class="innovation-subtitle">*Where Human Creativity Meets Technological Possibility*</p>
+                <div class="innovation-features">
+                    <div class="feature-item">
+                        <span class="feature-icon">🧠</span>
+                        <h4>AI Development Studios</h4>
+                        <p>State-of-the-art workspaces for machine learning innovation</p>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">🤝</span>
+                        <h4>Collaboration Hubs</h4>
+                        <p>Open spaces designed for peer learning and mentorship</p>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">🌐</span>
+                        <h4>Virtual Reality Labs</h4>
+                        <p>Immersive environments for next-generation skill development</p>
+                    </div>
+                </div>
+                <a href="/facilities" class="innovation-cta">EXPERIENCE OUR SPACES</a>
             </div>
         </div>
     </section>
@@ -1180,13 +1376,11 @@
             <h2>PATHWAYS TO EXTRAORDINARY</h2>
             <div class="programs-grid">
                 <div class="program-card">
-                    <div class="card-video-container">
-                        <video autoplay muted loop playsinline loading="lazy" preload="none" style="width: 100%; height: 200px; object-fit: cover; border-radius: 15px; margin-bottom: 1.5rem;">
-                            <source data-src="/videos/ai-compassion-demo.mp4" type="video/mp4">
-                            <div style="background: linear-gradient(135deg, #22c55e 0%, #8b5cf6 100%); height: 200px; border-radius: 15px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem;">🌱 AI with Heart</div>
-                        </video>
+                    <div class="program-visual">
+                        <div class="visual-gradient ai-gradient"></div>
+                        <span class="program-icon">🌱</span>
+                        <div class="program-essence">AI with Heart</div>
                     </div>
-                    <span class="program-icon">🌱</span>
                     <h3>TECHNOLOGY WITH SOUL</h3>
                     <p>*Where Human Wisdom Guides Digital Innovation*</p>
                     <p>Technology is not cold code—it's the extension of human intention. Here, you'll learn to weave compassion into algorithms, to build AI that serves humanity's highest aspirations. Every line of Python becomes a prayer for progress. Every neural network you create carries the potential to <strong>heal, connect, and elevate</strong> the human experience.</p>
@@ -1194,13 +1388,11 @@
                 </div>
                 
                 <div class="program-card">
-                    <div class="card-video-container">
-                        <video autoplay muted loop playsinline loading="lazy" preload="none" style="width: 100%; height: 200px; object-fit: cover; border-radius: 15px; margin-bottom: 1.5rem;">
-                            <source data-src="/videos/wioa-success-stories.mp4" type="video/mp4">
-                            <div style="background: linear-gradient(135deg, #1e40af 0%, #059669 100%); height: 200px; border-radius: 15px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem;">🏛️ Federal Partnership</div>
-                        </video>
+                    <div class="program-visual">
+                        <div class="visual-gradient federal-gradient"></div>
+                        <span class="program-icon">🏛️</span>
+                        <div class="program-essence">Federal Partnership</div>
                     </div>
-                    <span class="program-icon">🏛️</span>
                     <h3>FEDERALLY EMPOWERED TRANSFORMATION</h3>
                     <p>*Government Investment in Your Extraordinary Future*</p>
                     <p>When opportunity meets preparation, transformation is inevitable. Through federally-funded pathways, we remove every barrier between you and your potential. This is more than training—it's a <strong>national investment in your success</strong>. Your journey is supported by the full weight of federal commitment to your transformation.</p>
@@ -1301,73 +1493,55 @@
 
     <!-- Performance Optimization Scripts -->
     <script>
-      // Progressive Video Loading Manager
-      class VideoManager {
+      // Lightweight Performance Manager
+      class PerformanceManager {
         constructor() {
-          this.loadedVideos = new Set();
-          this.videoQueue = [];
-          this.maxConcurrentLoads = 2;
-          this.currentLoads = 0;
-        }
-        
-        loadVideo(videoElement) {
-          return new Promise((resolve, reject) => {
-            const source = videoElement.querySelector('source[data-src]');
-            if (!source || this.loadedVideos.has(source.dataset.src)) {
-              resolve();
-              return;
-            }
-            
-            if (this.currentLoads >= this.maxConcurrentLoads) {
-              this.videoQueue.push(() => this.loadVideo(videoElement));
-              return;
-            }
-            
-            this.currentLoads++;
-            
-            const tempVideo = document.createElement('video');
-            tempVideo.onloadeddata = () => {
-              source.src = source.dataset.src;
-              videoElement.load();
-              this.loadedVideos.add(source.dataset.src);
-              this.currentLoads--;
-              this.processQueue();
-              resolve();
-            };
-            
-            tempVideo.onerror = () => {
-              this.currentLoads--;
-              this.processQueue();
-              reject();
-            };
-            
-            tempVideo.src = source.dataset.src;
-          });
-        }
-        
-        processQueue() {
-          if (this.videoQueue.length > 0 && this.currentLoads < this.maxConcurrentLoads) {
-            const nextLoad = this.videoQueue.shift();
-            nextLoad();
-          }
+          this.initialized = false;
         }
         
         init() {
-          const videos = document.querySelectorAll('video');
+          if (this.initialized) return;
+          
+          // Optimize scroll performance
+          this.optimizeScrolling();
+          
+          // Initialize smooth animations
+          this.initializeAnimations();
+          
+          this.initialized = true;
+        }
+        
+        optimizeScrolling() {
+          let ticking = false;
+          
+          function updateScrollEffects() {
+            // Add any scroll-based effects here
+            ticking = false;
+          }
+          
+          function requestTick() {
+            if (!ticking) {
+              requestAnimationFrame(updateScrollEffects);
+              ticking = true;
+            }
+          }
+          
+          window.addEventListener('scroll', requestTick, { passive: true });
+        }
+        
+        initializeAnimations() {
+          // Initialize intersection observer for animations
           const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
               if (entry.isIntersecting) {
-                this.loadVideo(entry.target);
-                observer.unobserve(entry.target);
+                entry.target.classList.add('animate-in');
               }
             });
-          }, { threshold: 0.1, rootMargin: '100px' });
+          }, { threshold: 0.1, rootMargin: '50px' });
           
-          videos.forEach(video => {
-            const source = video.querySelector('source[data-src]');
-            if (source) {
-              observer.observe(video);
-            }
+          // Observe elements that should animate in
+          document.querySelectorAll('.program-card, .story-highlight, .feature-item').forEach(el => {
+            observer.observe(el);
           });
         }
       }
@@ -1427,8 +1601,8 @@
       
       // Initialize everything
       document.addEventListener('DOMContentLoaded', () => {
-        // Initialize video manager
-        new VideoManager().init();
+        // Initialize performance manager
+        new PerformanceManager().init();
         
         // Initialize performance monitoring
         if (document.readyState === 'complete') {
