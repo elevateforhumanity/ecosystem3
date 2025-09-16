@@ -1,36 +1,9 @@
 [build]
   command = "npm run build"
   publish = "dist"
-  
+
 [build.environment]
   NODE_VERSION = "18"
-
-[build.environment]
-  SECRETS_SCAN_SMART_DETECTION_ENABLED = "false"
-
-[[headers]]
-  for = "/*"
-  [headers.values]
-    X-Frame-Options = "DENY"
-    X-Content-Type-Options = "nosniff"
-    X-XSS-Protection = "1; mode=block"
-    Referrer-Policy = "strict-origin-when-cross-origin"
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:;"
-
-[[headers]]
-  for = "*.html"
-  [headers.values]
-    Cache-Control = "public, max-age=3600"
-
-[[headers]]
-  for = "*.css"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000"
-
-[[headers]]
-  for = "*.js"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000"
 
 # Pass through built assets
 [[redirects]]
@@ -38,7 +11,7 @@
   to = "/assets/:splat"
   status = 200
 
-# If you have true static HTML pages (e.g., /intake.html), add explicit rules ABOVE the SPA catch-all:
+# Student portal routes
 [[redirects]]
   from = "/student-portal"
   to = "/student-portal.html"
@@ -65,12 +38,26 @@
   to = "/index.html"
   status = 200
 
-# Form handling
-[[forms]]
-  name = "enrollment"
+# Security headers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
 
-[[forms]]
-  name = "contact"
+[[headers]]
+  for = "*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
 
-[[forms]]
-  name = "support"
+[[headers]]
+  for = "*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
+[[headers]]
+  for = "*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
