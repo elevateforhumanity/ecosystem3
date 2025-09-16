@@ -10,27 +10,31 @@ Based on INTraining findings and verification requirements.
 - [ ] **INTraining Status**: Staff Approved - verify and display
 - [ ] **Business Registration**: Verify DBA relationships
 
-## VERIFIED PROGRAMS FROM INTRAINING
+## ACTUAL PROGRAMS & INTEGRATIONS FOUND IN GITHUB
 
-### 1. CPR & Health & Safety Technician (Registered Apprenticeship)
-- [ ] **Status**: Listed in INTraining for Marion County
-- [ ] **Program Type**: Registered Apprenticeship
-- [ ] **Location**: Marion County
-- [ ] **Missing Data**: Duration, cost, prerequisites
-- [ ] **Action**: Create dedicated program page
+### 1. AI & Data Science Programs (programs.html)
+- [ ] **Status**: Active with 89% job placement rate
+- [ ] **Integration**: Complete Stripe payment system
+- [ ] **Partners**: Google Cloud, Microsoft, CompTIA
+- [ ] **Action**: Verify current curriculum and outcomes
 
-### 2. Beauty & Career Educator Training Program  
-- [ ] **Duration**: 12-week hybrid program
-- [ ] **Age Requirement**: 16+
-- [ ] **Cost**: ~$3,500 tuition + fees
-- [ ] **Credentials**: Rise Up credential included
+### 2. DOL WIOA-Approved Training Programs
+- [ ] **Integration**: Indiana Connect intake system
+- [ ] **Status**: Federal workforce development approved
+- [ ] **Partners**: Multiple workforce boards
+- [ ] **Action**: Verify current ETPL status
+
+### 3. Partner Certification Programs
+- [ ] **CompTIA**: Technology certifications
+- [ ] **IBEW**: Union apprenticeships  
+- [ ] **IMA/IHA**: Healthcare partnerships
+- [ ] **Action**: Verify active partnership agreements
+
+### 4. Beauty & Career Educator (INTraining Verified)
 - [ ] **INTraining ID**: 10002424
-- [ ] **Action**: Update existing content to match INTraining data
-
-### 3. Holistic Wellness Disinfection and Hazardous Cleaning
-- [ ] **Status**: Listed in INTraining dev site
-- [ ] **Verification Needed**: Confirm if production-ready
-- [ ] **Action**: Verify status before adding to main site
+- [ ] **Duration**: 12-week hybrid, age 16+
+- [ ] **Cost**: ~$3,500 + fees
+- [ ] **Action**: Integrate with existing payment system
 
 ## COMPLIANCE PAGES (CURRENTLY MISSING)
 
@@ -41,13 +45,20 @@ Based on INTraining findings and verification requirements.
 - [ ] **Complaints Process**: Grievance procedures
 - [ ] **Terms of Service**: Legal terms and conditions
 
-## TECHNICAL IMPLEMENTATION
+## TECHNICAL IMPLEMENTATION (EXISTING SYSTEMS)
 
-### Form & Button Functionality
-- [ ] **Apply Now buttons**: Route to functional application forms
-- [ ] **Request Info buttons**: Capture program-specific data
-- [ ] **Contact forms**: Verify email delivery
-- [ ] **Payment integration**: Test Stripe functionality if implemented
+### Payment System (VERIFIED ACTIVE)
+- [ ] **Stripe Integration**: Complete with pay.html, multiple payment routes
+- [ ] **BNPL Options**: Buy now, pay later functionality
+- [ ] **Stripe Connect**: Partner revenue sharing system
+- [ ] **Multiple Plans**: Standard, enterprise, SaaS subscriptions
+- [ ] **Action**: Test all payment flows and update pricing
+
+### Form & Integration Functionality  
+- [ ] **Indiana Connect**: All program intake through state system
+- [ ] **Partner Integrations**: CompTIA, Google Cloud, Microsoft verified
+- [ ] **Google Services**: Analytics, Search Console, Cloud partnerships
+- [ ] **Action**: Test all integration endpoints
 
 ### Content Accuracy
 - [ ] **Remove unverified programs**: AI/Data Science if not in INTraining
