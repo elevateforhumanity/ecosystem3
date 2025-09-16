@@ -1,629 +1,135 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elevate for Humanity - Workforce Development & Government Contracting</title>
-    <meta name="description" content="Veteran-owned workforce development, government contracting, and philanthropy organization. Professional training, federal contracts, and community impact.">
+    <title>Elevate for Humanity - LIVE NOW</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            line-height: 1.6; 
-            color: #333; 
-            background: #f8fafc;
-        }
-        
-        /* Header */
-        .header {
-            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
-            color: white;
-            padding: 1rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 2rem;
-        }
-        
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-        
-        .nav-menu {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-        
-        .nav-menu a {
-            color: white;
-            text-decoration: none;
-            transition: opacity 0.3s;
-        }
-        
-        .nav-menu a:hover {
-            opacity: 0.8;
-        }
-        
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
-            color: white;
-            padding: 4rem 2rem;
-            text-align: center;
-        }
-        
-        .hero-container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            font-weight: 700;
-        }
-        
-        .hero-subtitle {
-            font-size: 1.3rem;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-        }
-        
-        .cta-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        
-        .btn {
-            padding: 12px 24px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s;
-            display: inline-block;
-        }
-        
-        .btn-primary {
-            background: #059669;
-            color: white;
-        }
-        
-        .btn-secondary {
-            background: white;
-            color: #1e40af;
-        }
-        
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        }
-        
-        /* Container */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-        
-        /* Sections */
-        .section {
-            padding: 4rem 0;
-        }
-        
-        .section-title {
-            font-size: 2.5rem;
-            text-align: center;
-            margin-bottom: 3rem;
-            color: #1e40af;
-        }
-        
-        /* Services Grid */
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-        
-        .service-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            transition: transform 0.3s;
-        }
-        
-        .service-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .service-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-        
-        .service-card h3 {
-            color: #1e40af;
-            margin-bottom: 1rem;
-            font-size: 1.3rem;
-        }
-        
-        /* Stats */
-        .stats {
-            background: #1e40af;
-            color: white;
-            padding: 4rem 0;
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            text-align: center;
-        }
-        
-        .stat-number {
-            font-size: 3rem;
-            font-weight: bold;
-            color: #10b981;
-        }
-        
-        .stat-label {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-        
-        /* Programs Section */
-        .programs {
-            background: white;
-        }
-        
-        .program-categories {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-        
-        .program-category {
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
-            padding: 2rem;
-            background: #f8fafc;
-        }
-        
-        .program-category h3 {
-            color: #1e40af;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .program-list {
-            list-style: none;
-        }
-        
-        .program-list li {
-            padding: 0.5rem 0;
-            border-bottom: 1px solid #e5e7eb;
-        }
-        
-        .program-list li:last-child {
-            border-bottom: none;
-        }
-        
-        .program-list li:before {
-            content: "✓ ";
-            color: #059669;
-            font-weight: bold;
-        }
-        
-        /* Contact Section */
-        .contact {
-            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
-            color: white;
-            padding: 4rem 0;
-        }
-        
-        .contact-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-        
-        .contact-card {
-            background: rgba(255,255,255,0.1);
-            padding: 2rem;
-            border-radius: 12px;
-            backdrop-filter: blur(10px);
-        }
-        
-        .contact-card h3 {
-            margin-bottom: 1rem;
-            font-size: 1.3rem;
-        }
-        
-        /* Footer */
-        .footer {
-            background: #0f172a;
-            color: white;
-            padding: 2rem 0;
-            text-align: center;
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2rem; }
-            .hero-subtitle { font-size: 1.1rem; }
-            .nav-menu { display: none; }
-            .cta-buttons { flex-direction: column; align-items: center; }
-        }
-        
-        /* Accessibility */
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border: 0;
-        }
-        
-        /* Focus styles */
-        *:focus {
-            outline: 2px solid #059669;
-            outline-offset: 2px;
-        }
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background: #f0f8ff; }
+        .container { max-width: 1000px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        h1 { color: #1e40af; text-align: center; font-size: 2.5em; margin-bottom: 30px; }
+        .section { margin: 30px 0; padding: 20px; border-left: 4px solid #1e40af; background: #f8fafc; }
+        .section h2 { color: #1e40af; margin-top: 0; }
+        .stats { display: flex; justify-content: space-around; flex-wrap: wrap; margin: 20px 0; }
+        .stat { text-align: center; margin: 10px; }
+        .stat-number { font-size: 2em; font-weight: bold; color: #059669; }
+        .contact { background: #1e40af; color: white; padding: 20px; border-radius: 8px; text-align: center; margin-top: 30px; }
+        ul { list-style-type: none; padding: 0; }
+        li { padding: 5px 0; }
+        li:before { content: "✓ "; color: #059669; font-weight: bold; }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <nav class="nav-container">
-            <div class="logo">🚀 Elevate for Humanity</div>
-            <ul class="nav-menu">
-                <li><a href="#services">Services</a></li>
-                <li><a href="#programs">Programs</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
-                <li><a href="#student-portal">Student Portal</a></li>
+    <div class="container">
+        <h1>🚀 Elevate for Humanity</h1>
+        <p style="text-align: center; font-size: 1.2em; color: #6b7280;">
+            <strong>Government Contracting • Philanthropy • Workforce Development</strong>
+        </p>
+
+        <div class="section">
+            <h2>🏛️ Government Contracting Services</h2>
+            <p><strong>Veteran-Owned Small Business (VOSB)</strong> providing comprehensive workforce development and educational services to federal, state, and local government agencies.</p>
+            <ul>
+                <li><strong>DOL/DWD/DOE Contract Capabilities</strong> - Department of Labor, Workforce Development, and Education contracts</li>
+                <li><strong>Section 508 Accessibility Compliance</strong> - Full digital accessibility for federal requirements</li>
+                <li><strong>WIOA/FERPA Compliance</strong> - Workforce Innovation and Educational Privacy Act standards</li>
+                <li><strong>FedRAMP & FISMA Ready</strong> - Federal security and compliance frameworks</li>
+                <li><strong>SOC 2 Type II Certified</strong> - Enterprise-grade security controls</li>
+                <li><strong>ISO 9001:2015 Quality Management</strong> - International quality standards</li>
             </ul>
-        </nav>
-    </header>
+        </div>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-container">
-            <h1>Workforce Development & Government Contracting</h1>
-            <p class="hero-subtitle">
-                Veteran-Owned • Federal Contracting • Workforce Training • Philanthropy
+        <div class="section">
+            <h2>💜 Philanthropy & Grant Management</h2>
+            <p><strong>Elizabeth L. Greene Foundation</strong> - Creating pathways to prosperity through strategic giving and community partnerships.</p>
+            <ul>
+                <li><strong>Individual Learner Grants</strong> - $500 to $5,000 for workforce development</li>
+                <li><strong>Organizational Grants</strong> - $10,000 to $100,000 for nonprofits and community organizations</li>
+                <li><strong>Five Priority Areas</strong> - Workforce, Justice-Involved, Youth, Health, Entrepreneurship</li>
+                <li><strong>Proven Impact</strong> - 87% graduation rate, 82% job placement rate</li>
+                <li><strong>Corporate Partnerships</strong> - Multiple partnership tiers with benefits</li>
+                <li><strong>Transparent Reporting</strong> - Annual impact reports and success stories</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>♿ Accessibility & Compliance Leadership</h2>
+            <p><strong>WCAG 2.1 AA Compliance</strong> with comprehensive accessibility features ensuring equal access for all users.</p>
+            <ul>
+                <li><strong>Screen Reader Compatible</strong> - JAWS, NVDA, VoiceOver support</li>
+                <li><strong>Keyboard Navigation</strong> - Full site navigation without mouse</li>
+                <li><strong>High Contrast Mode</strong> - Enhanced visibility options</li>
+                <li><strong>Accessibility Settings Panel</strong> - User-customizable accessibility features</li>
+                <li><strong>Universal Design</strong> - Inclusive design principles throughout</li>
+                <li><strong>Continuous Auditing</strong> - Regular third-party accessibility assessments</li>
+            </ul>
+        </div>
+
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-number">1,247</div>
+                <div>Learners Supported</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">98%</div>
+                <div>Contract Performance</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">$2.85M</div>
+                <div>Funding Distributed</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">87%</div>
+                <div>Graduation Rate</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">82%</div>
+                <div>Job Placement</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">156</div>
+                <div>Partner Organizations</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🎖️ Veteran Services & Support</h2>
+            <ul>
+                <li><strong>Veteran Transition Programs</strong> - Military-to-civilian workforce development</li>
+                <li><strong>Skills Translation Services</strong> - Military experience to civilian career pathways</li>
+                <li><strong>Military Spouse Support</strong> - Flexible training with remote options</li>
+                <li><strong>Veteran Entrepreneurship</strong> - Business development and government contracting guidance</li>
+                <li><strong>VOSB Certification</strong> - Priority access to federal contracting opportunities</li>
+            </ul>
+        </div>
+
+        <div class="contact">
+            <h2>Ready to Partner with Us?</h2>
+            <p><strong>Contact our specialized teams for your specific needs:</strong></p>
+            <p>
+                🏛️ <strong>Government Contracts:</strong> government@elevateforhumanity.org<br>
+                💜 <strong>Philanthropy & Grants:</strong> grants@elevateforhumanity.org<br>
+                ♿ <strong>Accessibility Services:</strong> accessibility@elevateforhumanity.org
             </p>
-            <div class="cta-buttons">
-                <a href="#programs" class="btn btn-primary">View Training Programs</a>
-                <a href="#government" class="btn btn-secondary">Government Contracts</a>
-                <a href="#student-portal" class="btn btn-secondary">Student Portal</a>
-            </div>
+            <p style="margin-top: 20px;">
+                📞 <strong>Phone:</strong> (555) 123-4567<br>
+                🏢 <strong>CAGE Code:</strong> 9ABC1 | <strong>DUNS:</strong> 123456789
+            </p>
+            <p style="margin-top: 20px; font-size: 0.9em;">
+                <strong>Elevate for Humanity</strong> - Veteran-Owned Small Business<br>
+                Creating pathways to prosperity through education, workforce development, and community impact.
+            </p>
         </div>
-    </section>
-
-    <!-- Services Section -->
-    <section id="services" class="section">
-        <div class="container">
-            <h2 class="section-title">Our Core Services</h2>
-            <div class="services-grid">
-                <div class="service-card">
-                    <div class="service-icon">🏛️</div>
-                    <h3>Government Contracting</h3>
-                    <p>Veteran-Owned Small Business providing comprehensive workforce development services to federal, state, and local agencies. DOL/DWD/DOE contract ready with full compliance.</p>
-                    <ul style="margin-top: 1rem; list-style: none;">
-                        <li>✓ Section 508 Accessibility</li>
-                        <li>✓ WIOA/FERPA Compliance</li>
-                        <li>✓ FedRAMP & FISMA Ready</li>
-                        <li>✓ SOC 2 Type II Certified</li>
-                    </ul>
-                </div>
-                
-                <div class="service-card">
-                    <div class="service-icon">🎓</div>
-                    <h3>Workforce Training</h3>
-                    <p>Professional certification programs in healthcare, technology, and skilled trades. Hybrid learning with hands-on skills validation and industry-recognized credentials.</p>
-                    <ul style="margin-top: 1rem; list-style: none;">
-                        <li>✓ CPR & Healthcare Certifications</li>
-                        <li>✓ Microsoft Office Specialist</li>
-                        <li>✓ ServSafe Food Handler</li>
-                        <li>✓ OSHA Safety Training</li>
-                    </ul>
-                </div>
-                
-                <div class="service-card">
-                    <div class="service-icon">💜</div>
-                    <h3>Elizabeth L. Greene Foundation</h3>
-                    <p>Strategic philanthropy creating pathways to prosperity through grants, partnerships, and community impact initiatives with measurable outcomes.</p>
-                    <ul style="margin-top: 1rem; list-style: none;">
-                        <li>✓ Individual Grants: $500-$5,000</li>
-                        <li>✓ Organizational Grants: $10K-$100K</li>
-                        <li>✓ Corporate Partnerships</li>
-                        <li>✓ Impact Reporting</li>
-                    </ul>
-                </div>
-                
-                <div class="service-card">
-                    <div class="service-icon">🎖️</div>
-                    <h3>Veteran Services</h3>
-                    <p>Specialized support for military veterans and families including transition programs, skills translation, and entrepreneurship development.</p>
-                    <ul style="margin-top: 1rem; list-style: none;">
-                        <li>✓ Military Transition Programs</li>
-                        <li>✓ Skills Translation Services</li>
-                        <li>✓ Military Spouse Support</li>
-                        <li>✓ Veteran Entrepreneurship</li>
-                    </ul>
-                </div>
-                
-                <div class="service-card">
-                    <div class="service-icon">♿</div>
-                    <h3>Accessibility Leadership</h3>
-                    <p>WCAG 2.1 AA compliance with comprehensive accessibility features ensuring equal access for all users and federal Section 508 requirements.</p>
-                    <ul style="margin-top: 1rem; list-style: none;">
-                        <li>✓ Screen Reader Compatible</li>
-                        <li>✓ Keyboard Navigation</li>
-                        <li>✓ High Contrast Mode</li>
-                        <li>✓ Universal Design</li>
-                    </ul>
-                </div>
-                
-                <div class="service-card">
-                    <div class="service-icon">📊</div>
-                    <h3>Student Portal & Records</h3>
-                    <p>Comprehensive student management system with enrollment, progress tracking, certificate generation, and FERPA-compliant record keeping.</p>
-                    <ul style="margin-top: 1rem; list-style: none;">
-                        <li>✓ Online Enrollment</li>
-                        <li>✓ Progress Tracking</li>
-                        <li>✓ Digital Certificates</li>
-                        <li>✓ FERPA Compliance</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Stats Section -->
-    <section class="stats">
-        <div class="container">
-            <div class="stats-grid">
-                <div>
-                    <div class="stat-number">1,247</div>
-                    <div class="stat-label">Learners Supported</div>
-                </div>
-                <div>
-                    <div class="stat-number">98%</div>
-                    <div class="stat-label">Contract Performance</div>
-                </div>
-                <div>
-                    <div class="stat-number">$2.85M</div>
-                    <div class="stat-label">Funding Distributed</div>
-                </div>
-                <div>
-                    <div class="stat-number">87%</div>
-                    <div class="stat-label">Graduation Rate</div>
-                </div>
-                <div>
-                    <div class="stat-number">82%</div>
-                    <div class="stat-label">Job Placement</div>
-                </div>
-                <div>
-                    <div class="stat-number">156</div>
-                    <div class="stat-label">Partner Organizations</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Programs Section -->
-    <section id="programs" class="section programs">
-        <div class="container">
-            <h2 class="section-title">Training Programs & Certifications</h2>
-            <div class="program-categories">
-                <div class="program-category">
-                    <h3>🏥 Healthcare & Public Safety</h3>
-                    <ul class="program-list">
-                        <li>Home Health Aide (HHA) Training & Certification</li>
-                        <li>Direct Support Professional (DSP) Training</li>
-                        <li>CPR & OSHA Safety Technician</li>
-                        <li>Bloodborne Pathogens & Infection Control</li>
-                        <li>Healthcare Office & Administrative Skills</li>
-                        <li>First Aid & Workplace Safety</li>
-                    </ul>
-                </div>
-                
-                <div class="program-category">
-                    <h3>💼 Workforce & Business Skills</h3>
-                    <ul class="program-list">
-                        <li>Customer Service & Office Administration</li>
-                        <li>Workforce Readiness & Communication</li>
-                        <li>Trauma-Informed Peer Support & Coaching</li>
-                        <li>Time Management & Conflict Resolution</li>
-                        <li>Financial Literacy & Professional Conduct</li>
-                        <li>Bookkeeping & Invoicing Essentials</li>
-                    </ul>
-                </div>
-                
-                <div class="program-category">
-                    <h3>💻 Technology & Digital Tools</h3>
-                    <ul class="program-list">
-                        <li>Microsoft Office Specialist (Word, Excel, PowerPoint)</li>
-                        <li>Google Workspace Productivity</li>
-                        <li>Digital Literacy & IC3 Readiness</li>
-                        <li>Remote Work & Help Desk Skills</li>
-                        <li>Data Entry & Workforce Tech Bootcamp</li>
-                        <li>Social Media, Branding & Online Business Setup</li>
-                    </ul>
-                </div>
-                
-                <div class="program-category">
-                    <h3>🍴 Food Service & Entrepreneurship</h3>
-                    <ul class="program-list">
-                        <li>ServSafe Food Handler & Manager Certification</li>
-                        <li>Healthcare Staffing Business Start-Up</li>
-                        <li>Youth Entrepreneurship & LLC Builder</li>
-                        <li>Virtual Office Setup & Admin Training</li>
-                        <li>Small Business Marketing & Sales Strategy</li>
-                    </ul>
-                </div>
-                
-                <div class="program-category">
-                    <h3>✂️ Skilled Trades & Youth Programs</h3>
-                    <ul class="program-list">
-                        <li>Barbering, Nails & Esthetics Youth Bootcamp</li>
-                        <li>Janitorial & Building Services Apprenticeship</li>
-                        <li>OSHA 10 & 30 Hour Certification</li>
-                        <li>Safety, Security & Facilities Pathway</li>
-                        <li>Introduction to Cosmetology & Grooming Careers</li>
-                    </ul>
-                </div>
-                
-                <div class="program-category">
-                    <h3>🤝 Credentialing Partners</h3>
-                    <ul class="program-list">
-                        <li>Certiport - Microsoft Office Specialist</li>
-                        <li>CareerSafe - OSHA Training</li>
-                        <li>ServSafe - Food Safety Certification</li>
-                        <li>Arise Now - Customer Service</li>
-                        <li>NEER - Healthcare Training</li>
-                        <li>JRI - Workforce Development</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Student Portal Section -->
-    <section id="student-portal" class="section" style="background: #f8fafc;">
-        <div class="container">
-            <h2 class="section-title">Student Portal & Services</h2>
-            <div class="services-grid">
-                <div class="service-card">
-                    <div class="service-icon">📝</div>
-                    <h3>Online Enrollment</h3>
-                    <p>Simple, secure enrollment process with document upload, payment processing, and instant confirmation.</p>
-                    <a href="#enroll" class="btn btn-primary" style="margin-top: 1rem;">Enroll Now</a>
-                </div>
-                
-                <div class="service-card">
-                    <div class="service-icon">📈</div>
-                    <h3>Progress Tracking</h3>
-                    <p>Real-time course progress, assignment submissions, grade tracking, and completion status.</p>
-                    <a href="#login" class="btn btn-primary" style="margin-top: 1rem;">Student Login</a>
-                </div>
-                
-                <div class="service-card">
-                    <div class="service-icon">🏆</div>
-                    <h3>Digital Certificates</h3>
-                    <p>Industry-recognized digital certificates with verification codes and LinkedIn integration.</p>
-                    <a href="#certificates" class="btn btn-primary" style="margin-top: 1rem;">View Certificates</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="contact">
-        <div class="container">
-            <h2 class="section-title" style="color: white;">Contact Our Specialized Teams</h2>
-            <div class="contact-grid">
-                <div class="contact-card">
-                    <h3>🏛️ Government Contracts</h3>
-                    <p><strong>Email:</strong> government@elevateforhumanity.org</p>
-                    <p><strong>Phone:</strong> (555) 123-4567</p>
-                    <p><strong>CAGE Code:</strong> 9ABC1</p>
-                    <p><strong>DUNS:</strong> 123456789</p>
-                </div>
-                
-                <div class="contact-card">
-                    <h3>🎓 Workforce Training</h3>
-                    <p><strong>Email:</strong> training@elevateforhumanity.org</p>
-                    <p><strong>Phone:</strong> (555) 123-4568</p>
-                    <p><strong>Student Support:</strong> support@elevateforhumanity.org</p>
-                </div>
-                
-                <div class="contact-card">
-                    <h3>💜 Philanthropy & Grants</h3>
-                    <p><strong>Email:</strong> grants@elevateforhumanity.org</p>
-                    <p><strong>Phone:</strong> (555) 123-4569</p>
-                    <p><strong>Foundation:</strong> Elizabeth L. Greene Foundation</p>
-                </div>
-                
-                <div class="contact-card">
-                    <h3>♿ Accessibility Services</h3>
-                    <p><strong>Email:</strong> accessibility@elevateforhumanity.org</p>
-                    <p><strong>Phone:</strong> (555) 123-4570</p>
-                    <p><strong>TTY:</strong> (555) 123-4571</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2024 Elevate for Humanity - Veteran-Owned Small Business</p>
-            <p>Creating pathways to prosperity through education, workforce development, and community impact.</p>
-        </div>
-    </footer>
+    </div>
 
     <script>
-        // Simple analytics and accessibility
-        console.log('Elevate for Humanity - Comprehensive Platform Loaded');
+        // Simple analytics
+        console.log('Elevate for Humanity - Government Contracting & Philanthropy Platform Loaded');
         
-        // Keyboard navigation enhancement
+        // Accessibility enhancement
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Tab') {
                 document.body.classList.add('keyboard-nav');
             }
         });
-        
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-        
-        // Simple form validation placeholder
-        function validateForm(form) {
-            // Add form validation logic here
-            return true;
-        }
-        
-        // Student portal functionality placeholder
-        function openStudentPortal() {
-            // Add student portal logic here
-            alert('Student portal functionality will be implemented in the next phase');
-        }
     </script>
 </body>
 </html>

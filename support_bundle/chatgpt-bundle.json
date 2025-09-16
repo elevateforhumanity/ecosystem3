@@ -1,63 +1,142 @@
 {
-  "generatedAt": "2025-09-15T16:09:27.623Z",
+  "generatedAt": "2025-09-16T10:40:09.330Z",
   "host": {
-    "os": "linux 6.8.0-1030-azure",
+    "os": "linux 6.14.10-gitpod",
     "arch": "x64",
-    "node": "v18.20.4",
-    "npm": "10.7.0",
-    "container": true
+    "node": "v18.18.0",
+    "npm": "9.8.1",
+    "container": false
   },
   "repo": {
-    "remote": "https://github.com/elevateforhumanity/new-ecosysstem",
-    "branch": "fix/vercel-build-now",
-    "commit": "e84acce"
+    "remote": "https://github.com/elevateforhumanity/new-ecosysstem.git",
+    "branch": "main",
+    "commit": "c8d3359"
   },
   "packageJson": {
     "parsed": {
-      "name": "elevate-frontend",
+      "name": "elevateforhumanity",
       "version": "1.0.0",
       "private": true,
-      "type": "module",
+      "type": "commonjs",
       "engines": {
-        "node": "18.x"
+        "node": "20.17.0"
       },
-      "packageManager": "npm@10",
       "scripts": {
+        "sitemaps:generate": "node scripts/generate-sitemaps.js",
+        "sitemaps:ping": "node scripts/ping-sitemaps.js",
+        "sitemaps:submit": "npm run sitemaps:generate && npm run sitemaps:ping",
+        "build:sitemaps": "node scripts/generate-sitemaps.js",
         "dev": "vite",
-        "build": "vite build && tsx scripts/generate-sitemap.ts",
-        "preview": "vite preview --port 3000",
-        "health:local": "bash scripts/healthcheck-local.sh"
+        "build": "vite build",
+        "build:production": "node scripts/validate-env.js && vite build && npm run seo:polish",
+        "preview": "vite preview --host",
+        "lint": "eslint .",
+        "typecheck": "tsc --noEmit",
+        "test": "vitest run",
+        "test:watch": "vitest",
+        "format": "prettier -w .",
+        "env:check": "node scripts/validate-env.js",
+        "size:check": "node scripts/size-check.js",
+        "ci:lh": "lhci autorun --config=./lighthouserc.json",
+        "logs:tail": "tail -f logs/app-$(date +%F).log || true",
+        "logs:rotate": "node scripts/log-rotate.js",
+        "sentry:release": "bash scripts/sentry-release.sh",
+        "seo:polish": "node scripts/fix-site.mjs",
+        "start": "node server.js",
+        "sitemap": "node scripts/generate-sitemap.mjs",
+        "serve-static": "python3 -m http.server 8080"
       },
-      "dependencies": {
-        "dotenv": "16.4.5",
-        "react": "18.3.1",
-        "react-dom": "18.3.1",
-        "sitemap": "7.1.1",
-        "stripe": "16.6.0"
+      "prisma": {
+        "seed": "node prisma/seed.cjs"
       },
       "devDependencies": {
-        "@vitejs/plugin-react": "4.3.1",
-        "eslint": "8.57.0",
-        "tsx": "4.19.1",
-        "typescript": "5.5.4",
-        "vite": "5.4.8"
-      }
+        "@lhci/cli": "0.14.0",
+        "@tailwindcss/postcss": "^4.1.13",
+        "@testing-library/jest-dom": "^6.8.0",
+        "@testing-library/react": "^16.3.0",
+        "@testing-library/user-event": "14.6.1",
+        "@types/express": "^5.0.3",
+        "@types/node": "^24.5.0",
+        "@types/react": "^18.3.24",
+        "@types/react-dom": "^18.3.0",
+        "@types/react-router-dom": "5.3.3",
+        "@types/supertest": "2.0.16",
+        "@typescript-eslint/eslint-plugin": "8.43.0",
+        "@typescript-eslint/parser": "8.43.0",
+        "@vitejs/plugin-react": "^4.2.1",
+        "@vitest/coverage-v8": "1.6.0",
+        "autoprefixer": "10.4.20",
+        "cypress": "^15.2.0",
+        "eslint": "9.9.0",
+        "eslint-config-prettier": "9.0.0",
+        "eslint-plugin-import": "^2.32.0",
+        "eslint-plugin-jsx-a11y": "^6.10.2",
+        "eslint-plugin-react": "^7.37.5",
+        "eslint-plugin-react-hooks": "5.2.0",
+        "jest": "^30.1.3",
+        "jsdom": "26.1.0",
+        "playwright": "^1.55.0",
+        "prettier": "3.2.0",
+        "rollup-plugin-visualizer": "5.12.0",
+        "supertest": "7.1.3",
+        "tailwindcss": "3.4.10",
+        "ts-node": "10.9.2",
+        "typescript": "5.9.2",
+        "vite": "5.0.0",
+        "vitest": "1.6.0",
+        "zod": "3.23.8"
+      },
+      "dependencies": {
+        "@prisma/client": "5.18.0",
+        "@supabase/supabase-js": "2.45.0",
+        "aos": "^2.3.4",
+        "cheerio": "1.0.0",
+        "compression": "1.7.4",
+        "express": "5.1.0",
+        "express-rate-limit": "7.2.0",
+        "fast-glob": "3.3.2",
+        "framer-motion": "^12.23.12",
+        "glob": "^11.0.3",
+        "gsap": "^3.13.0",
+        "helmet": "7.1.0",
+        "lottie-web": "^5.13.0",
+        "node-cron": "4.2.1",
+        "nodemailer": "^7.0.6",
+        "pdfkit": "0.15.0",
+        "pino": "9.0.0",
+        "pino-http": "10.0.0",
+        "prisma": "5.22.0",
+        "react": "18.3.1",
+        "react-dom": "18.3.1",
+        "react-helmet-async": "2.0.5",
+        "react-router-dom": "6.23.1",
+        "stripe": "^14.0.0",
+        "twilio": "^5.9.0",
+        "xmlbuilder2": "3.1.1"
+      },
+      "keywords": [],
+      "packageManager": "npm@10.0.0"
     },
-    "raw": "{\n  \"name\": \"elevate-frontend\",\n  \"version\": \"1.0.0\",\n  \"private\": true,\n  \"type\": \"module\",\n  \"engines\": { \"node\": \"18.x\" },\n  \"packageManager\": \"npm@10\",\n  \"scripts\": {\n    \"dev\": \"vite\",\n    \"build\": \"vite build && tsx scripts/generate-sitemap.ts\",\n    \"preview\": \"vite preview --port 3000\",\n    \"health:local\": \"bash scripts/healthcheck-local.sh\"\n  },\n  \"dependencies\": {\n    \"dotenv\": \"16.4.5\",\n    \"react\": \"18.3.1\",\n    \"react-dom\": \"18.3.1\",\n    \"sitemap\": \"7.1.1\",\n    \"stripe\": \"16.6.0\"\n  },\n  \"devDependencies\": {\n    \"@vitejs/plugin-react\": \"4.3.1\",\n    \"eslint\": \"8.57.0\",\n    \"tsx\": \"4.19.1\",\n    \"typescript\": \"5.5.4\",\n    \"vite\": \"5.4.8\"\n  }\n}\n",
-    "lockFiles": []
+    "raw": "{\n  \"name\": \"elevateforhumanity\",\n  \"version\": \"1.0.0\",\n  \"private\": true,\n  \"type\": \"commonjs\",\n  \"engines\": {\n    \"node\": \"20.17.0\"\n  },\n  \"scripts\": {\n    \"sitemaps:generate\": \"node scripts/generate-sitemaps.js\",\n    \"sitemaps:ping\": \"node scripts/ping-sitemaps.js\",\n    \"sitemaps:submit\": \"npm run sitemaps:generate && npm run sitemaps:ping\",\n    \"build:sitemaps\": \"node scripts/generate-sitemaps.js\",\n    \"dev\": \"vite\",\n    \"build\": \"vite build\",\n    \"build:production\": \"node scripts/validate-env.js && vite build && npm run seo:polish\",\n    \"preview\": \"vite preview --host\",\n    \"lint\": \"eslint .\",\n    \"typecheck\": \"tsc --noEmit\",\n    \"test\": \"vitest run\",\n    \"test:watch\": \"vitest\",\n    \"format\": \"prettier -w .\",\n    \"env:check\": \"node scripts/validate-env.js\",\n    \"size:check\": \"node scripts/size-check.js\",\n    \"ci:lh\": \"lhci autorun --config=./lighthouserc.json\",\n    \"logs:tail\": \"tail -f logs/app-$(date +%F).log || true\",\n    \"logs:rotate\": \"node scripts/log-rotate.js\",\n    \"sentry:release\": \"bash scripts/sentry-release.sh\",\n    \"seo:polish\": \"node scripts/fix-site.mjs\",\n    \"start\": \"node server.js\",\n    \"sitemap\": \"node scripts/generate-sitemap.mjs\",\n    \"serve-static\": \"python3 -m http.server 8080\"\n  },\n  \"prisma\": {\n    \"seed\": \"node prisma/seed.cjs\"\n  },\n  \"devDependencies\": {\n    \"@lhci/cli\": \"0.14.0\",\n    \"@tailwindcss/postcss\": \"^4.1.13\",\n    \"@testing-library/jest-dom\": \"^6.8.0\",\n    \"@testing-library/react\": \"^16.3.0\",\n    \"@testing-library/user-event\": \"14.6.1\",\n    \"@types/express\": \"^5.0.3\",\n    \"@types/node\": \"^24.5.0\",\n    \"@types/react\": \"^18.3.24\",\n    \"@types/react-dom\": \"^18.3.0\",\n    \"@types/react-router-dom\": \"5.3.3\",\n    \"@types/supertest\": \"2.0.16\",\n    \"@typescript-eslint/eslint-plugin\": \"8.43.0\",\n    \"@typescript-eslint/parser\": \"8.43.0\",\n    \"@vitejs/plugin-react\": \"^4.2.1\",\n    \"@vitest/coverage-v8\": \"1.6.0\",\n    \"autoprefixer\": \"10.4.20\",\n    \"cypress\": \"^15.2.0\",\n    \"eslint\": \"9.9.0\",\n    \"eslint-config-prettier\": \"9.0.0\",\n    \"eslint-plugin-import\": \"^2.32.0\",\n    \"eslint-plugin-jsx-a11y\": \"^6.10.2\",\n    \"eslint-plugin-react\": \"^7.37.5\",\n    \"eslint-plugin-react-hooks\": \"5.2.0\",\n    \"jest\": \"^30.1.3\",\n    \"jsdom\": \"26.1.0\",\n    \"playwright\": \"^1.55.0\",\n    \"prettier\": \"3.2.0\",\n    \"rollup-plugin-visualizer\": \"5.12.0\",\n    \"supertest\": \"7.1.3\",\n    \"tailwindcss\": \"3.4.10\",\n    \"ts-node\": \"10.9.2\",\n    \"typescript\": \"5.9.2\",\n    \"vite\": \"5.0.0\",\n    \"vitest\": \"1.6.0\",\n    \"zod\": \"3.23.8\"\n  },\n  \"dependencies\": {\n    \"@prisma/client\": \"5.18.0\",\n    \"@supabase/supabase-js\": \"2.45.0\",\n    \"aos\": \"^2.3.4\",\n    \"cheerio\": \"1.0.0\",\n    \"compression\": \"1.7.4\",\n    \"express\": \"5.1.0\",\n    \"express-rate-limit\": \"7.2.0\",\n    \"fast-glob\": \"3.3.2\",\n    \"framer-motion\": \"^12.23.12\",\n    \"glob\": \"^11.0.3\",\n    \"gsap\": \"^3.13.0\",\n    \"helmet\": \"7.1.0\",\n    \"lottie-web\": \"^5.13.0\",\n    \"node-cron\": \"4.2.1\",\n    \"nodemailer\": \"^7.0.6\",\n    \"pdfkit\": \"0.15.0\",\n    \"pino\": \"9.0.0\",\n    \"pino-http\": \"10.0.0\",\n    \"prisma\": \"5.22.0\",\n    \"react\": \"18.3.1\",\n    \"react-dom\": \"18.3.1\",\n    \"react-helmet-async\": \"2.0.5\",\n    \"react-router-dom\": \"6.23.1\",\n    \"stripe\": \"^14.0.0\",\n    \"twilio\": \"^5.9.0\",\n    \"xmlbuilder2\": \"3.1.1\"\n  },\n  \"keywords\": [],\n  \"packageManager\": \"npm@10.0.0\"\n}",
+    "lockFiles": [
+      {
+        "name": "package-lock.json",
+        "sha256": "1342e67fd6b2a35c40f5ae27e2b55ac7df5f0be7b8fd8584ee562ae137f69458"
+      }
+    ]
   },
   "configs": {
-    "netlifyTomlRaw": "[build]\n  command = \"npm run build\"\n  publish = \"dist\"\n\n[build.environment]\n  NODE_VERSION = \"18.20.4\"\n  NPM_FLAGS = \"--legacy-peer-deps\"\n  PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD = \"1\"\n\n# Functions config (for Stripe webhook)\n[functions]\n  node_bundler = \"esbuild\"\n  included_files = []\n\n# SPA routing\n[[redirects]]\n  from = \"/*\"\n  to = \"/index.html\"\n  status = 200",
-    "vercelJsonRaw": "{\n  \"buildCommand\": \"npm run build\",\n  \"outputDirectory\": \"dist\",\n  \"framework\": \"vite\",\n  \"headers\": [\n    {\n      \"source\": \"/(.*)\",\n      \"headers\": [\n        { \"key\": \"Strict-Transport-Security\", \"value\": \"max-age=63072000; includeSubDomains; preload\" },\n        { \"key\": \"X-Content-Type-Options\", \"value\": \"nosniff\" },\n        { \"key\": \"X-Frame-Options\", \"value\": \"DENY\" },\n        { \"key\": \"X-XSS-Protection\", \"value\": \"1; mode=block\" },\n        { \"key\": \"Referrer-Policy\", \"value\": \"strict-origin-when-cross-origin\" },\n        { \"key\": \"Permissions-Policy\", \"value\": \"geolocation=(), microphone=(), camera=()\" }\n      ]\n    }\n  ],\n  \"scripts\": {\n    \"postinstall\": \"npm run build\",\n    \"start\": \"npm run preview\",\n    \"open\": \"cross-env-shell \\\"$BROWSER\\\" http://localhost:3000\"\n  }\n}\n",
+    "netlifyTomlRaw": "[build]\n  publish = \".\"\n  command = \"echo 'Static site ready for deployment'\"\n\n[build.environment]\n  SECRETS_SCAN_SMART_DETECTION_ENABLED = \"false\"\n\n[[headers]]\n  for = \"/*\"\n  [headers.values]\n    X-Frame-Options = \"DENY\"\n    X-Content-Type-Options = \"nosniff\"\n    X-XSS-Protection = \"1; mode=block\"\n    Referrer-Policy = \"strict-origin-when-cross-origin\"\n    Content-Security-Policy = \"default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:;\"\n\n[[headers]]\n  for = \"*.html\"\n  [headers.values]\n    Cache-Control = \"public, max-age=3600\"\n\n[[headers]]\n  for = \"*.css\"\n  [headers.values]\n    Cache-Control = \"public, max-age=31536000\"\n\n[[headers]]\n  for = \"*.js\"\n  [headers.values]\n    Cache-Control = \"public, max-age=31536000\"\n\n[[redirects]]\n  from = \"/student-portal\"\n  to = \"/student-portal.html\"\n  status = 200\n\n[[redirects]]\n  from = \"/enroll\"\n  to = \"/student-portal.html\"\n  status = 200\n\n[[redirects]]\n  from = \"/login\"\n  to = \"/student-portal.html\"\n  status = 200\n\n[[redirects]]\n  from = \"/certificates\"\n  to = \"/student-portal.html\"\n  status = 200\n\n[[redirects]]\n  from = \"/*\"\n  to = \"/merged-site.html\"\n  status = 200\n\n# Form handling\n[[forms]]\n  name = \"enrollment\"\n\n[[forms]]\n  name = \"contact\"\n\n[[forms]]\n  name = \"support\"",
+    "vercelJsonRaw": "{\n  \"version\": 2,\n  \"builds\": [{ \"src\": \"index.html\", \"use\": \"@vercel/static\" }],\n  \"routes\": [\n    { \"src\": \"/assets/(.*)\", \"dest\": \"/assets/$1\" },\n    { \"src\": \"/student-portal\", \"dest\": \"/student-portal.html\" },\n    { \"src\": \"/enroll\", \"dest\": \"/student-portal.html\" },\n    { \"src\": \"/(.*)\", \"dest\": \"/index.html\" }\n  ]\n}\n",
     "wranglerTomlRaw": null,
-    "viteConfigRaw": "import React from \"react\";\nimport { createRoot } from \"react-dom/client\";\nimport App from \"./App.jsx\";\nimport { defineConfig } from \"vite\";\nimport react from \"@vitejs/plugin-react\";\n\ncreateRoot(document.getElementById(\"root\")).render(<App />);\n\nexport default defineConfig({\n  plugins: [react()],\n  server: { port: 5173, strictPort: true, watch: { usePolling: false, ignored: [\"**/node_modules/**\", \"**/.git/**\", \"**/dist/**\"] } },\n  preview: { port: 3000, strictPort: true }\n});",
+    "viteConfigRaw": "import { defineConfig } from \"vite\";\nimport react from '@vitejs/plugin-react';\n\nexport default defineConfig({\n  plugins: [react()],\n  base: '/',\n  build: { \n    outDir: 'dist', \n    sourcemap: false, \n    emptyOutDir: true,\n    rollupOptions: {\n      output: {\n        manualChunks: undefined\n      }\n    }\n  },\n  server: {\n    port: 3000,\n    host: true\n  },\n  css: {\n    postcss: false\n  }\n});\n",
     "devcontainerRaw": "{\n  \"name\": \"elevate-frontend\",\n  \"hostRequirements\": { \"cpus\": 8, \"memory\": \"32gb\", \"storage\": \"64gb\" },\n  \"forwardPorts\": [5173, 3000],\n  \"postCreateCommand\": \"npm ci || npm i\",\n  \"customizations\": {\n    \"vscode\": {\n      \"settings\": {\n        \"terminal.integrated.defaultProfile.linux\": \"bash\",\n        \"terminal.integrated.profiles.linux\": {\n          \"bash\": { \"path\": \"/bin/bash\", \"args\": [\"-l\"] }\n        },\n        \"typescript.tsserver.maxTsServerMemory\": 4096,\n        \"files.watcherExclude\": {\n          \"**/node_modules/**\": true,\n          \"**/.git/**\": true,\n          \"**/dist/**\": true\n        }\n      },\n      \"extensions\": [\"esbenp.prettier-vscode\", \"dbaeumer.vscode-eslint\"]\n    }\n  }\n}\n",
-    "nvmrcRaw": "18.20.4\n",
+    "nvmrcRaw": "18.18.0\n",
     "npmrcRaw": "legacy-peer-deps=true\naudit=false\nfund=false\n",
-    "envExampleRaw": "# Copy to .env (local/dev) or set in Netlify Site → Settings → Environment variables.\nVITE_SENTRY_DSN=\nREQUIRED_ENV_VARS=VITE_SENTRY_DSN\n\n# App\nSITE_URL=\n# Supabase\nSUPABASE_URL=https://xxxxx.supabase.co\nSUPABASE_ANON_KEY=\nSUPABASE_SERVICE_ROLE=\n# Stripe\nSTRIPE_SECRET=\nSTRIPE_WEBHOOK_SECRET=\n# Cloudflare R2\nR2_ACCESS_KEY_ID=\nR2_SECRET_ACCESS_KEY=\nR2_ENDPOINT=\nR2_BUCKET=media-prod\n",
-    "indexHtmlRaw": "<!doctype html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <title>Elevate</title>\n  </head>\n  <body>\n    <div id=\"root\"></div>\n    <script type=\"module\" src=\"/src/main.jsx\"></script>\n  </body>\n</html>\n",
-    "robotsTxtRaw": "User-agent: *\nAllow: /\nSitemap: /sitemap.xml",
-    "sitemapIndexRaw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n  <url><loc>https://www.elevateforhumanity.org/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>\n  <url><loc>https://www.elevateforhumanity.org/donate.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>\n  <url><loc>https://www.elevateforhumanity.org/programs/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>\n</urlset>\n",
+    "envExampleRaw": "# API base (optional). Example:\n# VITE_API_BASE_URL=https://api.example.com\n# Optional analytics ID\nVITE_ANALYTICS_ID=GA-XXXXXXX\n\n# --- Server Runtime ---\nNODE_ENV=development\nLOG_LEVEL=info\nJWT_SECRET=change_me_to_a_secure_random_value\n\n# --- Database (optional for now) ---\n# DATABASE_URL=postgresql://user:password@host:5432/dbname\n\n# --- Stripe (optional; enables real payment intent creation) ---\n# STRIPE_SECRET_KEY=sk_live_xxx\n\n# --- Supabase (optional) ---\n# SUPABASE_URL=https://your-project.supabase.co\n# SUPABASE_ANON_KEY=public-anon-key\n# SUPABASE_SERVICE_KEY=service-role-key\n",
+    "indexHtmlRaw": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Elevate for Humanity - Workforce Development & Government Contracting</title>\n    <meta name=\"description\" content=\"Veteran-owned workforce development, government contracting, and philanthropy organization. Professional training, federal contracts, and community impact.\">\n    <style>\n        * { margin: 0; padding: 0; box-sizing: border-box; }\n        body { \n            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; \n            line-height: 1.6; \n            color: #333; \n            background: #f8fafc;\n        }\n        \n        /* Header */\n        .header {\n            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);\n            color: white;\n            padding: 1rem 0;\n            position: sticky;\n            top: 0;\n            z-index: 1000;\n            box-shadow: 0 2px 10px rgba(0,0,0,0.1);\n        }\n        \n        .nav-container {\n            max-width: 1200px;\n            margin: 0 auto;\n            display: flex;\n            justify-content: space-between;\n            align-items: center;\n            padding: 0 2rem;\n        }\n        \n        .logo {\n            font-size: 1.5rem;\n            font-weight: bold;\n        }\n        \n        .nav-menu {\n            display: flex;\n            list-style: none;\n            gap: 2rem;\n        }\n        \n        .nav-menu a {\n            color: white;\n            text-decoration: none;\n            transition: opacity 0.3s;\n        }\n        \n        .nav-menu a:hover {\n            opacity: 0.8;\n        }\n        \n        /* Hero Section */\n        .hero {\n            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);\n            color: white;\n            padding: 4rem 2rem;\n            text-align: center;\n        }\n        \n        .hero-container {\n            max-width: 1200px;\n            margin: 0 auto;\n        }\n        \n        .hero h1 {\n            font-size: 3rem;\n            margin-bottom: 1rem;\n            font-weight: 700;\n        }\n        \n        .hero-subtitle {\n            font-size: 1.3rem;\n            margin-bottom: 2rem;\n            opacity: 0.9;\n        }\n        \n        .cta-buttons {\n            display: flex;\n            gap: 1rem;\n            justify-content: center;\n            flex-wrap: wrap;\n        }\n        \n        .btn {\n            padding: 12px 24px;\n            border-radius: 8px;\n            text-decoration: none;\n            font-weight: 600;\n            transition: all 0.3s;\n            display: inline-block;\n        }\n        \n        .btn-primary {\n            background: #059669;\n            color: white;\n        }\n        \n        .btn-secondary {\n            background: white;\n            color: #1e40af;\n        }\n        \n        .btn:hover {\n            transform: translateY(-2px);\n            box-shadow: 0 4px 12px rgba(0,0,0,0.2);\n        }\n        \n        /* Container */\n        .container {\n            max-width: 1200px;\n            margin: 0 auto;\n            padding: 0 2rem;\n        }\n        \n        /* Sections */\n        .section {\n            padding: 4rem 0;\n        }\n        \n        .section-title {\n            font-size: 2.5rem;\n            text-align: center;\n            margin-bottom: 3rem;\n            color: #1e40af;\n        }\n        \n        /* Services Grid */\n        .services-grid {\n            display: grid;\n            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));\n            gap: 2rem;\n            margin-top: 2rem;\n        }\n        \n        .service-card {\n            background: white;\n            padding: 2rem;\n            border-radius: 12px;\n            box-shadow: 0 4px 20px rgba(0,0,0,0.08);\n            transition: transform 0.3s;\n        }\n        \n        .service-card:hover {\n            transform: translateY(-5px);\n        }\n        \n        .service-icon {\n            font-size: 3rem;\n            margin-bottom: 1rem;\n        }\n        \n        .service-card h3 {\n            color: #1e40af;\n            margin-bottom: 1rem;\n            font-size: 1.3rem;\n        }\n        \n        /* Stats */\n        .stats {\n            background: #1e40af;\n            color: white;\n            padding: 4rem 0;\n        }\n        \n        .stats-grid {\n            display: grid;\n            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));\n            gap: 2rem;\n            text-align: center;\n        }\n        \n        .stat-number {\n            font-size: 3rem;\n            font-weight: bold;\n            color: #10b981;\n        }\n        \n        .stat-label {\n            font-size: 1.1rem;\n            opacity: 0.9;\n        }\n        \n        /* Programs Section */\n        .programs {\n            background: white;\n        }\n        \n        .program-categories {\n            display: grid;\n            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));\n            gap: 2rem;\n            margin-top: 2rem;\n        }\n        \n        .program-category {\n            border: 1px solid #e5e7eb;\n            border-radius: 12px;\n            padding: 2rem;\n            background: #f8fafc;\n        }\n        \n        .program-category h3 {\n            color: #1e40af;\n            margin-bottom: 1rem;\n            display: flex;\n            align-items: center;\n            gap: 0.5rem;\n        }\n        \n        .program-list {\n            list-style: none;\n        }\n        \n        .program-list li {\n            padding: 0.5rem 0;\n            border-bottom: 1px solid #e5e7eb;\n        }\n        \n        .program-list li:last-child {\n            border-bottom: none;\n        }\n        \n        .program-list li:before {\n            content: \"✓ \";\n            color: #059669;\n            font-weight: bold;\n        }\n        \n        /* Contact Section */\n        .contact {\n            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);\n            color: white;\n            padding: 4rem 0;\n        }\n        \n        .contact-grid {\n            display: grid;\n            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));\n            gap: 2rem;\n            margin-top: 2rem;\n        }\n        \n        .contact-card {\n            background: rgba(255,255,255,0.1);\n            padding: 2rem;\n            border-radius: 12px;\n            backdrop-filter: blur(10px);\n        }\n        \n        .contact-card h3 {\n            margin-bottom: 1rem;\n            font-size: 1.3rem;\n        }\n        \n        /* Footer */\n        .footer {\n            background: #0f172a;\n            color: white;\n            padding: 2rem 0;\n            text-align: center;\n        }\n        \n        /* Responsive */\n        @media (max-width: 768px) {\n            .hero h1 { font-size: 2rem; }\n            .hero-subtitle { font-size: 1.1rem; }\n            .nav-menu { display: none; }\n            .cta-buttons { flex-direction: column; align-items: center; }\n        }\n        \n        /* Accessibility */\n        .sr-only {\n            position: absolute;\n            width: 1px;\n            height: 1px;\n            padding: 0;\n            margin: -1px;\n            overflow: hidden;\n            clip: rect(0, 0, 0, 0);\n            white-space: nowrap;\n            border: 0;\n        }\n        \n        /* Focus styles */\n        *:focus {\n            outline: 2px solid #059669;\n            outline-offset: 2px;\n        }\n    </style>\n</head>\n<body>\n    <!-- Header -->\n    <header class=\"header\">\n        <nav class=\"nav-container\">\n            <div class=\"logo\">🚀 Elevate for Humanity</div>\n            <ul class=\"nav-menu\">\n                <li><a href=\"#services\">Services</a></li>\n                <li><a href=\"#programs\">Programs</a></li>\n                <li><a href=\"#about\">About</a></li>\n                <li><a href=\"#contact\">Contact</a></li>\n                <li><a href=\"#student-portal\">Student Portal</a></li>\n            </ul>\n        </nav>\n    </header>\n\n    <!-- Hero Section -->\n    <section class=\"hero\">\n        <div class=\"hero-container\">\n            <h1>Workforce Development & Government Contracting</h1>\n            <p class=\"hero-subtitle\">\n                Veteran-Owned • Federal Contracting • Workforce Training • Philanthropy\n            </p>\n            <div class=\"cta-buttons\">\n                <a href=\"#programs\" class=\"btn btn-primary\">View Training Programs</a>\n                <a href=\"#government\" class=\"btn btn-secondary\">Government Contracts</a>\n                <a href=\"#student-portal\" class=\"btn btn-secondary\">Student Portal</a>\n            </div>\n        </div>\n    </section>\n\n    <!-- Services Section -->\n    <section id=\"services\" class=\"section\">\n        <div class=\"container\">\n            <h2 class=\"section-title\">Our Core Services</h2>\n            <div class=\"services-grid\">\n                <div class=\"service-card\">\n                    <div class=\"service-icon\">🏛️</div>\n                    <h3>Government Contracting</h3>\n                    <p>Veteran-Owned Small Business providing comprehensive workforce development services to federal, state, and local agencies. DOL/DWD/DOE contract ready with full compliance.</p>\n                    <ul style=\"margin-top: 1rem; list-style: none;\">\n                        <li>✓ Section 508 Accessibility</li>\n                        <li>✓ WIOA/FERPA Compliance</li>\n                        <li>✓ FedRAMP & FISMA Ready</li>\n                        <li>✓ SOC 2 Type II Certified</li>\n                    </ul>\n                </div>\n                \n                <div class=\"service-card\">\n                    <div class=\"service-icon\">🎓</div>\n                    <h3>Workforce Training</h3>\n                    <p>Professional certification programs in healthcare, technology, and skilled trades. Hybrid learning with hands-on skills validation and industry-recognized credentials.</p>\n                    <ul style=\"margin-top: 1rem; list-style: none;\">\n                        <li>✓ CPR & Healthcare Certifications</li>\n                        <li>✓ Microsoft Office Specialist</li>\n                        <li>✓ ServSafe Food Handler</li>\n                        <li>✓ OSHA Safety Training</li>\n                    </ul>\n                </div>\n                \n                <div class=\"service-card\">\n                    <div class=\"service-icon\">💜</div>\n                    <h3>Elizabeth L. Greene Foundation</h3>\n                    <p>Strategic philanthropy creating pathways to prosperity through grants, partnerships, and community impact initiatives with measurable outcomes.</p>\n                    <ul style=\"margin-top: 1rem; list-style: none;\">\n                        <li>✓ Individual Grants: $500-$5,000</li>\n                        <li>✓ Organizational Grants: $10K-$100K</li>\n                        <li>✓ Corporate Partnerships</li>\n                        <li>✓ Impact Reporting</li>\n                    </ul>\n                </div>\n                \n                <div class=\"service-card\">\n                    <div class=\"service-icon\">🎖️</div>\n                    <h3>Veteran Services</h3>\n                    <p>Specialized support for military veterans and families including transition programs, skills translation, and entrepreneurship development.</p>\n                    <ul style=\"margin-top: 1rem; list-style: none;\">\n                        <li>✓ Military Transition Programs</li>\n                        <li>✓ Skills Translation Services</li>\n                        <li>✓ Military Spouse Support</li>\n                        <li>✓ Veteran Entrepreneurship</li>\n                    </ul>\n                </div>\n                \n                <div class=\"service-card\">\n                    <div class=\"service-icon\">♿</div>\n                    <h3>Accessibility Leadership</h3>\n                    <p>WCAG 2.1 AA compliance with comprehensive accessibility features ensuring equal access for all users and federal Section 508 requirements.</p>\n                    <ul style=\"margin-top: 1rem; list-style: none;\">\n                        <li>✓ Screen Reader Compatible</li>\n                        <li>✓ Keyboard Navigation</li>\n                        <li>✓ High Contrast Mode</li>\n                        <li>✓ Universal Design</li>\n                    </ul>\n                </div>\n                \n                <div class=\"service-card\">\n                    <div class=\"service-icon\">📊</div>\n                    <h3>Student Portal & Records</h3>\n                    <p>Comprehensive student management system with enrollment, progress tracking, certificate generation, and FERPA-compliant record keeping.</p>\n                    <ul style=\"margin-top: 1rem; list-style: none;\">\n                        <li>✓ Online Enrollment</li>\n                        <li>✓ Progress Tracking</li>\n                        <li>✓ Digital Certificates</li>\n                        <li>✓ FERPA Compliance</li>\n                    </ul>\n                </div>\n            </div>\n        </div>\n    </section>\n\n    <!-- Stats Section -->\n    <section class=\"stats\">\n        <div class=\"container\">\n            <div class=\"stats-grid\">\n                <div>\n                    <div class=\"stat-number\">1,247</div>\n                    <div class=\"stat-label\">Learners Supported</div>\n                </div>\n                <div>\n                    <div class=\"stat-number\">98%</div>\n                    <div class=\"stat-label\">Contract Performance</div>\n                </div>\n                <div>\n                    <div class=\"stat-number\">$2.85M</div>\n                    <div class=\"stat-label\">Funding Distributed</div>\n                </div>\n                <div>\n                    <div class=\"stat-number\">87%</div>\n                    <div class=\"stat-label\">Graduation Rate</div>\n                </div>\n                <div>\n                    <div class=\"stat-number\">82%</div>\n                    <div class=\"stat-label\">Job Placement</div>\n                </div>\n                <div>\n                    <div class=\"stat-number\">156</div>\n                    <div class=\"stat-label\">Partner Organizations</div>\n                </div>\n            </div>\n        </div>\n    </section>\n\n    <!-- Programs Section -->\n    <section id=\"programs\" class=\"section programs\">\n        <div class=\"container\">\n            <h2 class=\"section-title\">Training Programs & Certifications</h2>\n            <div class=\"program-categories\">\n                <div class=\"program-category\">\n                    <h3>🏥 Healthcare & Public Safety</h3>\n                    <ul class=\"program-list\">\n                        <li>Home Health Aide (HHA) Training & Certification</li>\n                        <li>Direct Support Professional (DSP) Training</li>\n                        <li>CPR & OSHA Safety Technician</li>\n                        <li>Bloodborne Pathogens & Infection Control</li>\n                        <li>Healthcare Office & Administrative Skills</li>\n                        <li>First Aid & Workplace Safety</li>\n                    </ul>\n                </div>\n                \n                <div class=\"program-category\">\n                    <h3>💼 Workforce & Business Skills</h3>\n                    <ul class=\"program-list\">\n                        <li>Customer Service & Office Administration</li>\n                        <li>Workforce Readiness & Communication</li>\n                        <li>Trauma-Informed Peer Support & Coaching</li>\n                        <li>Time Management & Conflict Resolution</li>\n                        <li>Financial Literacy & Professional Conduct</li>\n                        <li>Bookkeeping & Invoicing Essentials</li>\n                    </ul>\n                </div>\n                \n                <div class=\"program-category\">\n                    <h3>💻 Technology & Digital Tools</h3>\n                    <ul class=\"program-list\">\n                        <li>Microsoft Office Specialist (Word, Excel, PowerPoint)</li>\n                        <li>Google Workspace Productivity</li>\n                        <li>Digital Literacy & IC3 Readiness</li>\n                        <li>Remote Work & Help Desk Skills</li>\n                        <li>Data Entry & Workforce Tech Bootcamp</li>\n                        <li>Social Media, Branding & Online Business Setup</li>\n                    </ul>\n                </div>\n                \n                <div class=\"program-category\">\n                    <h3>🍴 Food Service & Entrepreneurship</h3>\n                    <ul class=\"program-list\">\n                        <li>ServSafe Food Handler & Manager Certification</li>\n                        <li>Healthcare Staffing Business Start-Up</li>\n                        <li>Youth Entrepreneurship & LLC Builder</li>\n                        <li>Virtual Office Setup & Admin Training</li>\n                        <li>Small Business Marketing & Sales Strategy</li>\n                    </ul>\n                </div>\n                \n                <div class=\"program-category\">\n                    <h3>✂️ Skilled Trades & Youth Programs</h3>\n                    <ul class=\"program-list\">\n                        <li>Barbering, Nails & Esthetics Youth Bootcamp</li>\n                        <li>Janitorial & Building Services Apprenticeship</li>\n                        <li>OSHA 10 & 30 Hour Certification</li>\n                        <li>Safety, Security & Facilities Pathway</li>\n                        <li>Introduction to Cosmetology & Grooming Careers</li>\n                    </ul>\n                </div>\n                \n                <div class=\"program-category\">\n                    <h3>🤝 Credentialing Partners</h3>\n                    <ul class=\"program-list\">\n                        <li>Certiport - Microsoft Office Specialist</li>\n                        <li>CareerSafe - OSHA Training</li>\n                        <li>ServSafe - Food Safety Certification</li>\n                        <li>Arise Now - Customer Service</li>\n                        <li>NEER - Healthcare Training</li>\n                        <li>JRI - Workforce Development</li>\n                    </ul>\n                </div>\n            </div>\n        </div>\n    </section>\n\n    <!-- Student Portal Section -->\n    <section id=\"student-portal\" class=\"section\" style=\"background: #f8fafc;\">\n        <div class=\"container\">\n            <h2 class=\"section-title\">Student Portal & Services</h2>\n            <div class=\"services-grid\">\n                <div class=\"service-card\">\n                    <div class=\"service-icon\">📝</div>\n                    <h3>Online Enrollment</h3>\n                    <p>Simple, secure enrollment process with document upload, payment processing, and instant confirmation.</p>\n                    <a href=\"#enroll\" class=\"btn btn-primary\" style=\"margin-top: 1rem;\">Enroll Now</a>\n                </div>\n                \n                <div class=\"service-card\">\n                    <div class=\"service-icon\">📈</div>\n                    <h3>Progress Tracking</h3>\n                    <p>Real-time course progress, assignment submissions, grade tracking, and completion status.</p>\n                    <a href=\"#login\" class=\"btn btn-primary\" style=\"margin-top: 1rem;\">Student Login</a>\n                </div>\n                \n                <div class=\"service-card\">\n                    <div class=\"service-icon\">🏆</div>\n                    <h3>Digital Certificates</h3>\n                    <p>Industry-recognized digital certificates with verification codes and LinkedIn integration.</p>\n                    <a href=\"#certificates\" class=\"btn btn-primary\" style=\"margin-top: 1rem;\">View Certificates</a>\n                </div>\n            </div>\n        </div>\n    </section>\n\n    <!-- Contact Section -->\n    <section id=\"contact\" class=\"contact\">\n        <div class=\"container\">\n            <h2 class=\"section-title\" style=\"color: white;\">Contact Our Specialized Teams</h2>\n            <div class=\"contact-grid\">\n                <div class=\"contact-card\">\n                    <h3>🏛️ Government Contracts</h3>\n                    <p><strong>Email:</strong> government@elevateforhumanity.org</p>\n                    <p><strong>Phone:</strong> (555) 123-4567</p>\n                    <p><strong>CAGE Code:</strong> 9ABC1</p>\n                    <p><strong>DUNS:</strong> 123456789</p>\n                </div>\n                \n                <div class=\"contact-card\">\n                    <h3>🎓 Workforce Training</h3>\n                    <p><strong>Email:</strong> training@elevateforhumanity.org</p>\n                    <p><strong>Phone:</strong> (555) 123-4568</p>\n                    <p><strong>Student Support:</strong> support@elevateforhumanity.org</p>\n                </div>\n                \n                <div class=\"contact-card\">\n                    <h3>💜 Philanthropy & Grants</h3>\n                    <p><strong>Email:</strong> grants@elevateforhumanity.org</p>\n                    <p><strong>Phone:</strong> (555) 123-4569</p>\n                    <p><strong>Foundation:</strong> Elizabeth L. Greene Foundation</p>\n                </div>\n                \n                <div class=\"contact-card\">\n                    <h3>♿ Accessibility Services</h3>\n                    <p><strong>Email:</strong> accessibility@elevateforhumanity.org</p>\n                    <p><strong>Phone:</strong> (555) 123-4570</p>\n                    <p><strong>TTY:</strong> (555) 123-4571</p>\n                </div>\n            </div>\n        </div>\n    </section>\n\n    <!-- Footer -->\n    <footer class=\"footer\">\n        <div class=\"container\">\n            <p>&copy; 2024 Elevate for Humanity - Veteran-Owned Small Business</p>\n            <p>Creating pathways to prosperity through education, workforce development, and community impact.</p>\n        </div>\n    </footer>\n\n    <script>\n        // Simple analytics and accessibility\n        console.log('Elevate for Humanity - Comprehensive Platform Loaded');\n        \n        // Keyboard navigation enhancement\n        document.addEventListener('keydown', function(e) {\n            if (e.key === 'Tab') {\n                document.body.classList.add('keyboard-nav');\n            }\n        });\n        \n        // Smooth scrolling for navigation links\n        document.querySelectorAll('a[href^=\"#\"]').forEach(anchor => {\n            anchor.addEventListener('click', function (e) {\n                e.preventDefault();\n                const target = document.querySelector(this.getAttribute('href'));\n                if (target) {\n                    target.scrollIntoView({\n                        behavior: 'smooth',\n                        block: 'start'\n                    });\n                }\n            });\n        });\n        \n        // Simple form validation placeholder\n        function validateForm(form) {\n            // Add form validation logic here\n            return true;\n        }\n        \n        // Student portal functionality placeholder\n        function openStudentPortal() {\n            // Add student portal logic here\n            alert('Student portal functionality will be implemented in the next phase');\n        }\n    </script>\n</body>\n</html>",
+    "robotsTxtRaw": "User-agent: *\nAllow: /\n\nSitemap: https://www.elevateforhumanity.org/sitemap_index.xml",
+    "sitemapIndexRaw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n  <url><loc>https://example.com/</loc></url>\n  <url><loc>https://example.com/dashboard</loc></url>\n</urlset>",
     "stripeWebhookRaw": "import Stripe from \"stripe\";\n\nexport const config = {\n  path: \"/api/stripe/webhook\"\n};\n\nexport default async (req, context) => {\n  const stripe = new Stripe(process.env.STRIPE_SECRET || \"\", { apiVersion: \"2023-10-16\" });\n  const sig = req.headers.get(\"stripe-signature\");\n  const whSecret = process.env.STRIPE_WEBHOOK_SECRET || \"\";\n\n  let event;\n  try {\n    const rawBody = await req.text();\n    event = stripe.webhooks.constructEvent(rawBody, sig, whSecret);\n  } catch (err) {\n    return new Response(JSON.stringify({ error: `Webhook signature verification failed: ${err.message}` }), { status: 400 });\n  }\n\n  try {\n    switch (event.type) {\n      case \"checkout.session.completed\":\n        // TODO: handle success\n        break;\n      default:\n        break;\n    }\n    return new Response(JSON.stringify({ received: true }), { status: 200 });\n  } catch (err) {\n    return new Response(JSON.stringify({ error: err.message }), { status: 500 });\n  }\n};"
   },
   "supabase": {
@@ -65,23 +144,24 @@
     "migrations": []
   },
   "sizes": {
-    "workspaceBytes": 297682150,
-    "nodeModulesBytes": 0,
-    "distBytes": 1193891,
-    "srcBytes": 136856,
+    "workspaceBytes": 1793794686,
+    "nodeModulesBytes": 547586651,
+    "distBytes": 3226052,
+    "srcBytes": 273858,
     "human": {
-      "workspace": "283.89 MB",
-      "node_modules": "0.00 B",
-      "dist": "1.14 MB",
-      "src": "133.65 KB"
+      "workspace": "1.67 GB",
+      "node_modules": "522.22 MB",
+      "dist": "3.08 MB",
+      "src": "267.44 KB"
     }
   },
   "pages": {
     "roots": [
       "src/pages",
+      "app",
       "public"
     ],
-    "fileCount": 77,
+    "fileCount": 107,
     "truncated": false,
     "note": "Increase maxFiles= to capture more.",
     "files": [
@@ -92,8 +172,8 @@
       },
       {
         "path": "src/pages/Accessibility.jsx",
-        "size": 1433,
-        "sha256": "9c185e25b2ead2682a6883cb189ca478583664c2c1201968c301c176963a5141"
+        "size": 10325,
+        "sha256": "8b1d989514fadef4fe97d7e03183d65071fa69bc42be23eafe89bdc8615cffd0"
       },
       {
         "path": "src/pages/AccessibilitySettings.jsx",
@@ -107,8 +187,8 @@
       },
       {
         "path": "src/pages/AdminDashboard.jsx",
-        "size": 1083,
-        "sha256": "6974683e837611ea30bfa2ed4dc81b8f4d78fa87f65fa5bcf7c5b8a86909ccf7"
+        "size": 665,
+        "sha256": "f85a7914f0fa0d1968ac1a5b664cbacb661e3089ca05847a03c6692a904e32ce"
       },
       {
         "path": "src/pages/Analytics.jsx",
@@ -152,8 +232,8 @@
       },
       {
         "path": "src/pages/Compliance.jsx",
-        "size": 183,
-        "sha256": "2acb8130c732fb1d6c7df470717a27e2d3fb945d4df28ef367ca03be10665eff"
+        "size": 11993,
+        "sha256": "f2243a3d308af0ebd56f50d91d8c2f892ae81a7d6f1e8702618750990c80ed0d"
       },
       {
         "path": "src/pages/Connect.jsx",
@@ -167,8 +247,8 @@
       },
       {
         "path": "src/pages/CourseBuilder.jsx",
-        "size": 2977,
-        "sha256": "23ae6ae06a7d17fa01f2ff39be824c16fc9396791457230f4f731dd854ea1619"
+        "size": 2650,
+        "sha256": "faddd8fbd4b5d4c122f5812cc9552235dd2797046b19dd7af7fa7e212d0afb89"
       },
       {
         "path": "src/pages/CourseCatalog.jsx",
@@ -217,8 +297,8 @@
       },
       {
         "path": "src/pages/FundingImpact.jsx",
-        "size": 10607,
-        "sha256": "2f08f49324a1e33c87437b5db3fa7da91a7c9b96e02f764830e53ac07fe1ef69"
+        "size": 10929,
+        "sha256": "de5181be986063316af9a666396e7156c4bb8f0bb5eae1bbd09409eeec667508"
       },
       {
         "path": "src/pages/GoogleAnalyticsSetup.jsx",
@@ -231,14 +311,19 @@
         "sha256": "957a0d6fa14cb71a3a4ccfff44647638275c1d50396b4ff7eb62580c72fd1208"
       },
       {
+        "path": "src/pages/Government.jsx",
+        "size": 9300,
+        "sha256": "5a26f0ace4ddf2b6386895d7b36e3fc36292bb0f853cc87576b0f9f49ba3f885"
+      },
+      {
         "path": "src/pages/Home.jsx",
         "size": 7424,
         "sha256": "30d467214d9a2d548308d15a5be875daeb5f19b542587bc52e67d306a0399e9f"
       },
       {
         "path": "src/pages/HomePage.jsx",
-        "size": 449,
-        "sha256": "4b8084345d71bdb3b69bc9f748366db95bc3c7694a18926528ef8a219e6dc5bb"
+        "size": 6976,
+        "sha256": "32f9937196855c9da5fb2bbfdd067253b115897a5656df0071855df7e8befdb2"
       },
       {
         "path": "src/pages/Hub.jsx",
@@ -282,8 +367,8 @@
       },
       {
         "path": "src/pages/NotFound.jsx",
-        "size": 300,
-        "sha256": "cc67e0da65d81a64ebfc60276c933ebb579bfc3d6310218bdea57c3b246fa5c4"
+        "size": 414,
+        "sha256": "4457c3c57e894a257f8e1482a0dbddf15e86467c1a3989b46d7dd4d18783ba14"
       },
       {
         "path": "src/pages/Notifications.jsx",
@@ -301,6 +386,11 @@
         "sha256": "7a7a01b24a793894cf66937be98352a1ccf908b33fd908eec5f40622933adbc0"
       },
       {
+        "path": "src/pages/Philanthropy.jsx",
+        "size": 15452,
+        "sha256": "47792b3f1a86d8b433325c07f4a1f8916639256e54b6d9155a6a6a5f1038d55f"
+      },
+      {
         "path": "src/pages/PrivacyPolicy.jsx",
         "size": 952,
         "sha256": "d5d4a68b0762f7058e0c6cb5df010017b11b1b9ed00172a75358a685bc7d69d5"
@@ -312,8 +402,8 @@
       },
       {
         "path": "src/pages/Programs.jsx",
-        "size": 2576,
-        "sha256": "0b76b05bf9d0d202d36acdedf8f856e05096289327b6ed1024dada64d6d12db6"
+        "size": 2542,
+        "sha256": "f9e630900709e761b5a9f53a33ee91f705c77667ac595ed9a5db1a2a1ec74e2a"
       },
       {
         "path": "src/pages/Quiz.jsx",
@@ -336,6 +426,11 @@
         "sha256": "da301588bf50560fbfb59c32cb0736ba343b888eac09204ede4e164fce0b2b8f"
       },
       {
+        "path": "src/pages/Sitemap.test.jsx",
+        "size": 2983,
+        "sha256": "b50233d405aafa4b1674fcd814cb1588c077fdb32ccc4c4f1fde07938f236e21"
+      },
+      {
         "path": "src/pages/SomePage.jsx",
         "size": 203,
         "sha256": "42297aa4523bd0bc1b15b73e51da122dead16bf25b1419c4712aac2537d22b37"
@@ -347,8 +442,8 @@
       },
       {
         "path": "src/pages/StudentDashboard.jsx",
-        "size": 2629,
-        "sha256": "b3c27f26de1580a3f5491b618bc85c74fe45aa131703bc34767677e858e367ee"
+        "size": 2746,
+        "sha256": "771f25999481aa4b0d6229d19d5de5d9053ec1e0d3a76525fdd844fc388fb028"
       },
       {
         "path": "src/pages/StudentHandbook.jsx",
@@ -392,8 +487,8 @@
       },
       {
         "path": "src/pages/sisters/MentorDirectory.jsx",
-        "size": 725,
-        "sha256": "42d93bd01a6b272c624615bdd21f003979f51f6897c7b9b62405ee5b3af17e94"
+        "size": 732,
+        "sha256": "b81ac13b16f64e3207756c16772255b1ff67ec2137a6cd3d68070779987633a1"
       },
       {
         "path": "src/pages/sisters/MentorSignup.jsx",
@@ -446,14 +541,74 @@
         "sha256": "b3d1c633941c3eb875609b10f3acb9b39812dc9618754bcb0cedfac8617e8c84"
       },
       {
+        "path": "app/index.html",
+        "size": 6287,
+        "sha256": "4395c952e5da947e620fca4c5d8e9cc99b56bdfbb74b953531a6bcf55885c6d8"
+      },
+      {
+        "path": "app/assets/index-D8-_n6B7.js",
+        "size": 395365,
+        "sha256": "103d1682be426d20d7c3688b572117343dcbee4805b9d051ac310ee84b4081de"
+      },
+      {
+        "path": "app/assets/index-D8-_n6B7.js.map",
+        "size": 1645825,
+        "sha256": null
+      },
+      {
+        "path": "app/assets/index-erZGo4Ol.css",
+        "size": 7942,
+        "sha256": "a1f6fc6cb46e40f0f330a524078c951e685c28e7183918644367eaeb26d36ed1"
+      },
+      {
+        "path": "public/academic-calendar.html",
+        "size": 6645,
+        "sha256": "3f33cb51ca3d199c6eaa68a29af76b14b77b7b97d5bbff5324da3fa4b69f0850"
+      },
+      {
+        "path": "public/apply.html",
+        "size": 5740,
+        "sha256": "5a556050e66b3d634fa38058d8abbfe0bfd6dfbd922e21a720c5e7251078793b"
+      },
+      {
         "path": "public/donate.html",
         "size": 873,
         "sha256": "1f8449c7265523d2fa9469a3e3343e476ee93e16150bdc0aac9d661bf384022f"
       },
       {
+        "path": "public/employers.html",
+        "size": 5866,
+        "sha256": "3c689941f9a26054a02f71db295d66f15f6a0c814618084b4e46c59cdc3b94ad"
+      },
+      {
+        "path": "public/federal-apprenticeships.html",
+        "size": 5940,
+        "sha256": "cb2dc58909f2ed0480be994ea157145ddb0bd7bd403cd0445f86ce48a881139d"
+      },
+      {
+        "path": "public/health.txt",
+        "size": 3,
+        "sha256": "dc51b8c96c2d745df3bd5590d990230a482fd247123599548e0632fdbf97fc22"
+      },
+      {
+        "path": "public/index.html",
+        "size": 5867,
+        "sha256": "13e35c4b5690e66707f27072cebb65a78e5bbffc7341dffcfa6c98243eb77d2d"
+      },
+      {
+        "path": "public/pay.html",
+        "size": 5869,
+        "sha256": "662cad869b03e9e19531a05d9beff98be17d249f9c7ba62fba9cfe89a8481b47"
+      },
+      {
         "path": "public/robots.txt",
-        "size": 44,
-        "sha256": "58ed0f4cfc2462c24f0e44cc41d178607bdcf552370a1167f19e4146fbc5f7c1"
+        "size": 85,
+        "sha256": "3ff88222e7834eceb5e3ff2913e738d4a2977bbad1c10bcf42893610045f304b"
+      },
+      {
+        "path": "public/search.html",
+        "size": 6907,
+        "sha256": "2819296853693e3317c55299858be564ca8191b28ff0041447c0809c2f48721c"
       },
       {
         "path": "public/sitemap-1.xml",
@@ -462,13 +617,88 @@
       },
       {
         "path": "public/sitemap-index.xml",
-        "size": 190,
-        "sha256": "01065e365fc930bb8c72c6d2fb037b81e95786bdc880a036d47b8cc6dcabf7bd"
+        "size": 355,
+        "sha256": "9ab4e54b44ff4d9684bcbfa4b6a5907281df7a06c8a275577467fc43d36f0a12"
       },
       {
         "path": "public/sitemap.xml",
-        "size": 476,
-        "sha256": "f0495d60688d1714545fe6cc7498f8f28a808373a0a108516cbc0ef65662879c"
+        "size": 208,
+        "sha256": "c91cc94b98a0e5ff9635374a99d712cc34d628ab34cba81e795594671b372c4e"
+      },
+      {
+        "path": "public/sitemap_index.xml",
+        "size": 217,
+        "sha256": "8eafa89399bababd663e0097962fc06322484b0ed8ada47c490c2861df7c77ab"
+      },
+      {
+        "path": "public/sitemaps/fallback-sister-site-a.xml",
+        "size": 683,
+        "sha256": "eefd6e6c146373453af6c53db7c62110a4ecf32dbabadcd919ff810f91daff2c"
+      },
+      {
+        "path": "public/sitemaps/sitemap-static.xml",
+        "size": 578,
+        "sha256": "0dbe097beb8ae3240d6362edddc7553da800cc0415d6e9c4b2b411277c0c4b51"
+      },
+      {
+        "path": "public/sitemaps/sitemap_index.xml",
+        "size": 464,
+        "sha256": "8a207ef06f7c2e9c9d57f5ff96a123591761d1c448ec6606b9b6b1fa8caa8e10"
+      },
+      {
+        "path": "public/schema/organization.jsonld",
+        "size": 379,
+        "sha256": "24b5cdd35c728ddda22eb575679e73f4f06b9571fe5ffc764288e926a8c10e16"
+      },
+      {
+        "path": "public/hls/sample/README.md",
+        "size": 658,
+        "sha256": "a4e02af7beba4cbc0201b2fb17e9fd597d7307f63bc010ffcdddc1c153711a02"
+      },
+      {
+        "path": "public/hls/sample/index.m3u8",
+        "size": 157,
+        "sha256": "3b50a50b2369a15b4c28323c4c581260f1c6cfadd7cbdd47a1f5aeb73835ea6f"
+      },
+      {
+        "path": "public/hls/sample/seg0.ts",
+        "size": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "public/hls/sample/seg1.ts",
+        "size": 1,
+        "sha256": "36a9e7f1c95b82ffb99743e0c5c4ce95d83c9a430aac59f84ef3cbfab6145068"
+      },
+      {
+        "path": "public/hls/sample/seg2.ts",
+        "size": 1,
+        "sha256": "36a9e7f1c95b82ffb99743e0c5c4ce95d83c9a430aac59f84ef3cbfab6145068"
+      },
+      {
+        "path": "public/app/index.html",
+        "size": 1569,
+        "sha256": "583d4d85b180da731c2cd9205935778ae840d871224ee634ea1c4ae536a3844f"
+      },
+      {
+        "path": "public/app/assets/index-D8-_n6B7.js",
+        "size": 395365,
+        "sha256": "103d1682be426d20d7c3688b572117343dcbee4805b9d051ac310ee84b4081de"
+      },
+      {
+        "path": "public/app/assets/index-D8-_n6B7.js.map",
+        "size": 1645888,
+        "sha256": null
+      },
+      {
+        "path": "public/app/assets/index-erZGo4Ol.css",
+        "size": 7942,
+        "sha256": "a1f6fc6cb46e40f0f330a524078c951e685c28e7183918644367eaeb26d36ed1"
+      },
+      {
+        "path": "public/.well-known/security.txt",
+        "size": 280,
+        "sha256": "3bf252a7206be812b2cc8c667906f91accdedf31a9e2114f92077e8d77f565cb"
       }
     ]
   }
