@@ -1,0 +1,42 @@
+version: "3.9"
+
+services:
+  deviate:
+    container_name: deviate
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+    restart: unless-stopped
+    mem_limit: 512m
+    cpus: 0.5
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: node simple-server.cjs
+
+  # Alternative service for Vite development
+  frontend:
+    container_name: frontend
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "5173:5173"
+    environment:
+      - NODE_ENV=development
+    restart: unless-stopped
+    mem_limit: 256m
+    cpus: 0.3
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: npm run dev
+
+networks:
+  default:
+    name: elevateforhumanity-network

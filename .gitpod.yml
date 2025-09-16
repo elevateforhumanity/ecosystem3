@@ -8,57 +8,34 @@ vscode:
     - dbaeumer.vscode-eslint
     - bradlc.vscode-tailwindcss
 
-# Tasks: install deps, build, then serve production preview
+# Tasks: setup Docker services and development environment
 tasks:
-  - name: Install & Build
+  - name: Setup Environment
     init: |
-      # Detect package manager
-      if command -v pnpm >/dev/null 2>&1; then PM=pnpm; elif command -v yarn >/dev/null 2>&1; then PM=yarn; else PM=npm; fi
-      echo "Using package manager: $PM"
-
-      # Clean cache edge-cases (safe to re-run)
-      rm -rf node_modules .cache || true
-
-      # Install with resilient fallbacks
-      if [ "$PM" = "npm" ]; then
-        npm ci || npm install --legacy-peer-deps || npm install --force
-      elif [ "$PM" = "yarn" ]; then
-        yarn install --check-files || yarn install
-      else
-        pnpm install || pnpm install --no-frozen-lockfile
-      fi
-
-      # Ensure scripts exist
-      node - <<'JS'
-      const fs = require('fs');
-      if (fs.existsSync('package.json')) {
-        const pkg = JSON.parse(fs.readFileSync('package.json','utf8'));
-        pkg.scripts ||= {};
-        pkg.scripts.build ||= "vite build";
-        pkg.scripts.preview ||= "vite preview --host 0.0.0.0 --port 5173";
-        fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2));
-        console.log("Ensured build/preview scripts.");
-      }
-      JS
-
-      # Build production bundle
-      if [ "$PM" = "npm" ]; then
-        npm run build || (npm install --legacy-peer-deps && npm run build)
-      elif [ "$PM" = "yarn" ]; then
-        yarn build || (yarn install && yarn build)
-      else
-        pnpm build || (pnpm install --no-frozen-lockfile && pnpm build)
-      fi
+      # Add Node.js to PATH
+      export PATH="/usr/local/gitpod/shared/vscode/vscode-server/bin/6f17636121051a53c88d3e605c491d22af2ba755:$PATH"
+      echo 'export PATH="/usr/local/gitpod/shared/vscode/vscode-server/bin/6f17636121051a53c88d3e605c491d22af2ba755:$PATH"' >> ~/.bashrc
+      
+      # Install dependencies
+      npm ci || npm install --legacy-peer-deps || npm install --force
+      
+      # Build if needed
+      npm run build || echo "Build not required for development"
     command: |
-      # Serve production build
-      if command -v pnpm >/dev/null 2>&1; then PM=pnpm; elif command -v yarn >/dev/null 2>&1; then PM=yarn; else PM=npm; fi
-      $PM run preview
+      # Start the development server
+      export PATH="/usr/local/gitpod/shared/vscode/vscode-server/bin/6f17636121051a53c88d3e605c491d22af2ba755:$PATH"
+      npm run dev
 
-# Expose the Vite preview port; open in Gitpod's side preview automatically
+# Expose development ports
 ports:
   - port: 5173
     onOpen: open-preview
     visibility: public
+    description: "Vite Development Server"
+  - port: 3000
+    onOpen: ignore
+    visibility: public
+    description: "Deviate Backend Service"
 
 # Optional: start tasks faster on subsequent opens
 github:

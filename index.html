@@ -237,6 +237,231 @@
             transform: translateX(5px);
         }
 
+        /* Philanthropist Section */
+        .philanthropist-section {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            padding: 100px 0;
+        }
+        .philanthropist-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .philanthropist-text h2 {
+            font-size: 2.5rem;
+            color: var(--primary-purple);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        .philanthropist-text h3 {
+            font-size: 2rem;
+            color: var(--primary-blue);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        .philanthropist-title {
+            font-size: 1.2rem;
+            color: var(--accent-green);
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+        .philanthropist-bio {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--soft-gray);
+            margin-bottom: 2.5rem;
+        }
+        .philanthropist-mission, .philanthropist-umbrella {
+            margin-bottom: 2rem;
+        }
+        .philanthropist-mission h4, .philanthropist-umbrella h4 {
+            font-size: 1.3rem;
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        .philanthropist-mission ul {
+            list-style: none;
+            padding: 0;
+        }
+        .philanthropist-mission li {
+            padding: 0.5rem 0;
+            font-size: 1rem;
+            color: var(--soft-gray);
+        }
+        .philanthropist-umbrella p {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: var(--soft-gray);
+        }
+        .philanthropist-image {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .image-placeholder {
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, var(--primary-purple), var(--accent-green));
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(124, 58, 237, 0.3);
+        }
+        .image-placeholder span {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .image-placeholder small {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        .umbrella-details {
+            margin-top: 2rem;
+            padding: 2rem;
+            background: rgba(124, 58, 237, 0.05);
+            border-radius: 15px;
+            border-left: 4px solid var(--primary-purple);
+        }
+        .umbrella-details h5 {
+            font-size: 1.1rem;
+            color: var(--primary-purple);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        .umbrella-details ul {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+        .umbrella-details li {
+            padding: 0.5rem 0;
+            font-size: 0.95rem;
+            color: var(--soft-gray);
+        }
+        .umbrella-link {
+            display: inline-flex;
+            align-items: center;
+            background: var(--primary-purple);
+            color: white;
+            text-decoration: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        .umbrella-link:hover {
+            background: var(--accent-green);
+            transform: translateX(5px);
+        }
+
+        /* Workforce Hub Section */
+        .workforce-hub-section {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            padding: 100px 0;
+        }
+        .hub-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .hub-content h2 {
+            font-size: 2.8rem;
+            color: var(--primary-purple);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        .hub-tagline {
+            font-size: 1.3rem;
+            color: var(--accent-green);
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+        .hub-description {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: var(--soft-gray);
+            margin-bottom: 4rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .hub-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 4rem;
+        }
+        .hub-feature {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            border: 1px solid #e5e7eb;
+        }
+        .hub-feature:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+        }
+        .feature-icon {
+            font-size: 2.5rem;
+            display: block;
+            margin-bottom: 1.5rem;
+        }
+        .hub-feature h4 {
+            font-size: 1.3rem;
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        .hub-feature p {
+            color: var(--soft-gray);
+            line-height: 1.6;
+        }
+        .hub-cta {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        .hub-btn {
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+            padding: 1.2rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+        .hub-btn.primary {
+            background: var(--primary-purple);
+            color: white;
+        }
+        .hub-btn.primary:hover {
+            background: var(--accent-green);
+            transform: translateY(-2px);
+        }
+        .hub-btn.secondary {
+            background: white;
+            color: var(--primary-purple);
+            border: 2px solid var(--primary-purple);
+        }
+        .hub-btn.secondary:hover {
+            background: var(--primary-purple);
+            color: white;
+            transform: translateY(-2px);
+        }
+
         /* Foundation Section */
         .foundation-section {
             background: linear-gradient(135deg, var(--primary-purple), var(--primary-blue));
@@ -316,6 +541,11 @@
             .programs-grid { grid-template-columns: 1fr; }
             .hero-cta { flex-direction: column; align-items: center; }
             .cta-btn { width: 100%; max-width: 300px; text-align: center; }
+            .philanthropist-content { grid-template-columns: 1fr; text-align: center; }
+            .hub-content h2 { font-size: 2.2rem; }
+            .hub-features { grid-template-columns: 1fr; }
+            .hub-cta { flex-direction: column; align-items: center; }
+            .hub-btn { width: 100%; max-width: 300px; text-align: center; }
         }
     </style>
 </head>
@@ -357,12 +587,100 @@
         </div>
     </section>
 
+    <!-- Philanthropist Profile -->
+    <section class="philanthropist-section">
+        <div class="container">
+            <div class="philanthropist-content">
+                <div class="philanthropist-text">
+                    <h2>Meet the Philanthropist</h2>
+                    <h3>Elizabeth L. Greene</h3>
+                    <p class="philanthropist-title">Founder & Chief Philanthropist</p>
+                    <p class="philanthropist-bio">
+                        A visionary leader dedicated to transforming lives through strategic philanthropy and workforce development. 
+                        Elizabeth founded the Elizabeth L. Greene Foundation and Elevate for Humanity to create sustainable pathways 
+                        from poverty to prosperity through technology education and community empowerment.
+                    </p>
+                    <div class="philanthropist-mission">
+                        <h4>Mission-Driven Leadership</h4>
+                        <ul>
+                            <li>🎯 Strategic philanthropy focused on measurable impact</li>
+                            <li>💡 Innovation in workforce development and AI/Data Science training</li>
+                            <li>🤝 Building partnerships that create lasting community change</li>
+                            <li>📈 Proven track record of transforming lives through education</li>
+                        </ul>
+                    </div>
+                    <div class="philanthropist-umbrella">
+                        <h4>Organizational Leadership</h4>
+                        <p>Through <strong>Selfish Inc. DBA Rise Foundation</strong>, Elizabeth oversees a comprehensive ecosystem of social impact organizations, including Elevate for Humanity and strategic healthcare partnerships, all unified under a mission of sustainable community transformation.</p>
+                        <div class="umbrella-details">
+                            <h5>Umbrella Organization Structure</h5>
+                            <ul>
+                                <li><strong>Selfish Inc. DBA Rise Foundation</strong> - Philanthropic umbrella & fiscal intermediary</li>
+                                <li><strong>Elevate for Humanity</strong> - Workforce development & technology training</li>
+                                <li><strong>Curvature Body Sculpting LLC DBA Serene Comfort Care</strong> - Healthcare billing & provider services</li>
+                                <li><strong>Strategic Partnerships</strong> - Psych RN partners & CNA school code holders</li>
+                            </ul>
+                            <a href="/sister-sites" class="umbrella-link">Explore Our Ecosystem →</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="philanthropist-image">
+                    <div class="image-placeholder">
+                        <span>Elizabeth L. Greene</span>
+                        <small>Founder & Chief Philanthropist</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Mission -->
     <section class="mission">
         <div class="container">
             <h2>Our Mission</h2>
             <div class="mission-content">
                 <p>We believe in the power of <span class="mission-highlight">technology and education</span> to transform lives and communities. Through innovative workforce development programs, cutting-edge AI and Data Science training, and strategic philanthropic initiatives, we create <span class="mission-highlight">pathways to prosperity</span> for individuals and families across America.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Workforce Hub Community -->
+    <section class="workforce-hub-section">
+        <div class="container">
+            <div class="hub-content">
+                <h2>Elevate for Humanity Workforce Hub</h2>
+                <p class="hub-tagline">Your Gateway to Career Transformation & Community</p>
+                <div class="hub-description">
+                    <p>More than just training—we're building a <strong>workforce community</strong> where individuals connect, learn, and grow together. Our hub integrates all services under the Selfish Inc. DBA Rise Foundation umbrella, creating seamless pathways from education to employment to entrepreneurship.</p>
+                </div>
+                
+                <div class="hub-features">
+                    <div class="hub-feature">
+                        <span class="feature-icon">🎯</span>
+                        <h4>Personalized Career Pathways</h4>
+                        <p>AI-driven assessments match you with programs that align with your goals, skills, and local job market demands.</p>
+                    </div>
+                    <div class="hub-feature">
+                        <span class="feature-icon">🤝</span>
+                        <h4>Community Support Network</h4>
+                        <p>Connect with peers, mentors, and industry professionals in our integrated community platform.</p>
+                    </div>
+                    <div class="hub-feature">
+                        <span class="feature-icon">🏢</span>
+                        <h4>Employer Direct Connect</h4>
+                        <p>Direct partnerships with hiring employers ensure job placement opportunities before you even graduate.</p>
+                    </div>
+                    <div class="hub-feature">
+                        <span class="feature-icon">📈</span>
+                        <h4>Continuous Growth Support</h4>
+                        <p>Ongoing career development, upskilling opportunities, and entrepreneurship support through our ecosystem.</p>
+                    </div>
+                </div>
+                
+                <div class="hub-cta">
+                    <a href="/hub" class="hub-btn primary">Enter Workforce Hub</a>
+                    <a href="/connect" class="hub-btn secondary">Join Community</a>
+                </div>
             </div>
         </div>
     </section>
@@ -456,10 +774,10 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-brand">Elevate for Humanity</div>
-                <p>Elizabeth L. Greene Foundation • Veteran-Owned Small Business</p>
-                <p>📞 (555) 123-4567</p>
+                <p>Elizabeth L. Greene Foundation • Part of Selfish Inc. DBA Rise Foundation</p>
+                <p>📞 (555) 123-4567 • <a href="/sister-sites" style="color: var(--accent-green);">Sister Sites</a></p>
             </div>
-            <p>&copy; 2025 Elevate for Humanity. All rights reserved.</p>
+            <p>&copy; 2025 Selfish Inc. DBA Rise Foundation. All rights reserved.</p>
         </div>
     </footer>
 </body>
