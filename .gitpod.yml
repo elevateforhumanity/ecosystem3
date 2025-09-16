@@ -1,0 +1,28 @@
+tasks:
+  - name: Setup & Build (No Vercel)
+    init: |
+      chmod +x gp-setup.sh
+      ./gp-setup.sh || true
+    command: npm run preview || yarn preview || pnpm preview
+
+ports:
+  - port: 5173
+    onOpen: open-preview
+    visibility: public
+    description: "Elevate for Humanity - Live Preview"
+  
+  - port: 8080
+    onOpen: ignore
+    visibility: public
+    description: "Static Server (if needed)"
+
+  - port: 3000
+    onOpen: ignore
+    visibility: public
+    description: "Node.js Server (if needed)"
+
+vscode:
+  extensions:
+    - bradlc.vscode-tailwindcss
+    - esbenp.prettier-vscode
+    - ms-vscode.vscode-typescript-next
