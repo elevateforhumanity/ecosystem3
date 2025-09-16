@@ -1,6 +1,7 @@
 const https = require('https');
 
 const CLOUDFLARE_API_TOKEN = '7W2pnC5oQxQKewWDjTLKB-1tY9Zd9xqEpA9qjyoB';
+const ACCOUNT_ID = 'ff0d5ca582b5911a626ba012935cf3ec';
 
 // First, let's get the account ID
 function getAccountInfo() {
@@ -40,7 +41,7 @@ function getAccountInfo() {
   req.end();
 }
 
-function createPagesProject(accountId) {
+function createPagesProject(accountId = ACCOUNT_ID) {
   const projectData = {
     name: 'elevateforhumanity',
     production_branch: 'main',
@@ -165,4 +166,5 @@ function getProjectStatus(accountId) {
 }
 
 console.log('🚀 Setting up CloudFlare Pages for elevateforhumanity...');
-getAccountInfo();
+console.log('✅ Using Account ID:', ACCOUNT_ID);
+createPagesProject(ACCOUNT_ID);

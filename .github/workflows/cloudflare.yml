@@ -34,8 +34,8 @@ jobs:
       - name: Deploy to CloudFlare Pages
         uses: cloudflare/pages-action@v1
         with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          apiToken: 7W2pnC5oQxQKewWDjTLKB-1tY9Zd9xqEpA9qjyoB
+          accountId: ff0d5ca582b5911a626ba012935cf3ec
           projectName: elevateforhumanity
-          directory: dist
+          directory: .
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
