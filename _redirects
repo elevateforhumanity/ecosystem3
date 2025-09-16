@@ -1,11 +1,11 @@
 # Pass static assets straight through
 /assets/*  /assets/:splat  200
 
-# Redirect www to non-www (primary domain)
-https://www.elevateforhumanity.org/* https://elevateforhumanity.org/:splat 301!
+# Redirect non-www to www (primary domain for SEO)
+https://elevateforhumanity.org/* https://www.elevateforhumanity.org/:splat 301!
 
-# Ensure HTTPS redirect for non-www
-http://elevateforhumanity.org/* https://elevateforhumanity.org/:splat 301!
+# Ensure HTTPS redirect for www
+http://www.elevateforhumanity.org/* https://www.elevateforhumanity.org/:splat 301!
 
 # Student portal clean URLs
 /student-portal /student-portal.html 200

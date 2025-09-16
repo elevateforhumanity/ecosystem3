@@ -28,6 +28,8 @@
     "sentry:release": "bash scripts/sentry-release.sh",
     "seo:polish": "node scripts/fix-site.mjs",
     "start": "node server.js",
+    "deploy": "./scripts/auto-deploy.sh",
+    "deploy:watch": "./scripts/watch-and-deploy.sh",
     "sitemap": "node scripts/generate-sitemap.mjs",
     "serve-static": "python3 -m http.server 8080",
     "routes": "node scripts/extract-routes.mjs",
