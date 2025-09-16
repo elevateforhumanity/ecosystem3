@@ -18,7 +18,19 @@
 
 import React from "react";
 import { createRoot } from "react-dom/client";
-import App from "./App.jsx";
-import "./global.css";
+import App from "./App-simple.jsx";
 
-createRoot(document.getElementById("root")).render(<App />);
+// Add error handling
+const root = document.getElementById("root");
+if (!root) {
+  console.error("Root element not found!");
+  document.body.innerHTML = "<h1>Error: Root element not found</h1>";
+} else {
+  try {
+    createRoot(root).render(<App />);
+    console.log("React app mounted successfully");
+  } catch (error) {
+    console.error("Error mounting React app:", error);
+    root.innerHTML = `<h1>Error mounting React app</h1><pre>${error.message}</pre>`;
+  }
+}
