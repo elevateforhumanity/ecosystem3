@@ -14,6 +14,37 @@
   to = "/assets/:splat"
   status = 200
 
+# Core ecosystem pages
+[[redirects]]
+  from = "/hub"
+  to = "/hub.html"
+  status = 200
+
+[[redirects]]
+  from = "/programs"
+  to = "/programs.html"
+  status = 200
+
+[[redirects]]
+  from = "/lms"
+  to = "/lms.html"
+  status = 200
+
+[[redirects]]
+  from = "/connect"
+  to = "/connect.html"
+  status = 200
+
+[[redirects]]
+  from = "/compliance"
+  to = "/compliance.html"
+  status = 200
+
+[[redirects]]
+  from = "/partners"
+  to = "/partners.html"
+  status = 200
+
 # Student portal routes
 [[redirects]]
   from = "/student-portal"
@@ -35,7 +66,7 @@
   to = "/student-portal.html"
   status = 200
 
-# SPA catch-all for React/Vite routing
+# SPA catch-all for React/Vite routing (LAST - only for unmatched routes)
 [[redirects]]
   from = "/*"
   to = "/index.html"
