@@ -1,6 +1,17 @@
-# Redirect HTTP to HTTPS (handled by Cloudflare)
-# Redirect root domain to www (if needed)
-https://elevateforhumanity.org/* https://www.elevateforhumanity.org/:splat 301!
+# Netlify Redirects - Fix redirect loop
+# Make elevateforhumanity.org the primary domain
 
-# SPA routing - serve index.html for all routes
-/*    /index.html   200
+# Redirect www to non-www (primary domain)
+https://www.elevateforhumanity.org/* https://elevateforhumanity.org/:splat 301!
+
+# Ensure HTTPS redirect for non-www
+http://elevateforhumanity.org/* https://elevateforhumanity.org/:splat 301!
+
+# Student portal clean URLs
+/student-portal /student-portal.html 200
+/enroll /student-portal.html 200
+/login /student-portal.html 200
+/certificates /student-portal.html 200
+
+# Fallback to index for SPA behavior
+/* /index.html 200
