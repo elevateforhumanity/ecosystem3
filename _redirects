@@ -1,5 +1,5 @@
-# Netlify Redirects - Fix redirect loop
-# Make elevateforhumanity.org the primary domain
+# Pass static assets straight through
+/assets/*  /assets/:splat  200
 
 # Redirect www to non-www (primary domain)
 https://www.elevateforhumanity.org/* https://elevateforhumanity.org/:splat 301!
@@ -13,5 +13,5 @@ http://elevateforhumanity.org/* https://elevateforhumanity.org/:splat 301!
 /login /student-portal.html 200
 /certificates /student-portal.html 200
 
-# Fallback to index for SPA behavior
-/* /index.html 200
+# SPA fallback (place explicit html routes ABOVE this if you want them to win)
+/*          /index.html     200

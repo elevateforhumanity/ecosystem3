@@ -27,20 +27,27 @@
     "logs:rotate": "node scripts/log-rotate.js",
     "sentry:release": "bash scripts/sentry-release.sh",
     "seo:polish": "node scripts/fix-site.mjs",
-    "start": "node server.js"
+    "start": "node server.js",
+    "sitemap": "node scripts/generate-sitemap.mjs",
+    "serve-static": "python3 -m http.server 8080",
+    "routes": "node scripts/extract-routes.mjs",
+    "sitemap:routes": "node scripts/generate-sitemap.mjs --routes=scripts/routes.json --base=https://www.elevateforhumanity.org --out=public",
+    "sitemap:crawl": "node scripts/generate-sitemap.mjs --seed=https://www.elevateforhumanity.org --out=public --max=120000 --concurrency=8",
+    "sitemap:gitpod": "node scripts/generate-gitpod-sitemap.mjs"
   },
   "prisma": {
     "seed": "node prisma/seed.cjs"
   },
   "devDependencies": {
     "@lhci/cli": "0.14.0",
+    "@tailwindcss/postcss": "^4.1.13",
     "@testing-library/jest-dom": "^6.8.0",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "14.6.1",
     "@types/express": "^5.0.3",
     "@types/node": "^24.5.0",
-    "@types/react": "^18.3.5",
-    "@types/react-dom": "18.3.0",
+    "@types/react": "^18.3.24",
+    "@types/react-dom": "^18.3.7",
     "@types/react-router-dom": "5.3.3",
     "@types/supertest": "2.0.16",
     "@typescript-eslint/eslint-plugin": "8.43.0",
@@ -78,6 +85,7 @@
     "express-rate-limit": "7.2.0",
     "fast-glob": "3.3.2",
     "framer-motion": "^12.23.12",
+    "glob": "^11.0.3",
     "gsap": "^3.13.0",
     "helmet": "7.1.0",
     "lottie-web": "^5.13.0",

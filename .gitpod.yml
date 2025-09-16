@@ -1,28 +1,68 @@
-tasks:
-  - name: Setup & Build (No Vercel)
-    init: |
-      chmod +x gp-setup.sh
-      ./gp-setup.sh || true
-    command: npm run preview || yarn preview || pnpm preview
+# .gitpod.yml — Production preview in Gitpod
+image: gitpod/workspace-node
 
+# Optional: VS Code web extensions you'll probably want
+vscode:
+  extensions:
+    - esbenp.prettier-vscode
+    - dbaeumer.vscode-eslint
+    - bradlc.vscode-tailwindcss
+
+# Tasks: install deps, build, then serve production preview
+tasks:
+  - name: Install & Build
+    init: |
+      # Detect package manager
+      if command -v pnpm >/dev/null 2>&1; then PM=pnpm; elif command -v yarn >/dev/null 2>&1; then PM=yarn; else PM=npm; fi
+      echo "Using package manager: $PM"
+
+      # Clean cache edge-cases (safe to re-run)
+      rm -rf node_modules .cache || true
+
+      # Install with resilient fallbacks
+      if [ "$PM" = "npm" ]; then
+        npm ci || npm install --legacy-peer-deps || npm install --force
+      elif [ "$PM" = "yarn" ]; then
+        yarn install --check-files || yarn install
+      else
+        pnpm install || pnpm install --no-frozen-lockfile
+      fi
+
+      # Ensure scripts exist
+      node - <<'JS'
+      const fs = require('fs');
+      if (fs.existsSync('package.json')) {
+        const pkg = JSON.parse(fs.readFileSync('package.json','utf8'));
+        pkg.scripts ||= {};
+        pkg.scripts.build ||= "vite build";
+        pkg.scripts.preview ||= "vite preview --host 0.0.0.0 --port 5173";
+        fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2));
+        console.log("Ensured build/preview scripts.");
+      }
+      JS
+
+      # Build production bundle
+      if [ "$PM" = "npm" ]; then
+        npm run build || (npm install --legacy-peer-deps && npm run build)
+      elif [ "$PM" = "yarn" ]; then
+        yarn build || (yarn install && yarn build)
+      else
+        pnpm build || (pnpm install --no-frozen-lockfile && pnpm build)
+      fi
+    command: |
+      # Serve production build
+      if command -v pnpm >/dev/null 2>&1; then PM=pnpm; elif command -v yarn >/dev/null 2>&1; then PM=yarn; else PM=npm; fi
+      $PM run preview
+
+# Expose the Vite preview port; open in Gitpod's side preview automatically
 ports:
   - port: 5173
     onOpen: open-preview
     visibility: public
-    description: "Elevate for Humanity - Live Preview"
-  
-  - port: 8080
-    onOpen: ignore
-    visibility: public
-    description: "Static Server (if needed)"
 
-  - port: 3000
-    onOpen: ignore
-    visibility: public
-    description: "Node.js Server (if needed)"
-
-vscode:
-  extensions:
-    - bradlc.vscode-tailwindcss
-    - esbenp.prettier-vscode
-    - ms-vscode.vscode-typescript-next
+# Optional: start tasks faster on subsequent opens
+github:
+  prebuilds:
+    master: true
+    branches: true
+    pullRequests: true
