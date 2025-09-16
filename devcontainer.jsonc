@@ -1,0 +1,26 @@
+{
+  "name": "elevate-frontend",
+  "hostRequirements": { "cpus": 8, "memory": "32gb", "storage": "64gb" },
+  "forwardPorts": [5173, 3000],
+  "postCreateCommand": "npm ci || npm i",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "terminal.integrated.profiles.linux": {
+          "bash": { "path": "/bin/bash", "args": ["-l"] }
+        },
+        "editor.formatOnSave": true
+      },
+      "extensions": [
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint"
+      ]
+    }
+  },
+  "scripts": {
+    "build": "npm run build",
+    "dev": "npm run dev"
+  },
+  "open": "$BROWSER http://localhost:5173"
+}

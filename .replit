@@ -1,10 +1,10 @@
 modules = ["postgresql-16", "nodejs-20", "python-3.11"]
-run = "node simple-server.js"
+run = "node simple-server.cjs"
 
 [deployment]
-run = ["sh", "-c", ""]
+run = ["sh", "-c", "npm run start"]
 deploymentTarget = "cloudrun"
-build = ["sh", "-c", "cd client && npm install && npm run build"]
+build = ["sh", "-c", "cd client && npm install && npm run build && cd .. && npm run validate"]
 
 [nix]
 channel = "stable-25_05"
@@ -17,34 +17,34 @@ externalPort = 80
 [agent]
 
 [workflows]
-runButton = "Production Server"
+runButton = "EFH Production Server"
 
 [[workflows.workflow]]
-name = "\"start efh ecosystem\""
+name = "EFH Production Server"
 mode = "sequential"
 author = 46393221
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "node simple-server.js"
-
-[[workflows.workflow]]
-name = "EFH Server"
-author = 46393221
-mode = "sequential"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "node simple-server.cjs"
 
 [[workflows.workflow]]
-name = "EFH Backup Server"
+name = "Validate Production Readiness"
 author = 46393221
 mode = "sequential"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "node backup-server.js"
+args = "npm run validate"
+
+[[workflows.workflow]]
+name = "Backend API Server"
+author = 46393221
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node backend-api.js"
 
 [[workflows.workflow]]
 name = "Optimize Storage"
@@ -62,39 +62,3 @@ args = "node asset-cache-manager.js"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "node tools/image-optimizer.js"
-
-[[workflows.workflow]]
-name = "Ultra Fast Server"
-author = 46393221
-mode = "sequential"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "node ultra-fast-server.cjs"
-
-[[workflows.workflow]]
-name = "Deploy Ready Server"
-author = 46393221
-mode = "sequential"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "node production-server.js"
-
-[[workflows.workflow]]
-name = "Working Server"
-author = 46393221
-mode = "sequential"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "node simple-server.cjs"
-
-[[workflows.workflow]]
-name = "Production Server"
-author = 46393221
-mode = "sequential"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "node simple-server.cjs"

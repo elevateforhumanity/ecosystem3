@@ -1,0 +1,475 @@
+{
+  "generatedAt": "2025-09-15T16:09:27.623Z",
+  "host": {
+    "os": "linux 6.8.0-1030-azure",
+    "arch": "x64",
+    "node": "v18.20.4",
+    "npm": "10.7.0",
+    "container": true
+  },
+  "repo": {
+    "remote": "https://github.com/elevateforhumanity/new-ecosysstem",
+    "branch": "fix/vercel-build-now",
+    "commit": "e84acce"
+  },
+  "packageJson": {
+    "parsed": {
+      "name": "elevate-frontend",
+      "version": "1.0.0",
+      "private": true,
+      "type": "module",
+      "engines": {
+        "node": "18.x"
+      },
+      "packageManager": "npm@10",
+      "scripts": {
+        "dev": "vite",
+        "build": "vite build && tsx scripts/generate-sitemap.ts",
+        "preview": "vite preview --port 3000",
+        "health:local": "bash scripts/healthcheck-local.sh"
+      },
+      "dependencies": {
+        "dotenv": "16.4.5",
+        "react": "18.3.1",
+        "react-dom": "18.3.1",
+        "sitemap": "7.1.1",
+        "stripe": "16.6.0"
+      },
+      "devDependencies": {
+        "@vitejs/plugin-react": "4.3.1",
+        "eslint": "8.57.0",
+        "tsx": "4.19.1",
+        "typescript": "5.5.4",
+        "vite": "5.4.8"
+      }
+    },
+    "raw": "{\n  \"name\": \"elevate-frontend\",\n  \"version\": \"1.0.0\",\n  \"private\": true,\n  \"type\": \"module\",\n  \"engines\": { \"node\": \"18.x\" },\n  \"packageManager\": \"npm@10\",\n  \"scripts\": {\n    \"dev\": \"vite\",\n    \"build\": \"vite build && tsx scripts/generate-sitemap.ts\",\n    \"preview\": \"vite preview --port 3000\",\n    \"health:local\": \"bash scripts/healthcheck-local.sh\"\n  },\n  \"dependencies\": {\n    \"dotenv\": \"16.4.5\",\n    \"react\": \"18.3.1\",\n    \"react-dom\": \"18.3.1\",\n    \"sitemap\": \"7.1.1\",\n    \"stripe\": \"16.6.0\"\n  },\n  \"devDependencies\": {\n    \"@vitejs/plugin-react\": \"4.3.1\",\n    \"eslint\": \"8.57.0\",\n    \"tsx\": \"4.19.1\",\n    \"typescript\": \"5.5.4\",\n    \"vite\": \"5.4.8\"\n  }\n}\n",
+    "lockFiles": []
+  },
+  "configs": {
+    "netlifyTomlRaw": "[build]\n  command = \"npm run build\"\n  publish = \"dist\"\n\n[build.environment]\n  NODE_VERSION = \"18.20.4\"\n  NPM_FLAGS = \"--legacy-peer-deps\"\n  PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD = \"1\"\n\n# Functions config (for Stripe webhook)\n[functions]\n  node_bundler = \"esbuild\"\n  included_files = []\n\n# SPA routing\n[[redirects]]\n  from = \"/*\"\n  to = \"/index.html\"\n  status = 200",
+    "vercelJsonRaw": "{\n  \"buildCommand\": \"npm run build\",\n  \"outputDirectory\": \"dist\",\n  \"framework\": \"vite\",\n  \"headers\": [\n    {\n      \"source\": \"/(.*)\",\n      \"headers\": [\n        { \"key\": \"Strict-Transport-Security\", \"value\": \"max-age=63072000; includeSubDomains; preload\" },\n        { \"key\": \"X-Content-Type-Options\", \"value\": \"nosniff\" },\n        { \"key\": \"X-Frame-Options\", \"value\": \"DENY\" },\n        { \"key\": \"X-XSS-Protection\", \"value\": \"1; mode=block\" },\n        { \"key\": \"Referrer-Policy\", \"value\": \"strict-origin-when-cross-origin\" },\n        { \"key\": \"Permissions-Policy\", \"value\": \"geolocation=(), microphone=(), camera=()\" }\n      ]\n    }\n  ],\n  \"scripts\": {\n    \"postinstall\": \"npm run build\",\n    \"start\": \"npm run preview\",\n    \"open\": \"cross-env-shell \\\"$BROWSER\\\" http://localhost:3000\"\n  }\n}\n",
+    "wranglerTomlRaw": null,
+    "viteConfigRaw": "import React from \"react\";\nimport { createRoot } from \"react-dom/client\";\nimport App from \"./App.jsx\";\nimport { defineConfig } from \"vite\";\nimport react from \"@vitejs/plugin-react\";\n\ncreateRoot(document.getElementById(\"root\")).render(<App />);\n\nexport default defineConfig({\n  plugins: [react()],\n  server: { port: 5173, strictPort: true, watch: { usePolling: false, ignored: [\"**/node_modules/**\", \"**/.git/**\", \"**/dist/**\"] } },\n  preview: { port: 3000, strictPort: true }\n});",
+    "devcontainerRaw": "{\n  \"name\": \"elevate-frontend\",\n  \"hostRequirements\": { \"cpus\": 8, \"memory\": \"32gb\", \"storage\": \"64gb\" },\n  \"forwardPorts\": [5173, 3000],\n  \"postCreateCommand\": \"npm ci || npm i\",\n  \"customizations\": {\n    \"vscode\": {\n      \"settings\": {\n        \"terminal.integrated.defaultProfile.linux\": \"bash\",\n        \"terminal.integrated.profiles.linux\": {\n          \"bash\": { \"path\": \"/bin/bash\", \"args\": [\"-l\"] }\n        },\n        \"typescript.tsserver.maxTsServerMemory\": 4096,\n        \"files.watcherExclude\": {\n          \"**/node_modules/**\": true,\n          \"**/.git/**\": true,\n          \"**/dist/**\": true\n        }\n      },\n      \"extensions\": [\"esbenp.prettier-vscode\", \"dbaeumer.vscode-eslint\"]\n    }\n  }\n}\n",
+    "nvmrcRaw": "18.20.4\n",
+    "npmrcRaw": "legacy-peer-deps=true\naudit=false\nfund=false\n",
+    "envExampleRaw": "# Copy to .env (local/dev) or set in Netlify Site → Settings → Environment variables.\nVITE_SENTRY_DSN=\nREQUIRED_ENV_VARS=VITE_SENTRY_DSN\n\n# App\nSITE_URL=\n# Supabase\nSUPABASE_URL=https://xxxxx.supabase.co\nSUPABASE_ANON_KEY=\nSUPABASE_SERVICE_ROLE=\n# Stripe\nSTRIPE_SECRET=\nSTRIPE_WEBHOOK_SECRET=\n# Cloudflare R2\nR2_ACCESS_KEY_ID=\nR2_SECRET_ACCESS_KEY=\nR2_ENDPOINT=\nR2_BUCKET=media-prod\n",
+    "indexHtmlRaw": "<!doctype html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <title>Elevate</title>\n  </head>\n  <body>\n    <div id=\"root\"></div>\n    <script type=\"module\" src=\"/src/main.jsx\"></script>\n  </body>\n</html>\n",
+    "robotsTxtRaw": "User-agent: *\nAllow: /\nSitemap: /sitemap.xml",
+    "sitemapIndexRaw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n  <url><loc>https://www.elevateforhumanity.org/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>\n  <url><loc>https://www.elevateforhumanity.org/donate.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>\n  <url><loc>https://www.elevateforhumanity.org/programs/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>\n</urlset>\n",
+    "stripeWebhookRaw": "import Stripe from \"stripe\";\n\nexport const config = {\n  path: \"/api/stripe/webhook\"\n};\n\nexport default async (req, context) => {\n  const stripe = new Stripe(process.env.STRIPE_SECRET || \"\", { apiVersion: \"2023-10-16\" });\n  const sig = req.headers.get(\"stripe-signature\");\n  const whSecret = process.env.STRIPE_WEBHOOK_SECRET || \"\";\n\n  let event;\n  try {\n    const rawBody = await req.text();\n    event = stripe.webhooks.constructEvent(rawBody, sig, whSecret);\n  } catch (err) {\n    return new Response(JSON.stringify({ error: `Webhook signature verification failed: ${err.message}` }), { status: 400 });\n  }\n\n  try {\n    switch (event.type) {\n      case \"checkout.session.completed\":\n        // TODO: handle success\n        break;\n      default:\n        break;\n    }\n    return new Response(JSON.stringify({ received: true }), { status: 200 });\n  } catch (err) {\n    return new Response(JSON.stringify({ error: err.message }), { status: 500 });\n  }\n};"
+  },
+  "supabase": {
+    "schemaRaw": null,
+    "migrations": []
+  },
+  "sizes": {
+    "workspaceBytes": 297682150,
+    "nodeModulesBytes": 0,
+    "distBytes": 1193891,
+    "srcBytes": 136856,
+    "human": {
+      "workspace": "283.89 MB",
+      "node_modules": "0.00 B",
+      "dist": "1.14 MB",
+      "src": "133.65 KB"
+    }
+  },
+  "pages": {
+    "roots": [
+      "src/pages",
+      "public"
+    ],
+    "fileCount": 77,
+    "truncated": false,
+    "note": "Increase maxFiles= to capture more.",
+    "files": [
+      {
+        "path": "src/pages/About.jsx",
+        "size": 1659,
+        "sha256": "4b5a42924ca71d90c9393713314f2e2b442920ddb402a12ba5f5deb82008ebcf"
+      },
+      {
+        "path": "src/pages/Accessibility.jsx",
+        "size": 1433,
+        "sha256": "9c185e25b2ead2682a6883cb189ca478583664c2c1201968c301c176963a5141"
+      },
+      {
+        "path": "src/pages/AccessibilitySettings.jsx",
+        "size": 503,
+        "sha256": "93f96daadd9b939130b3888116c2e62731b933561a092e2598926c79c261dcf1"
+      },
+      {
+        "path": "src/pages/Account.jsx",
+        "size": 175,
+        "sha256": "0a6c0a2b655356454e33bbe1f7e0da872a05256a45762458588447925f5cc4cf"
+      },
+      {
+        "path": "src/pages/AdminDashboard.jsx",
+        "size": 1083,
+        "sha256": "6974683e837611ea30bfa2ed4dc81b8f4d78fa87f65fa5bcf7c5b8a86909ccf7"
+      },
+      {
+        "path": "src/pages/Analytics.jsx",
+        "size": 650,
+        "sha256": "664ca37990ea7e330326b84bfb5a348f8e0b9ec61996583ff1624495287f9497"
+      },
+      {
+        "path": "src/pages/AnalyticsDashboard.jsx",
+        "size": 2018,
+        "sha256": "794251967e855719f5f509485b13e7738798adf07d1147baf2f11f6bdfe22fe2"
+      },
+      {
+        "path": "src/pages/Assignment.jsx",
+        "size": 1391,
+        "sha256": "74a2354c3ae2f60a3865ab119e143147eabd3f7eba279b80cf4893e534935834"
+      },
+      {
+        "path": "src/pages/BingSiteVerification.jsx",
+        "size": 340,
+        "sha256": "a8bfa8aad2ad246d5755d539d899c6a4d583ae0e90361567acc88256d8faa30a"
+      },
+      {
+        "path": "src/pages/Branding.jsx",
+        "size": 484,
+        "sha256": "8faed8756915440b118e930fcab7dd30b9131568b7a8ff5af8515c7071bd2cf4"
+      },
+      {
+        "path": "src/pages/Certificates.jsx",
+        "size": 639,
+        "sha256": "61e310913ad5a0109dd53b5779d659be11cc73ba1cb9d613e5826b7efd6aea9d"
+      },
+      {
+        "path": "src/pages/CloneLanding.jsx",
+        "size": 647,
+        "sha256": "1557082cd8e6e5e39f667c638b6998069713d78c9f753f185d60950dc868ed93"
+      },
+      {
+        "path": "src/pages/Community.jsx",
+        "size": 795,
+        "sha256": "36f1341bbb084a61eb3b39bfe6670ae63ae26002b7584fc0c4bb452e54ddf733"
+      },
+      {
+        "path": "src/pages/Compliance.jsx",
+        "size": 183,
+        "sha256": "2acb8130c732fb1d6c7df470717a27e2d3fb945d4df28ef367ca03be10665eff"
+      },
+      {
+        "path": "src/pages/Connect.jsx",
+        "size": 174,
+        "sha256": "a86e13339dd11394345fc4aebe639743e1c7b3ff1085bf836f706f8139e32a19"
+      },
+      {
+        "path": "src/pages/Course.jsx",
+        "size": 651,
+        "sha256": "dcdeb271fcce9a0b35b27df7476caee84b62ab8731ec7ae4240d1831d7f7fdd2"
+      },
+      {
+        "path": "src/pages/CourseBuilder.jsx",
+        "size": 2977,
+        "sha256": "23ae6ae06a7d17fa01f2ff39be824c16fc9396791457230f4f731dd854ea1619"
+      },
+      {
+        "path": "src/pages/CourseCatalog.jsx",
+        "size": 3784,
+        "sha256": "c5efe993601221eb88b2618be59dc0aa061349bf0507de9007d00ca5d45769ac"
+      },
+      {
+        "path": "src/pages/CourseDetail.jsx",
+        "size": 4247,
+        "sha256": "7a64235453b9a18240a51034d19b8d46108d90730e4aeec4dcf4cc765144c09a"
+      },
+      {
+        "path": "src/pages/CourseLibrary.jsx",
+        "size": 7908,
+        "sha256": "a09e369378e10c6338f10d1fc980c7e2e9ec94b7c207bd70f6c97f37cdab7081"
+      },
+      {
+        "path": "src/pages/CurriculumUpload.jsx",
+        "size": 2320,
+        "sha256": "217d22327249bd097d352985e8eec7394240c11966665038572dda6e455ccf16"
+      },
+      {
+        "path": "src/pages/Donate.jsx",
+        "size": 175,
+        "sha256": "54c3d1a57be4d48eb6ecb6d50ec7b9b68853135e9d266db60fff7b20f3ee1e48"
+      },
+      {
+        "path": "src/pages/DonatePage.jsx",
+        "size": 410,
+        "sha256": "632be051c29ceca1ffe410dc4875f9214ed54d38b47f8272c0cb40c8c2348783"
+      },
+      {
+        "path": "src/pages/DonatePage.tsx",
+        "size": 337,
+        "sha256": "3918bd5796302db1d742cffc260317d24e7040534b2d52eb8e4dba3f678e6ef9"
+      },
+      {
+        "path": "src/pages/Ecommerce.jsx",
+        "size": 571,
+        "sha256": "baf7f4a5faa75bc16586f5495ad2f625f40e97374b53b9f759e2658837b385aa"
+      },
+      {
+        "path": "src/pages/Ecosystem.jsx",
+        "size": 5618,
+        "sha256": "977a07cc20e7f1a62dd98feccd56b49a53008c4fbc4dd3ac7e39a7d7e53f82c1"
+      },
+      {
+        "path": "src/pages/FundingImpact.jsx",
+        "size": 10607,
+        "sha256": "2f08f49324a1e33c87437b5db3fa7da91a7c9b96e02f764830e53ac07fe1ef69"
+      },
+      {
+        "path": "src/pages/GoogleAnalyticsSetup.jsx",
+        "size": 211,
+        "sha256": "06fc1bfa8d3f8c75474ad33dfc1fe8f4722d81374f0f382bcf3c2ef306afd391"
+      },
+      {
+        "path": "src/pages/GoogleSiteVerification.jsx",
+        "size": 219,
+        "sha256": "957a0d6fa14cb71a3a4ccfff44647638275c1d50396b4ff7eb62580c72fd1208"
+      },
+      {
+        "path": "src/pages/Home.jsx",
+        "size": 7424,
+        "sha256": "30d467214d9a2d548308d15a5be875daeb5f19b542587bc52e67d306a0399e9f"
+      },
+      {
+        "path": "src/pages/HomePage.jsx",
+        "size": 449,
+        "sha256": "4b8084345d71bdb3b69bc9f748366db95bc3c7694a18926528ef8a219e6dc5bb"
+      },
+      {
+        "path": "src/pages/Hub.jsx",
+        "size": 165,
+        "sha256": "6ead76d4b88ba4ee4bf64da645c02ca0a8f7e8431d4a47f2196405fabebe10a3"
+      },
+      {
+        "path": "src/pages/Instructor.jsx",
+        "size": 568,
+        "sha256": "42eb31e97f47aa736fe5684aeb2d092e6a70023a931303fe987ba6f6f59560c2"
+      },
+      {
+        "path": "src/pages/InstructorEdit.jsx",
+        "size": 670,
+        "sha256": "06ffa05cbc13e13c772133f5f16fac47ea6a150b86cdd8420e026b5f951dbed8"
+      },
+      {
+        "path": "src/pages/InstructorNew.jsx",
+        "size": 675,
+        "sha256": "2693fa6863259248adc56c0711df493558b20ed724632b07b57e1d6b5390a32e"
+      },
+      {
+        "path": "src/pages/Integrations.jsx",
+        "size": 595,
+        "sha256": "1572df212ceee0845cc4c8059f5bbfb3bc7bc1d266634106540b7d9f0acd19be"
+      },
+      {
+        "path": "src/pages/LMS.jsx",
+        "size": 173,
+        "sha256": "099a40195786fd0d6e67b30301782e5b5872dda0613a4de6785cb5cc33e5e398"
+      },
+      {
+        "path": "src/pages/Login.jsx",
+        "size": 1369,
+        "sha256": "15e21b2cd6168c6ae42d739c5dbdc41e5bfbbf4ae390c3c57c140e29b2ab394c"
+      },
+      {
+        "path": "src/pages/MobileApp.jsx",
+        "size": 489,
+        "sha256": "57e6e82e485d8e03593d1eb3d0c61d540bb5877f1e5a4eea8e7e20422887e3a5"
+      },
+      {
+        "path": "src/pages/NotFound.jsx",
+        "size": 300,
+        "sha256": "cc67e0da65d81a64ebfc60276c933ebb579bfc3d6310218bdea57c3b246fa5c4"
+      },
+      {
+        "path": "src/pages/Notifications.jsx",
+        "size": 557,
+        "sha256": "337130320241419286d387a57bceb0721a9d640f5f8cffeba57db2de3c0e925a"
+      },
+      {
+        "path": "src/pages/Partners.jsx",
+        "size": 169,
+        "sha256": "853726184f976a41a12c2e15b0ec68e1dc8534ef8f1f8ba06257512564211f3a"
+      },
+      {
+        "path": "src/pages/Pay.jsx",
+        "size": 174,
+        "sha256": "7a7a01b24a793894cf66937be98352a1ccf908b33fd908eec5f40622933adbc0"
+      },
+      {
+        "path": "src/pages/PrivacyPolicy.jsx",
+        "size": 952,
+        "sha256": "d5d4a68b0762f7058e0c6cb5df010017b11b1b9ed00172a75358a685bc7d69d5"
+      },
+      {
+        "path": "src/pages/Profile.jsx",
+        "size": 498,
+        "sha256": "bd015764d7896cca316209c25ccd68d6216e76317af677b6252f3075ce8f76b8"
+      },
+      {
+        "path": "src/pages/Programs.jsx",
+        "size": 2576,
+        "sha256": "0b76b05bf9d0d202d36acdedf8f856e05096289327b6ed1024dada64d6d12db6"
+      },
+      {
+        "path": "src/pages/Quiz.jsx",
+        "size": 4043,
+        "sha256": "56568226c4d817b214898bc6cb80a35b52b11f124cf0c366e59aae11d611c9ef"
+      },
+      {
+        "path": "src/pages/RefundPolicy.jsx",
+        "size": 871,
+        "sha256": "71339e78ef1bfc77c2f6e217bb8341548bf4aa9e143375de888b79698a42f70d"
+      },
+      {
+        "path": "src/pages/Settings.jsx",
+        "size": 1956,
+        "sha256": "331f99cd4a5413f12e21dd60e2bc0b4461aa2f801b0244c00d3c9fa7cd668b18"
+      },
+      {
+        "path": "src/pages/Sitemap.jsx",
+        "size": 1947,
+        "sha256": "da301588bf50560fbfb59c32cb0736ba343b888eac09204ede4e164fce0b2b8f"
+      },
+      {
+        "path": "src/pages/SomePage.jsx",
+        "size": 203,
+        "sha256": "42297aa4523bd0bc1b15b73e51da122dead16bf25b1419c4712aac2537d22b37"
+      },
+      {
+        "path": "src/pages/Student.jsx",
+        "size": 3568,
+        "sha256": "acc6f7236ecf216efd41fc1639a8527eecabb88b432c448b1a0610a2ffbe7b00"
+      },
+      {
+        "path": "src/pages/StudentDashboard.jsx",
+        "size": 2629,
+        "sha256": "b3c27f26de1580a3f5491b618bc85c74fe45aa131703bc34767677e858e367ee"
+      },
+      {
+        "path": "src/pages/StudentHandbook.jsx",
+        "size": 325,
+        "sha256": "58b11730fb10f035761b0428bcbeb922800ea02aff1e5268deb08064e6f49c21"
+      },
+      {
+        "path": "src/pages/Support.jsx",
+        "size": 529,
+        "sha256": "12994ca7993a5a66500d25aac5c715e6659b23ff2525d8c96b66290e78a76739"
+      },
+      {
+        "path": "src/pages/TermsOfService.jsx",
+        "size": 1213,
+        "sha256": "0b48f9b10eb433f046b344465a46d8ce03a5123ff222bdf23b09c4ad30aed9b3"
+      },
+      {
+        "path": "src/pages/ThankYou.jsx",
+        "size": 1887,
+        "sha256": "48ffeed29c4a872b6cc748aa0c0d56538a2365d31b09014dd9e6d73aac700235"
+      },
+      {
+        "path": "src/pages/Untitled-1",
+        "size": 362,
+        "sha256": "e9793627fe13a08c88c1b8f3e5c351bb066bfcca66c2e07fcdd0a56a6a6fa285"
+      },
+      {
+        "path": "src/pages/Untitled-1.json",
+        "size": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "src/pages/UserManagement.jsx",
+        "size": 1572,
+        "sha256": "40dd3da28cc14de69166d3c478017152e75d842b8c4a9e3957e429b5ab5018f4"
+      },
+      {
+        "path": "src/pages/import { BrowserRouter, Routes, Route } .jsx",
+        "size": 1602,
+        "sha256": "1238f1349f5ccdb2807799e0bc4ce99d23f40abff79b80a0c899e18d9b6551b6"
+      },
+      {
+        "path": "src/pages/sisters/MentorDirectory.jsx",
+        "size": 725,
+        "sha256": "42d93bd01a6b272c624615bdd21f003979f51f6897c7b9b62405ee5b3af17e94"
+      },
+      {
+        "path": "src/pages/sisters/MentorSignup.jsx",
+        "size": 2213,
+        "sha256": "0a48b62a08f7da69fc22dbd33927b2b9906d6cbe207d0539924de6cabea1d72d"
+      },
+      {
+        "path": "src/pages/sisters/Mentorship.jsx",
+        "size": 4253,
+        "sha256": "71edc95c97c8dec22fc317ae092e5f785128d8d9c7decea7b0dc958af5581161"
+      },
+      {
+        "path": "src/pages/sisters/PeerSupport.jsx",
+        "size": 637,
+        "sha256": "33f29187819cae741c81af871baf0eeeb65e21d3444ac274ceb678a19b780611"
+      },
+      {
+        "path": "src/pages/sisters/Untitled-1",
+        "size": 31,
+        "sha256": "465a33d688b3c56159515b0c20e101e703e84e6fd8f11018bf1b76da7fcba83d"
+      },
+      {
+        "path": "src/pages/sisters/Volunteer.jsx",
+        "size": 538,
+        "sha256": "5fc2d0d592ad85f57314395d78dc8e1ed83d31efb3ed5fb93fbfef68232aa0cf"
+      },
+      {
+        "path": "src/pages/sisters/VolunteerOpportunities.jsx",
+        "size": 397,
+        "sha256": "8c9f00083849d8baf8e9da79a7693f9f2ed8af84a666b3ac948a845772410848"
+      },
+      {
+        "path": "src/pages/sisters/VolunteerStories.jsx",
+        "size": 751,
+        "sha256": "64328dbe0b18662257da146b6838b0a7bad223158f59273394857d08c42faa90"
+      },
+      {
+        "path": "src/pages/sisters/Wellness.jsx",
+        "size": 639,
+        "sha256": "af24df56b42fa76a02eb501602a45b64fba80a4bc59a19eaaa41247dc5cc43fc"
+      },
+      {
+        "path": "src/pages/sisters/WellnessResources.jsx",
+        "size": 1103,
+        "sha256": "aacc5f7c193a21e0d734c276232421ea8fb047d22c54b6c91a7ab05f961d3c06"
+      },
+      {
+        "path": "src/pages/__tests__/Quiz.test.jsx",
+        "size": 607,
+        "sha256": "b3d1c633941c3eb875609b10f3acb9b39812dc9618754bcb0cedfac8617e8c84"
+      },
+      {
+        "path": "public/donate.html",
+        "size": 873,
+        "sha256": "1f8449c7265523d2fa9469a3e3343e476ee93e16150bdc0aac9d661bf384022f"
+      },
+      {
+        "path": "public/robots.txt",
+        "size": 44,
+        "sha256": "58ed0f4cfc2462c24f0e44cc41d178607bdcf552370a1167f19e4146fbc5f7c1"
+      },
+      {
+        "path": "public/sitemap-1.xml",
+        "size": 228,
+        "sha256": "52527ce5ebc8aac382efe2da89c9477baf5b9a06f35530292d4187266a03f0bd"
+      },
+      {
+        "path": "public/sitemap-index.xml",
+        "size": 190,
+        "sha256": "01065e365fc930bb8c72c6d2fb037b81e95786bdc880a036d47b8cc6dcabf7bd"
+      },
+      {
+        "path": "public/sitemap.xml",
+        "size": 476,
+        "sha256": "f0495d60688d1714545fe6cc7498f8f28a808373a0a108516cbc0ef65662879c"
+      }
+    ]
+  }
+}

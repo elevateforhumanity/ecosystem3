@@ -1,3 +1,48 @@
+
+/* Tailwind CSS layers */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+	font-family: 'Merriweather', 'Georgia', serif;
+	background: #f8f6f3;
+	color: #2d2d2d;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: 'Merriweather', 'Georgia', serif;
+	color: #990000;
+}
+
+.iw-header {
+	background: #990000;
+	color: #fff;
+	font-family: 'Merriweather', 'Georgia', serif;
+	padding: 0.5rem 0;
+	box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.iw-nav-link {
+	color: #fff;
+	font-weight: 500;
+	margin: 0 1rem;
+	text-decoration: none;
+	transition: color 0.2s;
+}
+.iw-nav-link:hover {
+	color: #ffd700;
+}
+
+.iw-footer {
+	background: #222;
+	color: #fff;
+	padding: 2rem 0 1rem 0;
+	font-size: 1rem;
+	font-family: 'Merriweather', 'Georgia', serif;
+}
+.iw-footer a {
+	color: #ffd700;
+	margin: 0 0.5rem;
+	text-decoration: underline;
+}

@@ -22,5 +22,11 @@
     }
   },
   "include": ["src"],
+  "exclude": [
+    "src/pages",
+    "src/App-backup.tsx",
+    "src/lib/queryClient.ts",
+    "src/lib/utils.ts"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

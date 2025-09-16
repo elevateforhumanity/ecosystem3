@@ -1,0 +1,57 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Course",
+  "name": "Commercial Driving & Logistics Program",
+  "description": "Comprehensive commercial driving training program covering CDL Class A certification, DOT safety regulations, logistics fundamentals, and professional driving skills for over-the-road transportation.",
+  "provider": {
+    "@type": "Organization",
+    "name": "Elevate for Humanity",
+    "url": "https://www.elevateforhumanity.org/"
+  },
+  "url": "https://www.elevateforhumanity.org/programs/commercial-driving",
+  "courseCode": "CDL-001",
+  "educationalLevel": "Certificate",
+  "timeRequired": "P8W",
+  "coursePrerequisites": "Valid driver's license, DOT physical certification, clean driving record",
+  "competencyRequired": [
+    "Valid driver's license",
+    "Physical fitness for commercial driving",
+    "Clean driving record"
+  ],
+  "teaches": [
+    "CDL Class A vehicle operation",
+    "DOT safety regulations and compliance",
+    "Pre-trip inspection procedures",
+    "Defensive driving techniques",
+    "Cargo handling and securement",
+    "Electronic logging device (ELD) usage",
+    "Transportation logistics basics"
+  ],
+  "isAccessibleForFree": true,
+  "inLanguage": "en",
+  "availableLanguage": "en",
+  "offers": [
+    {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD",
+      "availability": "https://schema.org/InStock",
+      "category": "WIOA Eligible Program",
+      "description": "Funded through WIOA, WRG, OJT, and other federal workforce development programs"
+    }
+  ],
+  "hasCourseInstance": {
+    "@type": "CourseInstance",
+    "courseMode": "Hands-on",
+    "courseSchedule": {
+      "@type": "Schedule",
+      "duration": "P8W",
+      "repeatFrequency": "Monthly"
+    }
+  },
+  "educationalCredentialAwarded": [
+    "CDL Class A License",
+    "DOT Safety Certification",
+    "Cargo Handling Certificate"
+  ]
+}

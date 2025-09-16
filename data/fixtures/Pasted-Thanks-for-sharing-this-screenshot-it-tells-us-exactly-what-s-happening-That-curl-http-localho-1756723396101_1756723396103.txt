@@ -1,0 +1,89 @@
+Thanks for sharing this screenshot — it tells us exactly what’s happening.
+
+That curl http://localhost:5000/ output shows HTML with meta tags (the “multi-million dollar workforce…” line). That means your server is serving a static HTML file directly — not your React/Vite build output.
+
+What this means
+
+Localhost:5000 is serving whatever HTML file is in your root.
+
+That file is likely the one sitting outside your client/ folder.
+
+Your actual React app (the build inside client/dist/) isn’t being served at all. That’s why the browser only shows a blank page.
+
+
+
+---
+
+How to fix it
+
+You need to point your Express server at the React build folder (client/dist), not the static root.
+
+Here’s the correct server.mjs you can paste in:
+
+import express from "express";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const app = express();
+
+// ✅ Make sure this points to your React build
+const distPath = path.join(__dirname, "client", "dist");
+
+// Serve React build files
+app.use(express.static(distPath, {
+  etag: false,
+  lastModified: false,
+  maxAge: 0,
+}));
+
+// Optional health check route
+app.get("/health", (_req, res) => {
+  res.json({
+    status: "healthy",
+    service: "EFH Multi-site Ecosystem",
+    timestamp: new Date().toISOString(),
+    port: process.env.PORT || 5000,
+    ready: true
+  });
+});
+
+// ✅ Catch-all: always return React index.html
+app.get("*", (_req, res) => {
+  res.sendFile(path.join(distPath, "index.html"));
+});
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`EFH server running at http://localhost:${PORT}`);
+});
+
+
+---
+
+After updating
+
+1. Rebuild your React app:
+
+cd client
+npm run build
+
+
+2. Restart the server from the root:
+
+npm run start
+
+
+3. Visit http://localhost:5000/ → you should now see your React front-end, not just meta tags.
+
+
+
+
+---
+
+✅ Right now localhost is serving a plain HTML (root index). Once you repoint to client/dist/index.html, your real app will load.
+
+Do you want me to also give you a ready-to-paste Replit run command that automatically builds client/ and then starts this server so you don’t have to rebuild manually every time?
+

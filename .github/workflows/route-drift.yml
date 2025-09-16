@@ -1,0 +1,44 @@
+name: Route Drift Check
+on:
+  schedule:
+    - cron: "0 3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: route-drift-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  drift:
+    runs-on: ubuntu-latest
+    env:
+      VITE_SITE_URL: https://www.elevateforhumanity.org
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Validate lockfile
+        run: |
+            test -f package-lock.json || { echo "Missing package-lock.json"; exit 1; }
+
+      - name: Install
+        run: npm ci
+
+      - name: Route sync check
+        run: npm run routes:check
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "## Route Drift Check" >> $GITHUB_STEP_SUMMARY
+          echo "- Node: $(node -v)" >> $GITHUB_STEP_SUMMARY
+          echo "- Status: ${{ job.status }}" >> $GITHUB_STEP_SUMMARY

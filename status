@@ -1,0 +1,133 @@
+#!/usr/bin/env node
+
+/*
+  Copyright (c) 2025 Elevate for Humanity
+  Commercial License. No resale, sublicensing, or redistribution allowed.
+  See LICENSE file for details.
+*/
+
+/**
+ * Quick Status Check - How is everything going?
+ * Simple command to check system health and provide status summary
+ */
+
+const fs = require('fs');
+const path = require('path');
+const { execSync } = require('child_process');
+
+// ANSI color codes for better output
+const colors = {
+  green: '\x1b[32m',
+  yellow: '\x1b[33m',
+  red: '\x1b[31m',
+  blue: '\x1b[34m',
+  bold: '\x1b[1m',
+  reset: '\x1b[0m'
+};
+
+function colorize(text, color) {
+  return `${colors[color]}${text}${colors.reset}`;
+}
+
+console.log(colorize('\n🎯 EFH System Status - How is everything going?\n', 'bold'));
+
+// Quick checks
+const criticalFiles = [
+  'simple-server.cjs',
+  'backend-api.js', 
+  'monitor-dashboard.html',
+  'package.json'
+];
+
+const criticalSites = [
+  'index.html',
+  'hub.html', 
+  'programs.html',
+  'lms.html'
+];
+
+let statusScore = 0;
+let totalChecks = 0;
+
+// 1. Critical Files Check
+console.log(colorize('📁 Critical Files:', 'blue'));
+criticalFiles.forEach(file => {
+  totalChecks++;
+  if (fs.existsSync(file)) {
+    console.log(`  ✅ ${file}`);
+    statusScore++;
+  } else {
+    console.log(`  ❌ ${file} - MISSING`);
+  }
+});
+
+// 2. Critical Sites Check
+console.log(colorize('\n🌐 Critical Sites:', 'blue'));
+criticalSites.forEach(site => {
+  totalChecks++;
+  if (fs.existsSync(site)) {
+    console.log(`  ✅ ${site}`);
+    statusScore++;
+  } else {
+    console.log(`  ❌ ${site} - MISSING`);
+  }
+});
+
+// 3. Server Process Check
+console.log(colorize('\n🖥️  Server Status:', 'blue'));
+try {
+  // Check if server processes are running
+  const nodeProcesses = execSync('pgrep -f "simple-server\\|backend-api" || echo "none"', { encoding: 'utf8' }).trim();
+  totalChecks++;
+  if (nodeProcesses !== 'none') {
+    console.log(`  ✅ Server processes running (PID: ${nodeProcesses.replace(/\n/g, ', ')})`);
+    statusScore++;
+  } else {
+    console.log(`  ⚠️  No server processes detected`);
+  }
+} catch (error) {
+  console.log(`  ⚠️  Could not check server processes`);
+}
+
+// 4. Dependencies Check  
+console.log(colorize('\n📦 Dependencies:', 'blue'));
+totalChecks++;
+if (fs.existsSync('node_modules') && fs.existsSync('package-lock.json')) {
+  console.log(`  ✅ Dependencies installed`);
+  statusScore++;
+} else {
+  console.log(`  ❌ Dependencies missing - run 'npm install'`);
+}
+
+// Calculate overall status
+const healthPercentage = Math.round((statusScore / totalChecks) * 100);
+console.log(colorize('\n📊 Overall Status:', 'bold'));
+console.log(`   ${statusScore}/${totalChecks} checks passed (${healthPercentage}%)`);
+
+// Status summary
+if (healthPercentage >= 90) {
+  console.log(colorize('🎉 EXCELLENT - All systems operational!', 'green'));
+  console.log(colorize('✅ Everything is going great!', 'green'));
+} else if (healthPercentage >= 75) {
+  console.log(colorize('⚠️  GOOD - Minor issues, but core systems working', 'yellow'));
+  console.log(colorize('🔧 Some things need attention', 'yellow'));
+} else if (healthPercentage >= 50) {
+  console.log(colorize('🚨 NEEDS ATTENTION - Multiple issues detected', 'red'));
+  console.log(colorize('🛠️  Requires immediate fixes', 'red'));
+} else {
+  console.log(colorize('❌ CRITICAL - Major system issues', 'red'));
+  console.log(colorize('🆘 Urgent intervention needed', 'red'));
+}
+
+// Quick actions
+console.log(colorize('\n🚀 Quick Actions:', 'blue'));
+if (healthPercentage >= 90) {
+  console.log('  • Run: npm start (to start server)');
+  console.log('  • Run: node tools/today-health-check.js (detailed health check)');
+} else {
+  console.log('  • Run: npm install (install dependencies)');
+  console.log('  • Run: node tools/today-health-check.js (detailed diagnosis)');
+  console.log('  • Check: missing files and fix issues');
+}
+
+console.log(colorize('\n✨ Status check complete!\n', 'bold'));

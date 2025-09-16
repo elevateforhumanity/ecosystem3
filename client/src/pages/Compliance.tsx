@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { Shield, FileCheck, Users, BarChart, AlertTriangle, CheckCircle, Clock, Award, TrendingUp } from "lucide-react";
-import { Link, useRoute } from "wouter";
+import { Shield, FileCheck, Users, BarChart, CheckCircle, Award, TrendingUp } from "lucide-react";
+import { Link } from "wouter";
 
 export default function Compliance() {
-  const [match, params] = useRoute("/compliance/:section?");
-  const [activeSection, setActiveSection] = useState(params?.section || "overview");
+  const [activeSection, setActiveSection] = useState("overview");
 
   const complianceMetrics = {
     totalParticipants: 1247,

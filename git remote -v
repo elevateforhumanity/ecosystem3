@@ -1,0 +1,4 @@
+git remote -v
+git add .
+git commit -m "Auto commit and push"
+git push

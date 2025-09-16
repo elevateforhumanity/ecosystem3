@@ -1,22 +1,9 @@
-/*
-  Copyright (c) 2025 Elevate for Humanity
-  Commercial License. No resale, sublicensing, or redistribution allowed.
-  See LICENSE file for details.
-*/
-
-/*
-  Copyright (c) 2025 Elevate for Humanity
-  Commercial License. No resale, sublicensing, or redistribution allowed.
-  See LICENSE file for details.
-*/
-
-/*
-  Copyright (c) 2025 Elevate for Humanity
-  Commercial License. No resale, sublicensing, or redistribution allowed.
-  See LICENSE file for details.
-*/
-
 #!/usr/bin/env tsx
+/*
+  Copyright (c) 2025 Elevate for Humanity
+  Commercial License. No resale, sublicensing, or redistribution allowed.
+  See LICENSE file for details.
+*/
 
 /**
  * UEI/CAGE Federal Contracting Management System
@@ -95,7 +82,6 @@ class UEICageManager {
           "SAM.gov Federal Contractor",
           "Indiana State Bidder (IDOA)",
           "Certiport Authorized Testing Center",
-          "ACT WorkKeys Testing Center",
           "Milady RISE Certified Provider",
           "VITA Volunteer Tax Assistance Provider",
           "NCCER Training Partner",
@@ -488,27 +474,24 @@ async function main() {
   
   try {
     switch (command) {
-      case 'verify':
+      case 'verify': {
         await manager.verify();
-        break;
-        
-      case 'badge':
+        break; }
+      case 'badge': {
         await manager.generateBadge();
-        break;
-        
-      case 'form':
+        break; }
+      case 'form': {
         const formType = args[1] || 'general';
         await manager.createContractForm(formType);
-        break;
-        
-      case 'export':
+        break; }
+      case 'export': {
         const format = args[1] || 'json';
         await manager.exportData(format);
-        break;
-        
-      default:
+        break; }
+      default: {
         console.log(`❌ Unknown command: ${command}`);
         console.log('Run without arguments to see available commands.');
+      }
     }
   } catch (error) {
     console.error('❌ Error:', error);

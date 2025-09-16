@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "jsx": "react-jsx",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": { "@/*": ["src/*"] }
+  },
+  "include": ["src"],
+  "exclude": ["dist", "node_modules"],
+  "terminal.integrated.profiles.linux": {
+    "Clean Bash": { "path": "/bin/bash", "args": ["--noprofile","--norc"] }
+  },
+  "terminal.integrated.defaultProfile.linux": "Clean Bash",
+  "scripts": {
+    "postinstall": "[ -z \"$CI\" ] && npm run build || true",
+    "deploy": "npx vercel whoami || npx vercel login && npm run deploy -- 'release: baseline' --vercel"
+  }
+}
+
+chmod +x repair.sh
+./repair.sh
+git add package.json tsconfig.json
+git commit -m "chore: cleanup scripts + add tsconfig" --no-gpg-sign
+rm -rf node_modules package-lock.json
+npm install
+npm run typecheck
+npm run build
+npm run preview &

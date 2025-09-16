@@ -1,0 +1,14 @@
+[33ma5cdbe2[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfix/build-seo[m[33m, [m[1;31morigin/fix/build-seo[m[33m)[m chore: fix eslint config, ignore install log
+[33m845b3c7[m chore: preview tweaks
+[33mc349564[m chore: move to Node 20.19.0 to match vite/react-router/neon
+[33m95094b5[m build: align ESLint/TS-ESLint, add Vite React plugin, lock Node 18, add robots/sitemap & vercel.json
+[33m1eb8e43[m Fix meta tags, analytics, and verification for Vercel deployment
+[33m82bc295[m Full SEO, analytics, sitemap, and verification scaffold for Elevate for Humanity
+[33m639790f[m Complete Vercel build fix - add API module, improve vite config, add jsdom for tests
+[33m9639a6b[m Fix Vercel build - lock Node 18.x, add React dependencies, fix vite.config.js, enhance vercel.json, create donate.html
+[33m052b835[m[33m ([m[1;33mtag: [m[1;33mv1.0.0[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m feat: production baseline (tooling, env validation, tests, CI, docs)
+[33m72fe047[m feat: production readiness batch (error boundary, routing, tests, api, ci, docs)
+[33m3a1b024[m feat: baseline project setup (vite, lint, dashboard, quiz, mentor directory)
+[33m253c17b[m feat: vite + react working build
+[33m1fd796e[m Your commit message
+[33m8561be7[m EFH Educational Platform - ZIP File Contents

@@ -1,0 +1,26 @@
+[
+  {
+    "id": "license-acquisition",
+    "objective": "Codebase License Leads",
+    "landing": "/pricing",
+    "primaryConversion": "license_interest",
+    "themes": ["workforce lms platform","compliance lms codebase","whitelabel workforce software"],
+    "status": "planned"
+  },
+  {
+    "id": "directory-upsell",
+    "objective": "Premium Directory Listings",
+    "landing": "/directory",
+    "primaryConversion": "directory_premium_interest",
+    "themes": ["workforce partner directory","training provider listing"],
+    "status": "planned"
+  },
+  {
+    "id": "saas-hosted",
+    "objective": "Hosted SaaS Signups",
+    "landing": "/catalog",
+    "primaryConversion": "saas_trial_interest",
+    "themes": ["hosted lms workforce","workforce development software"],
+    "status": "planned"
+  }
+]

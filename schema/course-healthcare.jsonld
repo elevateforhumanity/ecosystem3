@@ -1,0 +1,57 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Course",
+  "name": "Healthcare Support Specialist Program",
+  "description": "Comprehensive healthcare support training program covering medical terminology, patient care basics, healthcare compliance, and essential administrative skills for healthcare environments.",
+  "provider": {
+    "@type": "Organization",
+    "name": "Elevate for Humanity",
+    "url": "https://www.elevateforhumanity.org/"
+  },
+  "url": "https://www.elevateforhumanity.org/programs/healthcare-support",
+  "courseCode": "HLTH-001",
+  "educationalLevel": "Certificate",
+  "timeRequired": "P16W",
+  "coursePrerequisites": "High school diploma or equivalent",
+  "competencyRequired": [
+    "Basic computer literacy",
+    "Communication skills",
+    "Attention to detail"
+  ],
+  "teaches": [
+    "Medical terminology",
+    "Patient care fundamentals",
+    "Healthcare compliance (HIPAA)",
+    "Electronic health records basics",
+    "Medical office administration",
+    "First Aid/CPR certification",
+    "Customer service in healthcare"
+  ],
+  "isAccessibleForFree": true,
+  "inLanguage": "en",
+  "availableLanguage": "en",
+  "offers": [
+    {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD",
+      "availability": "https://schema.org/InStock",
+      "category": "WIOA Eligible Program",
+      "description": "Funded through WIOA, WRG, and other federal workforce development programs"
+    }
+  ],
+  "hasCourseInstance": {
+    "@type": "CourseInstance",
+    "courseMode": "Blended",
+    "courseSchedule": {
+      "@type": "Schedule",
+      "duration": "P16W",
+      "repeatFrequency": "Monthly"
+    }
+  },
+  "educationalCredentialAwarded": [
+    "Healthcare Support Specialist Certificate",
+    "HIPAA Compliance Certification",
+    "First Aid/CPR Certification"
+  ]
+}

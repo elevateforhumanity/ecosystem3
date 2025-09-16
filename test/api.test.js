@@ -19,38 +19,27 @@
 // Comprehensive Node.js API Testing Suite
 // DOE/DWD/DOL Compliance Testing for Federal Workforce Development Standards
 
-const request = require('supertest');
-const express = require('express');
-const path = require('path');
-
-// Mock the main server app
-function createTestApp() {
-  const app = express();
-  app.use(express.json());
-  
-  // Include actual server routes for testing
-  require('../simple-server');
-  
-  return app;
-}
+import request from 'supertest';
+import { describe, test, expect, beforeAll } from 'vitest';
+let app;
+beforeAll(async () => {
+  // Ensure env setup before import
+  process.env.API_KEYS = 'test-key';
+  app = (await import('../simple-server.js')).default || (await import('../simple-server.js'));
+});
 
 describe('EFH Brain Service - Federal Compliance Testing', () => {
-  let app;
-  
-  beforeAll(() => {
-    app = createTestApp();
-  });
 
   // Health Check Tests
   describe('Health Checks', () => {
     test('GET /health should return 200 OK', async () => {
-      const res = await request(app).get('/health');
+  const res = await request(app).get('/health');
       expect(res.status).toBe(200);
       expect(res.body.status).toBe('ok');
     });
 
     test('GET / should return 200 (React app)', async () => {
-      const res = await request(app).get('/');
+  const res = await request(app).get('/');
       expect(res.status).toBe(200);
     });
   });
@@ -58,7 +47,7 @@ describe('EFH Brain Service - Federal Compliance Testing', () => {
   // DOE/DWD/DOL Compliance Tests
   describe('Federal Compliance APIs', () => {
     test('GET /api/compliance should return compliance status', async () => {
-      const res = await request(app).get('/api/compliance');
+  const res = await request(app).get('/api/compliance');
       expect(res.status).toBe(200);
       expect(res.body.title).toBe('Federal Workforce Compliance Portal');
       expect(res.body.status).toBe('FULLY_COMPLIANT');
@@ -76,7 +65,7 @@ describe('EFH Brain Service - Federal Compliance Testing', () => {
     });
 
     test('GET /api/compliance/validate should pass all validations', async () => {
-      const res = await request(app).get('/api/compliance/validate');
+  const res = await request(app).get('/api/compliance/validate');
       expect(res.status).toBe(200);
       expect(res.body.overallStatus).toBe('COMPLIANT');
       
@@ -98,7 +87,7 @@ describe('EFH Brain Service - Federal Compliance Testing', () => {
   // Sister Sites Ecosystem Tests
   describe('Sister Sites Ecosystem', () => {
     test('GET /api/sister-sites should return all sites', async () => {
-      const res = await request(app).get('/api/sister-sites');
+  const res = await request(app).get('/api/sister-sites');
       expect(res.status).toBe(200);
       expect(res.body.brain).toBe('active');
       expect(res.body.ecosystem).toBe('feeding-main-domain');
@@ -115,7 +104,7 @@ describe('EFH Brain Service - Federal Compliance Testing', () => {
     });
 
     test('GET /api/navigation should return complete navigation', async () => {
-      const res = await request(app).get('/api/navigation');
+  const res = await request(app).get('/api/navigation');
       expect(res.status).toBe(200);
       expect(res.body.mainMenu).toHaveLength(6);
       
@@ -130,7 +119,7 @@ describe('EFH Brain Service - Federal Compliance Testing', () => {
   // Stripe Integration Tests
   describe('Payment Processing', () => {
     test('GET /api/stripe/config should return Stripe configuration', async () => {
-      const res = await request(app).get('/api/stripe/config');
+  const res = await request(app).get('/api/stripe/config');
       expect(res.status).toBe(200);
       expect(res.body.programs).toHaveLength(3);
       expect(res.body.fundingOptions).toHaveProperty('wioa');
@@ -144,7 +133,7 @@ describe('EFH Brain Service - Federal Compliance Testing', () => {
         user_id: 'test-user-123'
       };
       
-      const res = await request(app)
+  const res = await request(app)
         .post('/api/stripe/create-payment-intent')
         .send(paymentData);
       
@@ -163,7 +152,7 @@ describe('EFH Brain Service - Federal Compliance Testing', () => {
   // Widget Integration Tests
   describe('Embeddable Widgets', () => {
     test('GET /api/widgets/hero-content should return hero content', async () => {
-      const res = await request(app).get('/api/widgets/hero-content');
+  const res = await request(app).get('/api/widgets/hero-content');
       expect(res.status).toBe(200);
       expect(res.body.widget).toBe('hero-content');
       expect(res.body.hero.headline).toBe('Launch Your AI & Data Science Career');
@@ -174,14 +163,14 @@ describe('EFH Brain Service - Federal Compliance Testing', () => {
     });
 
     test('GET /api/widgets/program-carousel should return programs', async () => {
-      const res = await request(app).get('/api/widgets/program-carousel');
+  const res = await request(app).get('/api/widgets/program-carousel');
       expect(res.status).toBe(200);
       expect(res.body.widget).toBe('program-carousel');
       expect(res.body.programs).toHaveLength(3);
     });
 
     test('GET /api/widgets/integration.js should return JavaScript integration', async () => {
-      const res = await request(app).get('/api/widgets/integration.js');
+  const res = await request(app).get('/api/widgets/integration.js');
       expect(res.status).toBe(200);
       expect(res.headers['content-type']).toContain('application/javascript');
       expect(res.text).toContain('ElevateForHumanityBrain');
@@ -191,7 +180,7 @@ describe('EFH Brain Service - Federal Compliance Testing', () => {
   // Branding Assets Tests
   describe('Branding Assets', () => {
     test('GET /api/branding should return branding configuration', async () => {
-      const res = await request(app).get('/api/branding');
+  const res = await request(app).get('/api/branding');
       expect(res.status).toBe(200);
       
       // Logo requirements
@@ -212,7 +201,7 @@ describe('EFH Brain Service - Federal Compliance Testing', () => {
   // Federal Reporting Compliance
   describe('Federal Reporting Standards', () => {
     test('Should meet WIOA Title I Adult Program Standards', async () => {
-      const compliance = await request(app).get('/api/compliance/validate');
+  const compliance = await request(app).get('/api/compliance/validate');
       const wioaValidation = compliance.body.validations.wioa_eligibility;
       
       expect(wioaValidation.status).toBe('PASS');
@@ -220,7 +209,7 @@ describe('EFH Brain Service - Federal Compliance Testing', () => {
     });
 
     test('Should meet PIRL reporting requirements', async () => {
-      const compliance = await request(app).get('/api/compliance/validate');
+  const compliance = await request(app).get('/api/compliance/validate');
       const pirlValidation = compliance.body.validations.pirl_reporting;
       
       expect(pirlValidation.status).toBe('PASS');
@@ -228,7 +217,7 @@ describe('EFH Brain Service - Federal Compliance Testing', () => {
     });
 
     test('Should meet financial compliance standards', async () => {
-      const compliance = await request(app).get('/api/compliance/validate');
+  const compliance = await request(app).get('/api/compliance/validate');
       const financialValidation = compliance.body.validations.financial_compliance;
       
       expect(financialValidation.status).toBe('PASS');
@@ -240,14 +229,14 @@ describe('EFH Brain Service - Federal Compliance Testing', () => {
   describe('Performance & Security', () => {
     test('API responses should be fast (under 500ms)', async () => {
       const start = Date.now();
-      await request(app).get('/api/navigation');
+  await request(app).get('/api/navigation');
       const duration = Date.now() - start;
       
       expect(duration).toBeLessThan(500);
     });
 
     test('Should have proper CORS headers for main domain', async () => {
-      const res = await request(app)
+  const res = await request(app)
         .get('/api/sister-sites')
         .set('Origin', 'https://www.elevateforhumanity.org');
       
@@ -281,7 +270,7 @@ describe('Data Integrity & Validation', () => {
     ];
     
     for (const endpoint of endpoints) {
-      const res = await request(createTestApp()).get(endpoint);
+  const res = await request(app).get(endpoint);
       expect(res.status).toBe(200);
       expect(res.headers['content-type']).toContain('application/json');
       expect(() => JSON.parse(JSON.stringify(res.body))).not.toThrow();
@@ -289,7 +278,7 @@ describe('Data Integrity & Validation', () => {
   });
 
   test('Federal compliance data should be current', async () => {
-    const res = await request(createTestApp()).get('/api/compliance');
+  const res = await request(app).get('/api/compliance');
     const compliance = res.body;
     
     // Check that audit dates are reasonable
@@ -307,7 +296,7 @@ describe('Data Integrity & Validation', () => {
 // Integration Tests
 describe('Main Domain Integration', () => {
   test('Integration guide should provide complete instructions', async () => {
-    const res = await request(createTestApp()).get('/api/integration-guide');
+  const res = await request(app).get('/api/integration-guide');
     expect(res.status).toBe(200);
     expect(res.body.title).toBe('Elevate for Humanity Brain Integration Guide');
     expect(res.body.integration.step1.title).toBe('Include Brain Script');
@@ -316,7 +305,7 @@ describe('Main Domain Integration', () => {
   });
 
   test('Widget containers should be properly defined', async () => {
-    const res = await request(createTestApp()).get('/api/integration-guide');
+  const res = await request(app).get('/api/integration-guide');
     const widgets = res.body.integration.step2.examples;
     
     expect(widgets).toHaveLength(5);

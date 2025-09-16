@@ -1,3 +1,47 @@
+## Environment Variables
+
+Validated at build via `scripts/validate-env.js` (runs in `prebuild`). Required:
+
+STRIPE_SECRET_KEY
+STRIPE_SUCCESS_URL
+STRIPE_CANCEL_URL
+SUPABASE_URL
+SUPABASE_SERVICE_KEY
+
+Add them to your Vercel project settings or a local `.env` file (do not commit secrets).
+
+# Deployment
+
+## Docker
+Build image:
+```
+docker build -t efh-app .
+```
+Run container:
+```
+docker run -p 5000:5000 --name efh efh-app
+```
+Health checks:
+- http://localhost:5000/api/healthz
+- http://localhost:5000/api/readiness
+
+Metrics: http://localhost:5000/api/metrics
+
+Autopilot status: http://localhost:5000/api/autopilot/status
+
+Set environment variables as needed (examples):
+```
+PORT=5000
+JWT_SECRET=replace_me
+ADMIN_SECRET=admin_secret_here
+AUTOPILOT_MAX_TASKS=800
+```
+
+## Production Notes
+- Run behind reverse proxy (Nginx / Caddy) for TLS.
+- Persist `autopilot-tasks.json` only if you need history between restarts (mount a volume).
+- For Prisma with SQLite dev -> mount `prisma/dev.db` or migrate to Postgres for concurrency.
+
 # Multi-Site Ecosystem Implementation
 
 This project implements a complete multi-site ecosystem for Elevate for Humanity using Supabase for shared user memory.
@@ -107,6 +151,77 @@ All sites share user data through Supabase:
 7. **Learning**: Access content based on enrollment status
 
 The system ensures seamless experience as users move between different parts of the ecosystem.
+
+## 🔍 Health & Monitoring
+- Basic liveness: `/health`
+- Aggregated: `/api/healthz` returns service statuses (api, lms, compliance, db) + uptime
+- Request IDs returned in `X-Request-ID` header and error payloads
+
+## 🛠️ Observability & Operations
+| Aspect | Implementation | Usage |
+|--------|----------------|-------|
+| Logs | Pino JSON + daily file rotation (`logs/`) | `npm run logs:tail`, ship to central store |
+| Log Retention | Compress/prune via `npm run logs:rotate` | Set `LOG_RETENTION_DAYS` (default 7) |
+| Metrics | Prometheus text at `/metrics` | Add scrape job; view counters & memory |
+| Errors | Optional Sentry (`SENTRY_DSN`) | Provide Sentry secrets + CI release step |
+| Tracing | Optional OpenTelemetry (`ENABLE_OTEL=1`) | Set OTLP endpoint `OTEL_EXPORTER_OTLP_ENDPOINT` |
+| Perf Budgets | Lighthouse + `budgets.json` enforced in CI | Tune thresholds as app scales |
+| Bundle Size | `npm run size:check` (total + per-file) | Adjust `BUNDLE_BUDGET_KB`, `BUNDLE_SINGLE_MAX_KB` |
+| Heartbeat | 30s structured log with mem + request delta | Search for `"msg":"heartbeat"` |
+
+### Key Env Vars
+```
+SENTRY_DSN=
+SENTRY_TRACES=0.1
+ENABLE_OTEL=1
+OTEL_EXPORTER_OTLP_ENDPOINT=https://otel-collector.example/v1/traces
+OTEL_SERVICE_NAME=efh-app
+LOG_RETENTION_DAYS=14
+BUNDLE_BUDGET_KB=800
+BUNDLE_SINGLE_MAX_KB=260
+```
+
+## 🧪 Testing & Quality Gates
+- Vitest with coverage thresholds (lines >=70%)
+- Run: `npm test`
+- Env validation: `npm run env:check`
+
+## 🔐 Security (Phase 1)
+- Helmet, rate limiting, compression
+- JWT secret required (placeholder currently) – replace in production
+- No user auth flow yet (future phase) – LMS progress uses demo user fallback
+
+## 📘 Compliance
+See `COMPLIANCE.md` for current (stub) check catalog.
+
+## 🗄️ Database
+- Prisma + SQLite fallback (dev)
+- Postgres upgrade path documented in `MIGRATIONS.md`
+
+## 🛰️ Payments
+- `/api/stripe/create-payment-intent` simulated unless `STRIPE_SECRET_KEY` set
+
+## 🧭 LMS Endpoints
+- `GET /api/lms/courses`
+- `GET /api/lms/courses/:id`
+- `GET /api/lms/courses/:id/lessons`
+- `POST /api/lms/progress` (body: `{ lessonId, userId? }`)
+
+## ✅ Production Readiness Checklist (Phase 1)
+- [ ] Set real `JWT_SECRET`
+- [ ] Provide `DATABASE_URL` (switch to Postgres)
+- [ ] Run migrations (`npx prisma migrate deploy`)
+- [ ] Configure Stripe secret (optional)
+- [ ] Add proper auth layer & replace demo user
+- [ ] Enable logging aggregation (e.g., Cloud provider)
+- [ ] Review rate limit thresholds
+
+## 🗺️ Roadmap (Phase 2+)
+- Real compliance evidence linkage
+- Auth sessions + refresh flow
+- Metrics & tracing (OpenTelemetry)
+- Frontend unification (SPA)
+- Robust enrollment/payment domain logic
 
 # Workspace (Plain Vite + TypeScript)
 

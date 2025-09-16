@@ -1,0 +1,41 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended", ":dependencyDashboard", ":semanticCommits"],
+  "timezone": "America/Indiana/Indianapolis",
+  "schedule": ["after 2am and before 6am on every weekday"],
+  "rangeStrategy": "bump",
+  "prHourlyLimit": 2,
+  "prConcurrentLimit": 10,
+  "labels": ["deps"],
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": ["before 3am on saturday"]
+  },
+  "packageRules": [
+    {
+      "description": "Auto-merge safe devDependency patch/minor",
+      "matchDepTypes": ["devDependencies"],
+      "matchUpdateTypes": ["patch", "minor"],
+      "automerge": true,
+      "automergeType": "pr"
+    },
+    {
+      "description": "Group Vite stack",
+      "groupName": "vite stack",
+      "matchPackagePatterns": ["^vite$", "^@vitejs/"],
+      "labels": ["deps","vite"]
+    },
+    {
+      "description": "Group React stack",
+      "groupName": "react stack",
+      "matchPackagePatterns": ["^react$", "^react-dom$", "^@types/react$", "^@types/react-dom$"],
+      "labels": ["deps","react"]
+    },
+    {
+      "description": "Group TS + ESLint",
+      "groupName": "ts + eslint",
+      "matchPackagePatterns": ["^typescript$", "^@typescript-eslint/", "^eslint", "^@eslint/"],
+      "labels": ["deps","lint"]
+    }
+  ]
+}

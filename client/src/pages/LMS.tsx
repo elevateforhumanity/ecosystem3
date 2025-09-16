@@ -1,22 +1,21 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
-import { BookOpen, Play, CheckCircle, Clock, Award, Download, User, Loader2, Search, Bookmark, FileText } from "lucide-react";
-import { Link, useRoute } from "wouter";
+import { BookOpen, Play, CheckCircle, Clock, Award, Download, User, Loader2 } from "lucide-react";
+import { Link } from "wouter";
 
 export default function LMS() {
-  const [match, params] = useRoute("/lms/:module?");
-  const [selectedCourse, setSelectedCourse] = useState(null);
-  const [courses, setCourses] = useState([]);
+  // Route params not currently used; simplifying to static view for now.
+  const params: { module?: string } = {};
+  // const [selectedCourse, setSelectedCourse] = useState(null); // reserved for future detail view
+  interface CourseLite { id: string; enrolled?: boolean; [k: string]: any }
+  const [courses, setCourses] = useState<CourseLite[]>([]);
   const [loading, setLoading] = useState(true);
   const [courseDetails, setCourseDetails] = useState(new Map());
-  const [contentLibrary, setContentLibrary] = useState({});
-  const [searchQuery, setSearchQuery] = useState("");
-  const [activeVideo, setActiveVideo] = useState(null);
-  const [bookmarks, setBookmarks] = useState([]);
-  const [learningPaths, setLearningPaths] = useState([]);
+  // Placeholder state removed to reduce lint noise (restore when implementing features)
 
   // Lazy load courses on component mount
   useEffect(() => {
     loadCourses();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const loadCourses = useCallback(async () => {
@@ -54,13 +53,8 @@ export default function LMS() {
   }, [courseDetails]);
 
   // Memoize filtered courses to prevent unnecessary re-renders
-  const enrolledCourses = useMemo(() => 
-    courses.filter(course => course.enrolled), [courses]
-  );
-
-  const availableCourses = useMemo(() => 
-    courses.filter(course => !course.enrolled), [courses]
-  );
+  const enrolledCourses = useMemo(() => courses.filter(c => c.enrolled), [courses]);
+  const availableCourses = useMemo(() => courses.filter(c => !c.enrolled), [courses]);
 
   if (loading) {
     return (

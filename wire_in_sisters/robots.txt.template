@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Unified sitemap index for all sister sites
+Sitemap: {{ main_domain }}/sitemaps/sitemap_index.xml

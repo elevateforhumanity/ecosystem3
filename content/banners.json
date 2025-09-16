@@ -1,0 +1,23 @@
+[
+  {
+    "id": "mission-impact",
+    "headline": "Transforming Workforce Futures",
+    "sub": "Rise Forward Foundation empowers learners with AI & data skills",
+    "cta": { "label": "Explore Programs", "href": "/programs" },
+    "theme": "primary"
+  },
+  {
+    "id": "compliance-ready",
+    "headline": "WIOA & PIRL Aligned from Day One",
+    "sub": "Built-in compliance scaffolding and evidence roadmap",
+    "cta": { "label": "View Compliance", "href": "/api/compliance" },
+    "theme": "secondary"
+  },
+  {
+    "id": "license-platform",
+    "headline": "License the Full Ecosystem",
+    "sub": "Whitelabel LMS + Compliance + Payments stack",
+    "cta": { "label": "Licensing", "href": "/licensing" },
+    "theme": "accent"
+  }
+]

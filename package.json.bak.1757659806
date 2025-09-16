@@ -1,0 +1,38 @@
+{
+  "name": "workspace",
+  "version": "1.0.0",
+  "description": "Elevate for Humanity web app",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --port 3000",
+    "deploy": "./deploy.sh",
+    "lint": "eslint . --ext .ts,.tsx,.js,.jsx",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --write .",
+    "test": "echo \"(add tests)\" && exit 0",
+    "start:prod": "npx serve -s dist -l 8080",
+    "open": "$BROWSER http://localhost:3000"
+  },
+  "dependencies": {
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^5.0.2",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.4",
+    "eslint": "8.57.0",
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
+    "prettier": "^3.3.3",
+    "serve": "^14.2.3"
+  },
+  "overrides": {
+    "eslint": "8.57.0"
+  },
+  "engines": {
+    "node": "20.x"
+  }
+}

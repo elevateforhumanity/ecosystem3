@@ -1,0 +1,25 @@
+# Configure your main domain and sister sites here.
+# For each sister site, either provide an existing sitemap URL, or a list of seed_pages
+# to build a minimal fallback sitemap. Absolute URLs are recommended for seed_pages.
+
+main_domain: https://www.elevateforhumanity.org
+
+sites:
+  - name: Elevate for Humanity (Main)
+    url: https://www.elevateforhumanity.org
+    # If your main site already has a sitemap, list it here (optional)
+    sitemap: https://www.elevateforhumanity.org/sitemap.xml
+
+  # EXAMPLE – replace with your real sister sites
+  - name: Sister Site A
+    url: https://example-sister-a.org
+    # No sitemap? Provide seed pages (absolute or relative to url)
+    seed_pages:
+      - /
+      - /programs
+      - /apply
+      - /partners
+
+  - name: Sister Site B
+    url: https://example-sister-b.com
+    sitemap: https://example-sister-b.com/sitemap.xml

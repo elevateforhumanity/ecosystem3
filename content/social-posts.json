@@ -1,0 +1,26 @@
+[
+  {
+    "id": "codebase-license-value",
+    "angle": "codebase",
+    "template": "We packaged LMS + compliance + payments + directory + affiliate into a licensable stack. Standard license: $5K. DM for enterprise. #workforcedevelopment #edtech",
+    "cta": "/pricing#codebase"
+  },
+  {
+    "id": "launch-pack-scarcity",
+    "angle": "offer",
+    "template": "Launch Pack (save $800) – Codebase license + onboarding call. 3 slots this week. Reply 'LAUNCH' to lock it.",
+    "cta": "/catalog#launch-pack"
+  },
+  {
+    "id": "directory-premium-early",
+    "angle": "directory",
+    "template": "Premium Directory Early Adopter – $499 (then $749). Visibility + featured placement for workforce partners.",
+    "cta": "/catalog#DIRECTORY_LISTING_PREMIUM"
+  },
+  {
+    "id": "affiliate-recruit",
+    "angle": "affiliate",
+    "template": "Affiliate Program (20% year 1) now live. Early partners get 30% for September referrals. Apply inside the platform.",
+    "cta": "/affiliate"
+  }
+]

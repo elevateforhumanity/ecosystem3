@@ -1,0 +1,35 @@
+name: Dependency Audit
+
+on:
+  schedule:
+    - cron: '0 6 * * 1' # weekly Monday 06:00 UTC
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.17.0
+          cache: npm
+      - name: Install
+        run: npm ci --no-audit --no-fund
+      - name: Production Audit
+        run: npm audit --audit-level=moderate || true
+      - name: Outdated Report
+        run: npm outdated || true
+      - name: Generate SBOM (cyclonedx)
+        run: npx @cyclonedx/cyclonedx-npm --output-format json --output-file sbom.json || true
+      - name: Upload SBOM
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbom
+          path: sbom.json
+      - name: Summary
+        run: |
+          echo '## Dependency Audit' >> $GITHUB_STEP_SUMMARY
+          echo 'Audit + SBOM generated (see artifacts).' >> $GITHUB_STEP_SUMMARY

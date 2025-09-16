@@ -1,0 +1,102 @@
+Awesome — here’s a known-good Vite + React 18 entry you can drop in to guarantee the app mounts.
+
+client/src/main.tsx
+
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import "./index.css";
+
+// Simple boot log so you can confirm the bundle runs
+console.info("EFH React boot @", new Date().toISOString());
+
+const rootEl = document.getElementById("root");
+if (!rootEl) {
+  // Fail loudly if #root is missing
+  throw new Error('Root element "#root" not found in index.html');
+}
+
+ReactDOM.createRoot(rootEl).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+
+client/src/App.tsx
+
+import React from "react";
+
+export default function App() {
+  return (
+    <main style={{ padding: 24, fontFamily: "system-ui, -apple-system, Segoe UI, Roboto, Arial" }}>
+      <h1>Elevate for Humanity</h1>
+      <p>Your React app is mounted and rendering.</p>
+    </main>
+  );
+}
+
+client/index.html
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Elevate for Humanity</title>
+
+    <!-- Basic SEO/OG (edit later as needed) -->
+    <meta name="description" content="Career training, apprenticeships, and workforce development." />
+    <meta property="og:title" content="Elevate for Humanity" />
+    <meta property="og:description" content="Career training, apprenticeships, and workforce development." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.elevateforhumanity.org" />
+
+    <!-- Vite injects module scripts automatically during build -->
+  </head>
+  <body>
+    <!-- This MUST exist and be unique -->
+    <div id="root"></div>
+    <!-- In dev, Vite will inject scripts. In build, index.html is processed. -->
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
+(Optional) client/vite.config.ts
+
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+
+export default defineConfig({
+  plugins: [react()],
+  base: "/", // important if you deploy at the domain root
+  build: { sourcemap: true }
+});
+
+
+---
+
+Deploy steps (quick)
+
+cd client
+npm install
+npm run build
+# back to project root where your Express server is:
+npm run start
+
+Your Express server should already be serving client/dist and falling back to index.html. If not, use the server.mjs I sent earlier.
+
+
+---
+
+Sanity checks
+
+Open the site → DevTools → Console: you should see EFH React boot @ ....
+
+Elements tab should show lots of nodes inside #root (not just an empty div).
+
+If you still see a blank page on your phone, clear the site data (Chrome → Site settings → All sites → elevateforhumanity.org → Clear & reset) and reload.
+
+
+Want me to also drop in a tiny runtime error boundary so any React error prints on the page instead of rendering blank?
+

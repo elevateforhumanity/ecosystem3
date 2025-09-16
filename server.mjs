@@ -9,7 +9,10 @@ import { fileURLToPath } from "url";
 import http from "http";
 import compression from "compression";
 import helmet from "helmet";
-import morgan from "morgan";
+// Removed morgan in favor of pino structured logging + optional Sentry/OTel
+import pino from "pino";
+import pinoHttp from "pino-http";
+import rateLimit from "express-rate-limit";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -17,6 +20,23 @@ const __dirname = path.dirname(__filename);
 const app = express();
 app.set("trust proxy", true);
 app.disable("x-powered-by");
+
+// -------- Rate Limiting (basic) --------
+// General limiter: broad protection for all requests (light throttle)
+const generalLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: parseInt(process.env.RATE_GENERAL_MAX || '300', 10),
+  standardHeaders: true,
+  legacyHeaders: false
+});
+// Admin limiter: stricter for sensitive control endpoints
+const adminLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: parseInt(process.env.RATE_ADMIN_MAX || '10', 10),
+  standardHeaders: true,
+  legacyHeaders: false
+});
+app.use(generalLimiter);
 
 // -------- Build mode & cache version --------
 const BUILD_MODE = (() => {
@@ -47,8 +67,55 @@ app.use((req, res, next) => {
   next();
 });
 
-// Access logs (short)
-app.use(morgan("tiny"));
+// ---- Structured Logger (daily rotation) ----
+const logDir = path.join(__dirname, 'logs');
+if (!fs.existsSync(logDir)) fs.mkdirSync(logDir, { recursive: true });
+let logDate = new Date().toISOString().slice(0,10);
+let logStream = fs.createWriteStream(path.join(logDir, `app-${logDate}.log`), { flags: 'a' });
+function rotate(){
+  const d = new Date().toISOString().slice(0,10);
+  if (d !== logDate){
+    try { logStream.end(); } catch(_){}
+    logDate = d;
+    logStream = fs.createWriteStream(path.join(logDir, `app-${logDate}.log`), { flags: 'a' });
+  }
+}
+setInterval(rotate, 60_000).unref();
+const logger = pino({ level: process.env.LOG_LEVEL || 'info' }, logStream);
+app.use(pinoHttp({ logger }));
+
+// ---- Optional Sentry (error tracking) ----
+let sentryEnabled = false;
+let sentryRef = null;
+try {
+  if (process.env.SENTRY_DSN) {
+  const Sentry = await import('@sentry/node');
+  Sentry.init({ dsn: process.env.SENTRY_DSN, tracesSampleRate: parseFloat(process.env.SENTRY_TRACES || '0.0') });
+  sentryRef = Sentry;
+    sentryEnabled = true;
+    logger.info({ msg: 'sentry_initialized' });
+  }
+} catch (e) {
+  logger.warn({ msg: 'sentry_init_failed', error: e.message });
+}
+
+// ---- Optional OpenTelemetry (basic traces) ----
+if (process.env.ENABLE_OTEL === '1') {
+  try {
+    const { NodeSDK } = await import('@opentelemetry/sdk-node');
+    const { getNodeAutoInstrumentations } = await import('@opentelemetry/auto-instrumentations-node');
+    const { OTLPTraceExporter } = await import('@opentelemetry/exporter-trace-otlp-http');
+    const sdk = new NodeSDK({
+      traceExporter: new OTLPTraceExporter({}),
+      instrumentations: [getNodeAutoInstrumentations()]
+    });
+    sdk.start();
+    logger.info({ msg: 'otel_started' });
+    process.on('SIGTERM', () => sdk.shutdown().catch(()=>{}));
+  } catch (e) {
+    logger.warn({ msg: 'otel_init_failed', error: e.message });
+  }
+}
 
 // Only parse JSON on the few endpoints that need it
 const jsonParser = express.json({ limit: "200kb" });
@@ -68,14 +135,14 @@ function checkAdmin(req) {
   return ADMIN_TOKEN && provided === ADMIN_TOKEN;
 }
 
-app.post("/_restart", jsonParser, (req, res) => {
+app.post("/_restart", adminLimiter, jsonParser, (req, res) => {
   if (!ADMIN_TOKEN) return res.status(500).json({ ok: false, error: "ADMIN_TOKEN not set" });
   if (!checkAdmin(req)) return res.status(403).json({ ok: false, error: "Forbidden" });
   res.json({ ok: true, restarting: true, at: new Date().toISOString() });
   setTimeout(() => process.exit(0), 150);
 });
 
-app.post("/_purge", jsonParser, (req, res) => {
+app.post("/_purge", adminLimiter, jsonParser, (req, res) => {
   if (!ADMIN_TOKEN) return res.status(500).json({ ok: false, error: "ADMIN_TOKEN not set" });
   if (!checkAdmin(req)) return res.status(403).json({ ok: false, error: "Forbidden" });
   CACHE_VERSION = Date.now();
@@ -152,8 +219,13 @@ npm run start</code></pre>
 // -------- Error handling (last) --------
 // 404 is handled by SPA fallback; generic error handler below
 // eslint-disable-next-line no-unused-vars
+let totalErrors = 0;
 app.use((err, _req, res, _next) => {
-  console.error("[ERROR]", err);
+  totalErrors++;
+  logger.error({ err }, 'app_error');
+  if (sentryEnabled && sentryRef) {
+    try { sentryRef.captureException(err); } catch(_) {}
+  }
   res.status(500).json({ ok: false, error: "Internal Server Error" });
 });
 
@@ -167,38 +239,66 @@ server.headersTimeout = 65_000;        // must be > keepAliveTimeout
 server.requestTimeout = 60_000;        // 60s
 
 server.listen(PORT, () => {
-  console.log(`EFH server running on http://localhost:${PORT} | mode=${BUILD_MODE}`);
+  logger.info({ msg: 'server_listen', port: PORT, mode: BUILD_MODE });
 });
 
 // ---- Enhanced heartbeat with memory & request tracking (every 30s)
 let reqCount = 0;
-app.use((_req, _res, next) => { reqCount++; next(); });
+let totalRequests = 0;
+app.use((_req, _res, next) => { reqCount++; totalRequests++; next(); });
 
 setInterval(() => {
   const m = process.memoryUsage();
   const mb = (x) => Math.round((x / 1024 / 1024) * 10) / 10;
-  console.log(
-    `[heartbeat] up=${Math.round(process.uptime())}s ` +
-    `mode=${BUILD_MODE} cache=${CACHE_VERSION} ` +
-    `mem rss=${mb(m.rss)}MB heap=${mb(m.heapUsed)}/${mb(m.heapTotal)}MB ext=${mb(m.external)}MB ` +
-    `reqs_since_last=${reqCount}`
-  );
+  logger.info({
+    msg: 'heartbeat',
+    upSeconds: Math.round(process.uptime()),
+    mode: BUILD_MODE,
+    cache: CACHE_VERSION,
+    mem: { rssMB: mb(m.rss), heapUsedMB: mb(m.heapUsed), heapTotalMB: mb(m.heapTotal), externalMB: mb(m.external) },
+    requestsLastInterval: reqCount,
+    totalRequests,
+    totalErrors
+  });
   reqCount = 0;
 }, 30_000).unref();
 
 // -------- Process safety nets --------
 process.on("unhandledRejection", (reason, p) => {
-  console.error("[unhandledRejection]", reason, "at", p);
+  logger.error({ reason, promise: p }, 'unhandledRejection');
 });
 process.on("uncaughtException", (err) => {
-  console.error("[uncaughtException]", err);
+  logger.error({ err }, 'uncaughtException');
   // choose to keep running; restart only via /_restart
 });
 
+// ---- Metrics endpoint (Prometheus format) ----
+app.get('/metrics', (_req, res) => {
+  const mem = process.memoryUsage();
+  const lines = [
+    '# HELP efh_requests_total Total requests since start',
+    '# TYPE efh_requests_total counter',
+    `efh_requests_total ${totalRequests}`,
+    '# HELP efh_errors_total Total errors since start',
+    '# TYPE efh_errors_total counter',
+    `efh_errors_total ${totalErrors}`,
+    '# HELP efh_process_memory_rss_bytes RSS memory',
+    '# TYPE efh_process_memory_rss_bytes gauge',
+    `efh_process_memory_rss_bytes ${mem.rss}`,
+    '# HELP efh_process_uptime_seconds Uptime seconds',
+    '# TYPE efh_process_uptime_seconds gauge',
+    `efh_process_uptime_seconds ${Math.round(process.uptime())}`
+  ];
+  res.set('Content-Type', 'text/plain').send(lines.join('\n')+'\n');
+});
+
 const shutdown = (sig) => () => {
-  console.log(`[${sig}] graceful shutdown...`);
+  logger.info({ msg: 'graceful_shutdown', signal: sig });
   server.close(() => process.exit(0));
   setTimeout(() => process.exit(0), 2_000).unref();
 };
 process.on("SIGTERM", shutdown("SIGTERM"));
 process.on("SIGINT", shutdown("SIGINT"));
+
+// Exports for testing
+export { app, server };

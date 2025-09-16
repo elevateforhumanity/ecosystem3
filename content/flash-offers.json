@@ -1,0 +1,32 @@
+[
+  {
+    "id": "launch-pack",
+    "title": "Launch Pack – Save $800 (Ends Soon)",
+    "description": "Codebase license + onboarding call bundle.",
+    "price": 4200,
+    "currency": "USD",
+    "original": 5000,
+    "limit": 3,
+    "remaining": 3,
+    "starts": "2025-09-08T00:00:00.000Z",
+    "ends": "2025-09-10T23:59:59.000Z",
+    "cta": "Claim Offer",
+    "link": "#contact" ,
+    "tags": ["bundle","limited"]
+  },
+  {
+    "id": "directory-premium-early",
+    "title": "Premium Directory Early Adopter",
+    "description": "First 5 get $499 then price reverts to $749.",
+    "price": 499,
+    "currency": "USD",
+    "original": 749,
+    "limit": 5,
+    "remaining": 5,
+    "starts": "2025-09-08T00:00:00.000Z",
+    "ends": "2025-09-09T23:59:59.000Z",
+    "cta": "Reserve Slot",
+    "link": "#directory",
+    "tags": ["discount","scarcity"]
+  }
+]

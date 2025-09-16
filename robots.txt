@@ -26,7 +26,8 @@ Disallow: /.replit
 Disallow: /package.json
 
 # Sitemap location
-Sitemap: https://stripe-integrate-curvaturebodysc.replit.app/sitemap.xml
+Sitemap: https://www.elevateforhumanity.org/sitemap-index.xml
+Sitemap: https://www.elevateforhumanity.org/sitemap.xml
 
 # Cache control
 Allow: /?v=*
@@ -37,4 +38,4 @@ Allow: /hub?v=*
 Crawl-delay: 1
 
 # Last updated
-# Generated: 2025-01-28
+# Generated: 2025-09-08

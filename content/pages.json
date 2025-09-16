@@ -1,0 +1,107 @@
+{
+  "landing": {
+    "hero": {
+      "title": "Rise Forward Foundation",
+      "tagline": "Accessible, compliant, future-ready workforce learning.",
+      "mission": "We accelerate economic mobility through AI, data, and digital skills education wrapped in compliant workforce pathways.",
+      "highlights": [
+        "AI & Data Integrated Curriculum",
+        "WIOA / PIRL Scaffolded",
+        "Funding Pathways & Employer Alignment",
+        "Licensable Full Stack Ecosystem"
+      ]
+    },
+    "sections": [
+      {
+        "id": "why",
+        "title": "Why This Platform",
+        "bullets": [
+          "Single stack: LMS + Compliance + Payments + Partner Gateway",
+          "Faster intake: funding eligibility scaffolds and reporting hooks",
+          "Licensable architecture simplifies replication & scale"
+        ]
+      },
+      {
+        "id": "programs",
+        "title": "Programs",
+        "programRef": true,
+        "footerNote": "Additional tracks launching quarterly."
+      },
+      {
+        "id": "pricing",
+        "title": "Pricing",
+        "plansRef": true,
+        "copy": "Simple, transparent pricing for workforce development ecosystems. Start with a codebase license or scale to hosted multi-tenant delivery and enterprise compliance support."
+      },
+      {
+        "id": "licensing",
+        "title": "Licensing & Deployment",
+        "tiers": [
+          {"name":"Codebase License","summary":"One-off deployment rights","ideal":"Internal innovation teams"},
+          {"name":"Annual SaaS","summary":"Hosted multi-tenant access","ideal":"Training & workforce agencies"},
+          {"name":"Whitelabel","summary":"Custom branding + domain mapping","ideal":"Enterprise / state initiatives"},
+          {"name":"Enterprise Source + Support","summary":"Priority roadmap + SLAs","ideal":"Large scale workforce systems"}
+        ]
+      }
+    ]
+  },
+  "compliance": {
+    "title": "Workforce Compliance & Funding Enablement",
+    "intro": "Structured to support WIOA, PIRL, and state-level reporting readiness with progressive enhancement phases.",
+    "pillars": [
+      {"name":"Eligibility & Intake","detail":"Structured data capture aligned to funding pathways"},
+      {"name":"Evidence & Audit Trail","detail":"Planned evidence item registry & export packs"},
+      {"name":"Reporting Hooks","detail":"PIRL schema mapping stubs with roadmap to automation"}
+    ]
+  },
+  "licensing": {
+    "title": "Licensing & Ecosystem Access",
+    "narrative": "Choose the model that aligns with your deployment, compliance oversight, and customization needs.",
+    "tiersRef": true,
+    "contactCta": "Request Licensing Package"
+  },
+  "pricing": {
+    "title": "Platform Pricing",
+    "intro": "Representative starter pricing. Stripe price IDs can be mapped in environment variables for production checkout integration.",
+    "plans": [
+      {
+        "code": "codebase",
+        "name": "Codebase License",
+        "priceMonthly": null,
+        "priceAnnual": 5000,
+        "oneTime": 5000,
+        "description": "Source access, single organization deployment rights.",
+        "stripePriceAnnualEnv": "STRIPE_PRICE_CODEBASE_ANNUAL"
+      },
+      {
+        "code": "saas",
+        "name": "Annual SaaS",
+        "priceMonthly": 1499,
+        "priceAnnual": 14999,
+        "oneTime": null,
+        "description": "Hosted multi-tenant platform, updates & baseline support.",
+        "stripePriceMonthlyEnv": "STRIPE_PRICE_SAAS_MONTHLY",
+        "stripePriceAnnualEnv": "STRIPE_PRICE_SAAS_ANNUAL"
+      },
+      {
+        "code": "whitelabel",
+        "name": "Whitelabel",
+        "priceMonthly": 3499,
+        "priceAnnual": 34999,
+        "oneTime": null,
+        "description": "Custom domain, branding extensions, advanced theming.",
+        "stripePriceMonthlyEnv": "STRIPE_PRICE_WHITELABEL_MONTHLY",
+        "stripePriceAnnualEnv": "STRIPE_PRICE_WHITELABEL_ANNUAL"
+      },
+      {
+        "code": "enterprise",
+        "name": "Enterprise Source + Support",
+        "priceMonthly": null,
+        "priceAnnual": 75000,
+        "oneTime": null,
+        "description": "Prioritized roadmap, compliance advisory & SLAs.",
+        "stripePriceAnnualEnv": "STRIPE_PRICE_ENTERPRISE_ANNUAL"
+      }
+    ]
+  }
+}

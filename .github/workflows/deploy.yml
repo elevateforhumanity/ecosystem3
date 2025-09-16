@@ -1,0 +1,64 @@
+name: Deploy to S3 + CloudFront
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      site_url:
+        description: "Public site URL (used for sitemap + verification)"
+        required: true
+        type: string
+        default: "https://www.example.com"
+      enable_hls_upload:
+        description: "Upload HLS assets (ENABLE_HLS_UPLOAD)"
+        required: false
+        type: boolean
+        default: false
+      verify_after_deploy:
+        description: "Verify public URLs after deploy (VERIFY_AFTER_DEPLOY)"
+        required: false
+        type: boolean
+        default: true
+      node_version:
+        description: "Node major version"
+        required: false
+        type: string
+        default: "18"
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node_version || '18' }}
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Deploy
+        shell: bash
+        env:
+          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+          CLOUDFRONT_DISTRIBUTION_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
+          SITE_URL: ${{ inputs.site_url || secrets.SITE_URL }}
+          ENABLE_HLS_UPLOAD: ${{ inputs.enable_hls_upload && 'true' || 'false' }}
+          VERIFY_AFTER_DEPLOY: ${{ inputs.verify_after_deploy && 'true' || 'false' }}
+        run: |
+          chmod +x ./deploy.sh
+          ./deploy.sh

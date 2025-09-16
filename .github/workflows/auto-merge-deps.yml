@@ -1,0 +1,42 @@
+name: Auto-merge dependency updates
+on:
+  pull_request:
+    types: [opened, synchronize, labeled, ready_for_review]
+  check_suite:
+    types: [completed]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  automerge:
+    if: github.actor == 'dependabot[bot]' || github.actor == 'renovate[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - if: github.actor == 'dependabot[bot]'
+        id: meta
+        uses: dependabot/fetch-metadata@v2
+
+      - id: decide
+        run: |
+          echo "merge=false" >> $GITHUB_OUTPUT
+          if [ "${{ github.actor }}" = "dependabot[bot]" ]; then
+            t="${{ steps.meta.outputs.update-type }}"
+            if [ "$t" = "version-update:semver-minor" ] || [ "$t" = "version-update:semver-patch" ]; then
+              echo "merge=true" >> $GITHUB_OUTPUT
+            fi
+          fi
+
+      - uses: peter-evans/enable-pull-request-automerge@v3
+        if: steps.decide.outputs.merge == 'true'
+        with:
+          merge-method: squash
+
+      - uses: pascalgn/automerge-action@v0.16.3
+        if: steps.decide.outputs.merge == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MERGE_METHOD: squash

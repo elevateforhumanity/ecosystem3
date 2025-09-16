@@ -1,0 +1,346 @@
+Awesome — I’ll wire this up using the easiest reliable path: Supabase (Auth + Postgres + REST) so all your sister sites share the same “memory” with minimal code.
+
+Below is a complete, copy-paste plan you can do today.
+
+
+---
+
+0) What you’ll get
+
+api.elevateforhumanity.org → (no server needed) powered by Supabase
+
+Shared Auth (email/password, OTP, OAuth) across all subdomains
+
+One Postgres DB (users, profiles, preferences, enrollments, payments, notes)
+
+Your Pay backend (Stripe) updates enrollments after checkout
+
+
+
+---
+
+1) Create the shared memory in Supabase
+
+1. Create a Supabase project.
+
+
+2. In SQL editor, run this schema:
+
+
+
+-- Enable UUID + security helpers
+create extension if not exists "uuid-ossp";
+create extension if not exists "pgcrypto";
+
+-- USERS mirror (auth.users exists already; we link to it)
+create table if not exists public.app_users (
+  id uuid primary key default uuid_generate_v4(),
+  auth_user_id uuid unique not null,            -- references auth.users.id
+  email text unique not null,
+  created_at timestamptz default now()
+);
+
+create table if not exists public.profiles (
+  user_id uuid primary key references public.app_users(id) on delete cascade,
+  first_name text,
+  last_name text,
+  phone text,
+  address jsonb default '{}'::jsonb,
+  updated_at timestamptz default now()
+);
+
+create table if not exists public.preferences (
+  user_id uuid primary key references public.app_users(id) on delete cascade,
+  email_opt_in boolean default true,
+  locale text default 'en-US',
+  accessibility jsonb default '{}'::jsonb,
+  updated_at timestamptz default now()
+);
+
+create table if not exists public.enrollments (
+  id uuid primary key default uuid_generate_v4(),
+  user_id uuid references public.app_users(id) on delete cascade,
+  program_slug text not null,
+  status text not null default 'pending', -- pending|active|completed|cancelled
+  started_at timestamptz,
+  completed_at timestamptz,
+  created_at timestamptz default now()
+);
+
+create table if not exists public.payments (
+  id uuid primary key default uuid_generate_v4(),
+  user_id uuid references public.app_users(id) on delete cascade,
+  stripe_customer_id text,
+  last_payment_at timestamptz,
+  last_checkout_session text,
+  created_at timestamptz default now()
+);
+
+create table if not exists public.notes (
+  id uuid primary key default uuid_generate_v4(),
+  user_id uuid references public.app_users(id) on delete cascade,
+  author text,
+  body text,
+  created_at timestamptz default now()
+);
+
+-- Security: RLS
+alter table public.app_users enable row level security;
+alter table public.profiles enable row level security;
+alter table public.preferences enable row level security;
+alter table public.enrollments enable row level security;
+alter table public.payments enable row level security;
+alter table public.notes enable row level security;
+
+-- Policies: a user can see/edit only their own rows
+create policy "me_read_app_users" on public.app_users
+  for select using (auth.uid() = auth_user_id);
+create policy "me_upsert_app_users" on public.app_users
+  for insert with check (auth.uid() = auth_user_id);
+create policy "me_update_app_users" on public.app_users
+  for update using (auth.uid() = auth_user_id);
+
+create policy "me_rw_profiles" on public.profiles
+  for all using (user_id in (select id from public.app_users where auth_user_id = auth.uid()))
+  with check (user_id in (select id from public.app_users where auth_user_id = auth.uid()));
+
+create policy "me_rw_preferences" on public.preferences
+  for all using (user_id in (select id from public.app_users where auth_user_id = auth.uid()))
+  with check (user_id in (select id from public.app_users where auth_user_id = auth.uid()));
+
+create policy "me_rw_enrollments" on public.enrollments
+  for all using (user_id in (select id from public.app_users where auth_user_id = auth.uid()))
+  with check (user_id in (select id from public.app_users where auth_user_id = auth.uid()));
+
+create policy "me_rw_payments" on public.payments
+  for all using (user_id in (select id from public.app_users where auth_user_id = auth.uid()))
+  with check (user_id in (select id from public.app_users where auth_user_id = auth.uid()));
+
+create policy "me_rw_notes" on public.notes
+  for all using (user_id in (select id from public.app_users where auth_user_id = auth.uid()))
+  with check (user_id in (select id from public.app_users where auth_user_id = auth.uid()));
+
+3. Auth settings → allow your domains:
+www.elevateforhumanity.org, programs.elevateforhumanity.org, lms.elevateforhumanity.org, connect.elevateforhumanity.org, pay.elevateforhumanity.org
+
+
+
+
+---
+
+2) Add Supabase to each sister site (frontend)
+
+In each site (hub, programs, LMS, connect):
+
+Install (if using JS bundlers):
+
+npm i @supabase/supabase-js
+
+Init (put in a small supabase.js):
+
+<script type="module">
+  import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+  // Use your project URL + public anon key
+  export const supabase = createClient(
+    'https://YOUR-PROJECT.supabase.co',
+    'YOUR_PUBLIC_ANON_KEY',
+    { auth: { persistSession: true, storage: localStorage } }
+  );
+</script>
+
+Sign in / up example (any page):
+
+<script type="module">
+  import { supabase } from './supabase.js';
+
+  // Example email OTP sign-in
+  async function signIn(email) {
+    const { error } = await supabase.auth.signInWithOtp({ email });
+    if (error) alert(error.message);
+    else alert('Check your email for a magic link!');
+  }
+  // After magic-link, user is authenticated on this domain
+</script>
+
+
+---
+
+3) “Memory” bootstrap per session
+
+On page load, sync the Supabase auth user to app_users and fetch their profile/preferences:
+
+<script type="module">
+  import { supabase } from './supabase.js';
+
+  async function loadMe() {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return null;
+
+    // Upsert into app_users
+    await supabase.from('app_users').upsert({
+      auth_user_id: user.id,
+      email: user.email
+    }, { onConflict: 'auth_user_id' });
+
+    // Get or create profile/preferences
+    const userRow = await supabase.from('app_users').select('id').eq('auth_user_id', user.id).single();
+    const user_id = userRow.data?.id;
+
+    const { data: profile } = await supabase.from('profiles').select('*').eq('user_id', user_id).maybeSingle();
+    const { data: prefs } = await supabase.from('preferences').select('*').eq('user_id', user_id).maybeSingle();
+
+    return { user, user_id, profile, prefs };
+  }
+
+  window.efhLoadMe = loadMe;
+</script>
+
+
+---
+
+4) Enroll buttons (reuse what you have, add program_slug)
+
+Your existing Enroll helper stays the same; just include program_slug in metadata so Pay → Memory can mark active.
+
+<script>
+  const PAY_API = "https://pay.elevateforhumanity.org/api/checkout";
+  async function efhEnroll({ programName, priceId="", amountUSD=0, metadata={} }) {
+    const body = priceId
+      ? { priceId, quantity: 1, metadata }
+      : { productName: programName, unitAmount: Math.round(amountUSD * 100), currency: "usd", quantity: 1, metadata };
+    const res = await fetch(PAY_API, { method: "POST", headers: { "Content-Type": "application/json" }, credentials: "include", body: JSON.stringify(body) });
+    const data = await res.json();
+    if (data?.url) location.href = data.url; else alert(data?.error || "Checkout failed");
+  }
+</script>
+
+<!-- Example buttons -->
+<button onclick="efhEnroll({ programName:'Business Startup & Marketing', priceId:'', amountUSD:4950, metadata:{ program:'Business Startup & Marketing', program_slug:'business' } })">
+  Enroll – $4,950
+</button>
+<button onclick="efhEnroll({ programName:'CPR / EMS Safety Technician', priceId:'', amountUSD:125, metadata:{ program:'CPR / EMS Safety Technician', program_slug:'cpr-ems' } })">
+  Enroll – $125
+</button>
+
+
+---
+
+5) Pay backend → Supabase (mark enrollment active)
+
+In your Stripe webhook handler (on checkout.session.completed), call Supabase to mark as paid.
+
+A) Create a Supabase Service Role key (server-side only).
+B) In your Pay backend .env:
+
+SUPABASE_URL=https://YOUR-PROJECT.supabase.co
+SUPABASE_SERVICE_KEY=YOUR_SERVICE_ROLE_KEY
+
+C) Add this to your Pay backend code:
+
+import { createClient } from '@supabase/supabase-js';
+
+const supaAdmin = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY);
+
+async function markPaidInSupabase({ email, program_slug, stripe_customer_id, session_id }) {
+  // Find user_id from email
+  const { data: appUser } = await supaAdmin.from('app_users').select('id').eq('email', email).single();
+  if (!appUser) return;
+
+  const user_id = appUser.id;
+
+  // Upsert enrollment → active
+  await supaAdmin.from('enrollments').upsert({
+    user_id, program_slug, status: 'active', started_at: new Date().toISOString()
+  }, { onConflict: 'user_id,program_slug' });
+
+  // Record payment
+  await supaAdmin.from('payments').insert({
+    user_id, stripe_customer_id, last_payment_at: new Date().toISOString(), last_checkout_session: session_id
+  });
+}
+
+// In checkout.session.completed handler:
+const session = event.data.object;
+await markPaidInSupabase({
+  email: session.customer_details?.email,
+  program_slug: session.metadata?.program_slug,
+  stripe_customer_id: session.customer || null,
+  session_id: session.id
+});
+
+
+---
+
+6) Show a student’s enrollments anywhere
+
+In Programs/LMS/Connect pages (after efhLoadMe()):
+
+<script type="module">
+  import { supabase } from './supabase.js';
+
+  async function showEnrollments() {
+    const me = await window.efhLoadMe();
+    if (!me?.user_id) return;
+
+    const { data } = await supabase
+      .from('enrollments')
+      .select('program_slug,status,started_at,completed_at')
+      .order('created_at', { ascending: false });
+
+    // Render a simple list (replace with your UI)
+    const el = document.getElementById('my-enrollments');
+    el.innerHTML = (data || []).map(e => `<li>${e.program_slug} — ${e.status}</li>`).join('');
+  }
+
+  showEnrollments();
+</script>
+
+<ul id="my-enrollments"></ul>
+
+
+---
+
+7) Auth across sister sites (SSO feel)
+
+Using Supabase Auth, each subdomain has its own session.
+
+To make it smoother:
+
+Add a “Sign in” link in your mega-menu that points to a shared page on www; after sign-in, redirect back (?redirect= param).
+
+Or set up a tiny auth proxy so you can refresh tokens silently—optional.
+
+
+
+
+---
+
+8) DNS + security quick list
+
+Add CNAME api.elevateforhumanity.org to Supabase Custom Domain (optional).
+
+In Supabase Auth → URL config, add all subdomains as redirect URLs.
+
+Keep the Service Role key only on the Pay backend server (never in the browser).
+
+CORS: Supabase will accept from anywhere; you can also set Row Level Security (already configured) so users only see their rows.
+
+
+
+---
+
+9) You’re done when…
+
+User signs in on any sister site → app_users upserts.
+
+They click Enroll → Stripe checkout → webhook fires → Supabase enrollment becomes active.
+
+On any site, “My Enrollments” shows the same status — that’s your shared memory working.
+
+
+
+---
+
+If you want, I can generate a tiny “My Account” page that shows Profile + Preferences + Enrollments and lets the user edit them (pure HTML/JS for any site).
+

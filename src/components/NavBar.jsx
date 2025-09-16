@@ -60,6 +60,8 @@ export default function NavBar() {
       <Link to="/instructor">Instructor</Link>
       <Link to="/analytics">Analytics</Link>
       <Link to="/course/demo-course">Course</Link>
+      <Link to="/government">Government</Link>
+      <Link to="/philanthropy">Philanthropy</Link>
       <div style={{ position: "relative" }}>
         <span
           style={{ cursor: "pointer" }}

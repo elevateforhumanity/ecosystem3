@@ -1,0 +1,47 @@
+name: Sister Sites – Unified Sitemaps
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'wire_in_sisters/**'
+      - '.github/workflows/sister-sites.yml'
+  schedule:
+    - cron: '0 7 * * 1' # Mondays 07:00 UTC (~local morning US)
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml requests
+
+      - name: Generate unified sitemaps
+        run: |
+          python wire_in_sisters/generate_sitemaps.py
+
+      - name: Validate sister sites
+        run: |
+          python wire_in_sisters/validate_sites.py || true
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore(sitemaps): refresh unified sitemap index and robots"
+            git push
+          fi

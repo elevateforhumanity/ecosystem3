@@ -1,0 +1,57 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Course",
+  "name": "Digital Marketing & E-Commerce Program",
+  "description": "Comprehensive digital marketing training program covering social media marketing, content creation, SEO fundamentals, e-commerce platforms, and digital advertising strategies.",
+  "provider": {
+    "@type": "Organization",
+    "name": "Elevate for Humanity",
+    "url": "https://www.elevateforhumanity.org/"
+  },
+  "url": "https://www.elevateforhumanity.org/programs/digital-marketing",
+  "courseCode": "MKTG-001",
+  "educationalLevel": "Certificate",
+  "timeRequired": "P14W",
+  "coursePrerequisites": "High school diploma or equivalent, basic computer skills",
+  "competencyRequired": [
+    "Computer literacy",
+    "Creative thinking",
+    "Communication skills"
+  ],
+  "teaches": [
+    "Social media marketing strategies",
+    "Content creation and copywriting",
+    "Search engine optimization (SEO)",
+    "Google Analytics and digital metrics",
+    "E-commerce platform management",
+    "Digital advertising (Google Ads, Facebook Ads)",
+    "Email marketing campaigns"
+  ],
+  "isAccessibleForFree": true,
+  "inLanguage": "en",
+  "availableLanguage": "en",
+  "offers": [
+    {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD",
+      "availability": "https://schema.org/InStock",
+      "category": "WIOA Eligible Program",
+      "description": "Funded through WIOA, WRG, and other federal workforce development programs"
+    }
+  ],
+  "hasCourseInstance": {
+    "@type": "CourseInstance",
+    "courseMode": "Blended",
+    "courseSchedule": {
+      "@type": "Schedule",
+      "duration": "P14W",
+      "repeatFrequency": "Monthly"
+    }
+  },
+  "educationalCredentialAwarded": [
+    "Digital Marketing Certificate",
+    "Google Analytics Certification",
+    "Social Media Marketing Certificate"
+  ]
+}

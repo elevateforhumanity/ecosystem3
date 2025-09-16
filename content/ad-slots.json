@@ -1,0 +1,34 @@
+[
+  {
+    "id": "banner_top_global",
+    "name": "Global Top Banner",
+    "description": "Full-width strip below top system bar.",
+    "dimensions": "full x 48px",
+    "recommendedMonthly": 600,
+    "status": "available"
+  },
+  {
+    "id": "pricing_sidebar_1",
+    "name": "Pricing Sidebar Feature",
+    "description": "Right column feature block on pricing page.",
+    "dimensions": "300x250 flexible",
+    "recommendedMonthly": 450,
+    "status": "available"
+  },
+  {
+    "id": "directory_featured_card",
+    "name": "Directory Featured Card",
+    "description": "Highlighted card at top of directory listings.",
+    "dimensions": "card",
+    "recommendedMonthly": 500,
+    "status": "available"
+  },
+  {
+    "id": "homepage_flash_block",
+    "name": "Homepage Flash Block",
+    "description": "Mid-page promotional placement on home (between sections).",
+    "dimensions": "full width section",
+    "recommendedMonthly": 850,
+    "status": "available"
+  }
+]

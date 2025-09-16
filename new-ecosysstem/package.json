@@ -1,0 +1,25 @@
+{
+  "name": "new-ecosysstem",
+  "version": "1.0.0",
+  "description": "A new ecosystem project using Vite and React.",
+  "main": "src/main.jsx",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
+    "analyze": "vite build --report"
+  },
+  "keywords": [],
+  "author": "Elevate for Humanity",
+  "license": "Commercial",
+  "dependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "@supabase/supabase-js": "^2.0.0"
+  },
+  "devDependencies": {
+    "vite": "^4.0.0",
+    "@vitejs/plugin-react": "^2.0.0",
+    "rollup-plugin-visualizer": "^5.0.0"
+  }
+}

@@ -1,0 +1,2 @@
+npm run preview &
+"$BROWSER" http://localhost:3000

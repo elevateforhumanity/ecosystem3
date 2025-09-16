@@ -1,0 +1,116 @@
+You got it. Here’s both:
+
+A) Rich heartbeat logs (uptime + memory)
+
+Drop this near the bottom of server.mjs, just after server.listen(...):
+
+// ---- Heartbeat with memory & uptime (every 30s)
+let reqCount = 0;
+app.use((_req, _res, next) => { reqCount++; next(); });
+
+setInterval(() => {
+  const m = process.memoryUsage();
+  const mb = (x) => Math.round((x / 1024 / 1024) * 10) / 10;
+  console.log(
+    `[heartbeat] up=${Math.round(process.uptime())}s ` +
+    `mode=${BUILD_MODE} cache=${CACHE_VERSION} ` +
+    `mem rss=${mb(m.rss)}MB heap=${mb(m.heapUsed)}/${mb(m.heapTotal)}MB ext=${mb(m.external)}MB ` +
+    `reqs_since_last=${reqCount}`
+  );
+  reqCount = 0;
+}, 30_000).unref();
+
+This prints a line every 30s with:
+
+uptime
+
+build mode & cache version
+
+RSS / Heap usage (MB)
+
+how many requests were served in the last 30s
+
+
+B) Fix “unsupported packager command” on Replit
+
+That error is Replit’s agent complaining about running package-manager commands inside the automated workflow. Easiest fixes:
+
+1) Run installs yourself (not via agent)
+
+In the shell at the root:
+
+npm run reset   # the script we added: nukes deps, reinstalls root+client, rebuilds client
+
+If you don’t have it yet, add to root package.json:
+
+"scripts": {
+  "reset": "rm -rf node_modules client/node_modules package-lock.json client/package-lock.json && npm install express compression helmet morgan path-to-regexp@6 && cd client && rm -rf dist && npm install && npm run build && cd ..",
+  "start": "node server.mjs",
+  "dev-server": "nodemon --watch server.mjs --ext js,mjs,json --exec \"echo '[watchdog] restarting at $(date)' && node server.mjs\""
+}
+
+2) Make the Run button avoid package installs
+
+Use the watchdog and stop the agent from trying to “package”: .replit
+
+# simplest, no prebuild: just keep server running
+run = "bash -lc 'npm run dev-server'"
+
+(We already added dev-server using nodemon; it restarts automatically and logs [watchdog] restarting at ...)
+
+If you still want a prebuild but never fail on it:
+
+run = "bash -lc '(cd client && npm run quick) || echo \"[WARN] quick build failed — serving last dist\"; npm run dev-server'"
+
+3) Pin Node & use npm (not yarn/pnpm) so agent won’t chase other packagers
+
+replit.nix
+
+{ pkgs }: {
+  deps = [
+    pkgs.nodejs_20
+    pkgs.nodePackages.npm
+  ];
+}
+
+.npmrc (root) – optional but stabilizes installs:
+
+fund=false
+audit=false
+engine-strict=false
+legacy-peer-deps=true
+
+4) If a dependency conflict triggered the crash (like path-to-regexp)
+
+We already addressed this; make sure it’s installed:
+
+npm i path-to-regexp@6
+
+Then do a clean install if needed:
+
+rm -rf node_modules package-lock.json && npm install
+cd client && rm -rf node_modules package-lock.json dist && npm install && npm run build && cd ..
+
+
+---
+
+Quick checklist to stabilize the workflow
+
+1. Root package.json has "start" and "dev-server" scripts (above).
+
+
+2. .replit runs npm run dev-server (or the prebuild + dev-server variant).
+
+
+3. ADMIN_TOKEN set in Replit Secrets.
+
+
+4. npm run reset once to ensure clean deps, then just use Run.
+
+
+5. Watch console: you’ll see [watchdog] restarting at ... on each restart and a [heartbeat] ... line every 30s with memory + uptime.
+
+
+
+If you still see the “unsupported packager command” after these changes, tell me which command the UI tried to run and I’ll give a tailored .replit or script workaround to bypass it completely.
+

@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "jsx": "react-jsx",
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  },
+  "include": ["src", "vite.config.ts", "vite.config.js"],
+  "exclude": ["dist", "node_modules"],
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "build": "vite build",
+    "preview": "vite preview",
+    "deploy": "npx vercel whoami || npx vercel login && npm run deploy -- 'release: baseline' --vercel",
+    "prepare": "git add package.json tsconfig.json && git commit -m \"chore: cleanup scripts + add tsconfig\" --no-gpg-sign",
+    "postinstall": "rm -rf node_modules package-lock.json && npm install",
+    "posttypecheck": "npm run typecheck",
+    "postbuild": "npm run build",
+    "postpreview": "npm run preview &"
+  }
+}

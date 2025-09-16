@@ -1,0 +1,83 @@
+[
+  {
+    "sku": "CODEBASE_LICENSE_STD",
+    "name": "Codebase Commercial License (Standard)",
+    "category": "license",
+    "billing": { "model": "one_time", "price": 4000 },
+    "description": "One-time commercial license for internal deployment of the EFH platform (single business unit).",
+    "features": ["Source access", "Internal deployment rights", "12 months updates"],
+    "sellable": true
+  },
+  {
+    "sku": "CODEBASE_LICENSE_ENTERPRISE",
+    "name": "Codebase Commercial License (Enterprise)",
+    "category": "license",
+    "billing": { "model": "one_time", "price": 9500 },
+    "description": "Enterprise license with multi-site deployment and priority security patches.",
+    "features": ["Multi-site", "Priority patches", "24 month updates"],
+    "sellable": true
+  },
+  {
+    "sku": "SAAS_PRO_MONTHLY",
+    "name": "Hosted SaaS Pro (Monthly)",
+    "category": "saas",
+    "billing": { "model": "subscription", "interval": "month", "price": 399 },
+    "description": "Managed hosting with updates, monitoring, basic support.",
+    "features": ["Managed hosting", "Basic support", "Email notifications"],
+    "sellable": true
+  },
+  {
+    "sku": "SAAS_PRO_ANNUAL",
+    "name": "Hosted SaaS Pro (Annual)",
+    "category": "saas",
+    "billing": { "model": "subscription", "interval": "year", "price": 3990 },
+    "description": "Annual plan (2 free months) for hosted platform.",
+    "features": ["Managed hosting", "Basic support", "Priority fixes"],
+    "sellable": true
+  },
+  {
+    "sku": "WHITELABEL_SETUP",
+    "name": "Whitelabel Setup Fee",
+    "category": "whitelabel",
+    "billing": { "model": "one_time", "price": 6000 },
+    "description": "Custom branding, domain, theme, and initial deployment configuration.",
+    "features": ["Custom domain", "Theme + branding", "Launch checklist"],
+    "sellable": true
+  },
+  {
+    "sku": "DIRECTORY_LISTING_STANDARD",
+    "name": "Directory Listing (Standard)",
+    "category": "directory",
+    "billing": { "model": "subscription", "interval": "year", "price": 299 },
+    "description": "Annual listing in workforce & partner directory (standard profile).",
+    "features": ["Standard profile", "1 category", "Public link"],
+    "sellable": true
+  },
+  {
+    "sku": "DIRECTORY_LISTING_PREMIUM",
+    "name": "Directory Listing (Premium)",
+    "category": "directory",
+    "billing": { "model": "subscription", "interval": "year", "price": 749 },
+    "description": "Premium listing with logo, 3 categories, featured placement.",
+    "features": ["Featured slot", "Logo", "3 categories"],
+    "sellable": true
+  },
+  {
+    "sku": "AD_SPONSOR_BLOCK",
+    "name": "Sponsored Placement (Homepage Block)",
+    "category": "advertising",
+    "billing": { "model": "subscription", "interval": "month", "price": 850 },
+    "description": "Homepage sponsored card with link + attribution for workforce aligned services.",
+    "features": ["Homepage block", "Analytics summary", "Link tracking"],
+    "sellable": true
+  },
+  {
+    "sku": "AFFILIATE_ENROLLMENT",
+    "name": "Affiliate Program Enrollment",
+    "category": "affiliate",
+    "billing": { "model": "one_time", "price": 0 },
+    "description": "Apply to become an affiliate (rev-share on qualified referrals).",
+    "features": ["Unique tracking code", "Referral dashboard (coming)", "Monthly statements"],
+    "sellable": true
+  }
+]

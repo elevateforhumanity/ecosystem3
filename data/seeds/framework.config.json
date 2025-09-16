@@ -1,0 +1,194 @@
+{
+  "meta": {
+    "version": "1.0.0",
+    "lastUpdated": "2025-01-11",
+    "description": "Comprehensive framework configuration for Elevate for Humanity ecosystem"
+  },
+  "build": {
+    "framework": "vite",
+    "target": "ES2022",
+    "minify": true,
+    "sourcemap": true,
+    "outDir": "dist",
+    "publicDir": "public",
+    "assetsDir": "assets"
+  },
+  "development": {
+    "server": {
+      "host": true,
+      "port": 3000,
+      "open": false,
+      "cors": true,
+      "hmr": true
+    },
+    "proxy": {
+      "/api": "http://localhost:3001"
+    }
+  },
+  "frontend": {
+    "framework": "react",
+    "version": "18.3.1",
+    "router": "react-router-dom",
+    "stateManagement": "built-in",
+    "features": [
+      "hooks",
+      "suspense", 
+      "error-boundaries",
+      "lazy-loading",
+      "helmet-async"
+    ]
+  },
+  "styling": {
+    "framework": "tailwindcss",
+    "version": "3.4.10",
+    "config": "tailwind.config.ts",
+    "theme": {
+      "colors": {
+        "primary": "hsl(var(--primary))",
+        "secondary": "hsl(var(--secondary))",
+        "accent": "hsl(var(--accent))"
+      },
+      "fonts": {
+        "sans": ["Inter", "system-ui", "sans-serif"]
+      }
+    },
+    "plugins": []
+  },
+  "typescript": {
+    "enabled": true,
+    "version": "5.9.2",
+    "strict": true,
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  },
+  "testing": {
+    "framework": "vitest",
+    "version": "1.6.0",
+    "environment": "jsdom",
+    "coverage": {
+      "provider": "v8",
+      "enabled": true,
+      "threshold": {
+        "global": {
+          "branches": 80,
+          "functions": 80,
+          "lines": 80,
+          "statements": 80
+        }
+      }
+    },
+    "setupFiles": ["vitest.setup.js"]
+  },
+  "linting": {
+    "eslint": {
+      "version": "9.9.0",
+      "config": "eslint.config.js",
+      "rules": {
+        "react/react-in-jsx-scope": "off",
+        "no-unused-vars": "warn",
+        "@typescript-eslint/no-explicit-any": "off"
+      }
+    },
+    "prettier": {
+      "enabled": true,
+      "config": ".prettierrc.json"
+    }
+  },
+  "performance": {
+    "bundleAnalysis": {
+      "enabled": true,
+      "tool": "rollup-plugin-visualizer"
+    },
+    "lighthouse": {
+      "enabled": true,
+      "config": "lighthouserc.json",
+      "ci": true
+    },
+    "compression": {
+      "gzip": true,
+      "brotli": true
+    }
+  },
+  "security": {
+    "helmet": {
+      "enabled": true,
+      "contentSecurityPolicy": true,
+      "hsts": true
+    },
+    "rateLimit": {
+      "enabled": true,
+      "windowMs": 900000,
+      "max": 100
+    }
+  },
+  "deployment": {
+    "platform": "vercel",
+    "regions": ["iad1"],
+    "functions": {
+      "runtime": "nodejs20.x",
+      "maxDuration": 10
+    },
+    "headers": {
+      "Cache-Control": "public, max-age=31536000, immutable"
+    }
+  },
+  "ecosystem": {
+    "multiSite": true,
+    "sisterSites": [
+      {
+        "name": "Elevate Connects Directory",
+        "url": "https://www.elevateconnectsdirectory.org"
+      },
+      {
+        "name": "Selfish Inc.", 
+        "url": "https://www.selfishinc.org"
+      },
+      {
+        "name": "Rise Forward Foundation",
+        "url": "https://www.riseforwardfoundation.org"
+      }
+    ],
+    "shared": {
+      "components": ["AccountDrawer", "PaymentSystem"],
+      "services": ["Supabase", "Stripe"],
+      "branding": "unified"
+    }
+  },
+  "integrations": {
+    "database": {
+      "primary": "supabase",
+      "version": "2.45.0",
+      "features": ["auth", "realtime", "storage"]
+    },
+    "payments": {
+      "stripe": {
+        "version": "14.0.0",
+        "features": ["checkout", "webhooks", "subscriptions"]
+      }
+    },
+    "analytics": {
+      "googleAnalytics": {
+        "enabled": true,
+        "version": "4"
+      },
+      "lighthouse": {
+        "enabled": true,
+        "scheduling": "weekly"
+      }
+    }
+  },
+  "content": {
+    "cms": "file-based",
+    "directories": ["content", "programs", "blog"],
+    "formats": ["markdown", "json"],
+    "seo": {
+      "sitemaps": true,
+      "structured-data": true,
+      "meta-tags": true
+    }
+  }
+}

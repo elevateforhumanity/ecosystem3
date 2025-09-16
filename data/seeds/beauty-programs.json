@@ -1,0 +1,90 @@
+[
+  {
+    "slug": "cosmetology-foundations",
+    "name": "Cosmetology Foundations Certification",
+    "track": "state-funded",
+    "funding": ["WIOA", "WRG", "WEX", "OJT"],
+    "google_form_url": "https://forms.gle/YOUR_COSMETOLOGY_FORM",
+    "partner_connect_acc": "acct_BEAUTY_PARTNER1",
+    "stripe_price_id": "price_COSMETOLOGY_FOUNDATIONS",
+    "hours_required": 1500,
+    "state_license": true
+  },
+  {
+    "slug": "esthetics-specialist",
+    "name": "Esthetics & Skincare Specialist",
+    "track": "state-funded", 
+    "funding": ["WIOA", "WRG", "WEX", "OJT"],
+    "google_form_url": "https://forms.gle/YOUR_ESTHETICS_FORM",
+    "partner_connect_acc": "acct_BEAUTY_PARTNER2",
+    "stripe_price_id": "price_ESTHETICS_SPECIALIST",
+    "hours_required": 700,
+    "state_license": true
+  },
+  {
+    "slug": "nail-technology",
+    "name": "Nail Technology Certification",
+    "track": "state-funded",
+    "funding": ["WIOA", "WRG", "WEX", "JRI"],
+    "google_form_url": "https://forms.gle/YOUR_NAIL_TECH_FORM",
+    "partner_connect_acc": "acct_BEAUTY_PARTNER3",
+    "stripe_price_id": "price_NAIL_TECHNOLOGY",
+    "hours_required": 450,
+    "state_license": true
+  },
+  {
+    "slug": "massage-therapy",
+    "name": "Massage Therapy Fundamentals",
+    "track": "state-funded",
+    "funding": ["WIOA", "WRG", "OJT"],
+    "google_form_url": "https://forms.gle/YOUR_MASSAGE_FORM",
+    "partner_connect_acc": "acct_BEAUTY_PARTNER4",
+    "stripe_price_id": "price_MASSAGE_THERAPY",
+    "hours_required": 625,
+    "state_license": true
+  },
+  {
+    "slug": "barbering-professional",
+    "name": "Professional Barbering Certification",
+    "track": "state-funded",
+    "funding": ["WIOA", "WRG", "WEX", "OJT"],
+    "google_form_url": "https://forms.gle/YOUR_BARBERING_FORM",
+    "partner_connect_acc": "acct_BEAUTY_PARTNER5",
+    "stripe_price_id": "price_BARBERING_PROFESSIONAL",
+    "hours_required": 1500,
+    "state_license": true
+  },
+  {
+    "slug": "salon-management",
+    "name": "Salon & Spa Management",
+    "track": "open-enrollment",
+    "funding": [],
+    "google_form_url": "",
+    "partner_connect_acc": "acct_BEAUTY_PARTNER6",
+    "stripe_price_id": "price_SALON_MANAGEMENT",
+    "hours_required": 0,
+    "state_license": false
+  },
+  {
+    "slug": "beauty-entrepreneurship",
+    "name": "Beauty Business & Entrepreneurship",
+    "track": "open-enrollment",
+    "funding": [],
+    "google_form_url": "",
+    "partner_connect_acc": "acct_BEAUTY_PARTNER7",
+    "stripe_price_id": "price_BEAUTY_ENTREPRENEURSHIP",
+    "hours_required": 0,
+    "state_license": false
+  },
+  {
+    "slug": "advanced-color-theory",
+    "name": "Advanced Color Theory & Techniques",
+    "track": "continuing-education",
+    "funding": ["WEX"],
+    "google_form_url": "https://forms.gle/YOUR_COLOR_THEORY_FORM",
+    "partner_connect_acc": "acct_BEAUTY_PARTNER8",
+    "stripe_price_id": "price_ADVANCED_COLOR",
+    "hours_required": 40,
+    "state_license": false
+  }
+]

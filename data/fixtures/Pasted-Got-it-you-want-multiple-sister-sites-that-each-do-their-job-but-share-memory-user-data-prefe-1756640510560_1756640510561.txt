@@ -1,0 +1,438 @@
+Got it — you want multiple “sister sites” that each do their job, but share memory (user data, preferences, enrollments) and work together. Here’s a tight, safe blueprint you can implement right away with pieces you already have.
+
+The shape of the ecosystem
+
+Hub (www): fast landing, mega-menu, SEO.
+
+Programs (programs.): catalog, funding info, apply/intake.
+
+LMS (lms.): learning delivery.
+
+Connect (connect.): community/events/resources.
+
+Pay (pay.): your existing central Node/Stripe API.
+
+Memory Service (api.): a new tiny service all sites call for identity + profile + enrollments.
+This is the “brain” so sister sites remember the user.
+
+
+
+---
+
+What “memory” means (concretely)
+
+A shared service + database that stores:
+
+users (id, email, auth_id)
+
+profiles (name, phone, address)
+
+preferences (email_opt_in, accessibility, locale)
+
+enrollments (user_id, program_slug, status, started_at, completed_at)
+
+payments (stripe_customer_id, last_payment_at, last_checkout_session)
+
+notes (adviser notes, funding notes—optional)
+
+
+All sister sites read/write this via HTTPS APIs with the same JWT (or session cookie if using subdomains).
+
+
+---
+
+Option A (quickest): use a hosted auth + DB
+
+Auth: Clerk, Auth0, or Supabase Auth (OIDC/JWT).
+
+DB: Supabase Postgres (free tier is fine to start).
+
+Pros: minimal code; battle-tested SSO; easy across subdomains.
+
+How: each sister site initializes the SDK; you centralize your “memory” tables in Supabase.
+
+
+Option B (DIY, Node.js): small “Memory API” you host
+
+Auth: cookies across subdomains (.elevateforhumanity.org) or OIDC (e.g., your pay backend as the auth issuer).
+
+DB: Postgres (Railway, Supabase DB), or SQLite for a tiny start; add Redis later for sessions.
+
+
+Below is Option B so you can ship now with what you have.
+
+
+---
+
+Memory API (new tiny service: api.elevateforhumanity.org)
+
+File tree
+
+memory-api/
+  package.json
+  .env
+  src/
+    server.js
+    db.js
+    auth.js
+    routes/
+      me.js
+      enrollments.js
+      preferences.js
+      webhooks.js
+
+package.json
+
+{
+  "name": "efh-memory-api",
+  "private": true,
+  "type": "module",
+  "scripts": { "dev": "node src/server.js", "start": "node src/server.js" },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "helmet": "^7.1.0",
+    "express-rate-limit": "^7.4.0",
+    "pg": "^8.11.5",
+    "jsonwebtoken": "^9.0.2",
+    "cookie-parser": "^1.4.6"
+  }
+}
+
+.env (example)
+
+PORT=8081
+NODE_ENV=production
+ALLOWED_ORIGINS=https://www.elevateforhumanity.org,https://programs.elevateforhumanity.org,https://lms.elevateforhumanity.org,https://connect.elevateforhumanity.org,https://pay.elevateforhumanity.org
+DATABASE_URL=postgres://user:pass@host:5432/efh
+JWT_PUBLIC_KEY=-----BEGIN PUBLIC KEY-----\n...your OIDC/Clerk/Auth0 pub key...\n-----END PUBLIC KEY-----
+COOKIE_DOMAIN=.elevateforhumanity.org
+
+src/db.js (Postgres pool)
+
+import pg from 'pg';
+export const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
+
+Quick schema (run once in your DB)
+
+create table if not exists users (
+  id uuid primary key default gen_random_uuid(),
+  auth_id text unique not null,  -- from your IdP (Clerk/Auth0) or custom
+  email text unique not null,
+  created_at timestamptz default now()
+);
+
+create table if not exists profiles (
+  user_id uuid primary key references users(id) on delete cascade,
+  first_name text, last_name text, phone text, address jsonb,
+  updated_at timestamptz default now()
+);
+
+create table if not exists preferences (
+  user_id uuid primary key references users(id) on delete cascade,
+  email_opt_in boolean default true,
+  locale text default 'en-US',
+  accessibility jsonb default '{}'::jsonb,
+  updated_at timestamptz default now()
+);
+
+create table if not exists enrollments (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid references users(id) on delete cascade,
+  program_slug text not null,
+  status text not null default 'pending', -- pending|active|completed|cancelled
+  started_at timestamptz, completed_at timestamptz,
+  created_at timestamptz default now()
+);
+
+create table if not exists payments (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid references users(id) on delete cascade,
+  stripe_customer_id text, last_payment_at timestamptz,
+  last_checkout_session text,
+  created_at timestamptz default now()
+);
+
+create table if not exists notes (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid references users(id) on delete cascade,
+  author text, body text, created_at timestamptz default now()
+);
+
+src/auth.js (verify JWT from your IdP)
+
+import jwt from 'jsonwebtoken';
+
+const publicKey = process.env.JWT_PUBLIC_KEY?.replace(/\\n/g, '\n');
+
+export function requireAuth(req, res, next) {
+  // Accept either Bearer token or a session cookie shared across subdomains
+  const auth = req.headers.authorization || '';
+  const token = auth.startsWith('Bearer ') ? auth.slice(7) : (req.cookies?.session_jwt || '');
+  if (!token) return res.status(401).json({ error: 'Unauthorized' });
+  try {
+    const payload = jwt.verify(token, publicKey, { algorithms: ['RS256'] });
+    req.user = { sub: payload.sub, email: payload.email };
+    next();
+  } catch {
+    return res.status(401).json({ error: 'Invalid token' });
+  }
+}
+
+src/routes/me.js
+
+import { Router } from 'express';
+import { pool } from '../db.js';
+import { requireAuth } from '../auth.js';
+
+export const me = Router();
+me.use(requireAuth);
+
+// Upsert user + profile on first call
+me.get('/api/me', async (req, res) => {
+  const { sub, email } = req.user;
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+    const { rows } = await client.query(
+      `insert into users (auth_id, email) values ($1, $2)
+       on conflict (auth_id) do update set email = excluded.email
+       returning id, auth_id, email, created_at`, [sub, email]
+    );
+    const userId = rows[0].id;
+    const prof = await client.query('select * from profiles where user_id=$1', [userId]);
+    const prefs = await client.query('select * from preferences where user_id=$1', [userId]);
+    await client.query('COMMIT');
+    res.json({ user: rows[0], profile: prof.rows[0] || null, preferences: prefs.rows[0] || null });
+  } catch (e) {
+    await client.query('ROLLBACK'); res.status(500).json({ error: e.message });
+  } finally { client.release(); }
+});
+
+me.post('/api/profile', async (req, res) => {
+  const { sub } = req.user;
+  const { first_name, last_name, phone, address } = req.body || {};
+  const q = `
+    insert into profiles (user_id, first_name, last_name, phone, address, updated_at)
+    values ((select id from users where auth_id=$1), $2, $3, $4, $5, now())
+    on conflict (user_id) do update set first_name=$2, last_name=$3, phone=$4, address=$5, updated_at=now()
+    returning *`;
+  try {
+    const { rows } = await pool.query(q, [sub, first_name, last_name, phone, address || {}]);
+    res.json(rows[0]);
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+me.post('/api/preferences', async (req, res) => {
+  const { sub } = req.user;
+  const { email_opt_in = true, locale = 'en-US', accessibility = {} } = req.body || {};
+  const q = `
+    insert into preferences (user_id, email_opt_in, locale, accessibility, updated_at)
+    values ((select id from users where auth_id=$1), $2, $3, $4, now())
+    on conflict (user_id) do update set email_opt_in=$2, locale=$3, accessibility=$4, updated_at=now()
+    returning *`;
+  try {
+    const { rows } = await pool.query(q, [sub, email_opt_in, locale, accessibility]);
+    res.json(rows[0]);
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+src/routes/enrollments.js
+
+import { Router } from 'express';
+import { pool } from '../db.js';
+import { requireAuth } from '../auth.js';
+export const enrollments = Router();
+enrollments.use(requireAuth);
+
+enrollments.get('/api/enrollments', async (req, res) => {
+  const { sub } = req.user;
+  const q = `select e.* from enrollments e join users u on e.user_id=u.id where u.auth_id=$1 order by created_at desc`;
+  const { rows } = await pool.query(q, [sub]);
+  res.json(rows);
+});
+
+enrollments.post('/api/enrollments', async (req, res) => {
+  const { sub } = req.user;
+  const { program_slug } = req.body || {};
+  if (!program_slug) return res.status(400).json({ error: 'program_slug required' });
+  const q = `
+    insert into enrollments (user_id, program_slug, status)
+    values ((select id from users where auth_id=$1), $2, 'pending')
+    returning *`;
+  const { rows } = await pool.query(q, [sub, program_slug]);
+  res.json(rows[0]);
+});
+
+src/routes/webhooks.js (from your Pay backend → mark paid)
+
+import { Router } from 'express';
+import { pool } from '../db.js';
+export const webhooks = Router();
+
+// Internal call from Pay backend after verifying Stripe webhook
+webhooks.post('/internal/paid', async (req, res) => {
+  const { email, program_slug, stripe_customer_id, session_id } = req.body || {};
+  if (!email || !program_slug) return res.status(400).json({ error: 'email and program_slug required' });
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+    const u = await client.query(`select id from users where email=$1`, [email]);
+    if (!u.rowCount) return res.status(404).json({ error: 'user not found' });
+    const userId = u.rows[0].id;
+    await client.query(
+      `update enrollments set status='active', started_at=now()
+       where user_id=$1 and program_slug=$2 and status in ('pending','cancelled')`,
+      [userId, program_slug]
+    );
+    await client.query(
+      `insert into payments (user_id, stripe_customer_id, last_payment_at, last_checkout_session)
+       values ($1,$2,now(),$3)`, [userId, stripe_customer_id || null, session_id || null]
+    );
+    await client.query('COMMIT');
+    res.json({ ok: true });
+  } catch (e) { await client.query('ROLLBACK'); res.status(500).json({ error: e.message }); }
+  finally { client.release(); }
+});
+
+src/server.js
+
+import express from 'express';
+import helmet from 'helmet';
+import cors from 'cors';
+import rateLimit from 'express-rate-limit';
+import cookieParser from 'cookie-parser';
+import { me } from './routes/me.js';
+import { enrollments } from './routes/enrollments.js';
+import { webhooks } from './routes/webhooks.js';
+
+const app = express();
+app.use(helmet({ contentSecurityPolicy: false }));
+app.use(cors({
+  origin(origin, cb){ 
+    if (!origin) return cb(null,true);
+    const ok = (process.env.ALLOWED_ORIGINS||'').split(',').map(s=>s.trim()).includes(origin);
+    return ok ? cb(null,true) : cb(new Error('Not allowed by CORS'));
+  },
+  credentials: true
+}));
+app.use(rateLimit({ windowMs: 60_000, max: 120 }));
+app.use(cookieParser());
+app.use(express.json({ limit: '1mb' }));
+
+app.get('/healthz', (_req,res)=>res.json({ ok:true, service:'memory-api', time:new Date().toISOString() }));
+app.use(me);
+app.use(enrollments);
+app.use(webhooks);
+
+app.use((_req,res)=>res.status(404).json({ error:'Not found' }));
+app.listen(process.env.PORT||8081, ()=>console.log('🧠 memory-api up'));
+
+
+---
+
+How the sister sites use “memory”
+
+In each site (Programs/LMS/Connect/Hub):
+
+1. Authenticate the user (Clerk/Auth0 or your session cookie).
+
+
+2. Call Memory API:
+
+GET https://api.../api/me to load profile/preferences.
+
+GET https://api.../api/enrollments to show their courses.
+
+POST https://api.../api/enrollments when they click “Start/Apply”.
+
+
+
+3. When payment completes in Pay, your Pay backend calls POST https://api.../internal/paid with { email, program_slug, ... } to mark the enrollment active.
+
+
+
+> You already send metadata.program to Stripe — set program_slug to the same slug (e.g., business, cpr-ems).
+
+
+
+
+---
+
+Glue with what you have
+
+Keep pay.elevateforhumanity.org as your Stripe backend (unchanged).
+
+Add api.elevateforhumanity.org (Memory API) with the code above.
+
+Paste the Enroll helper you already use — just include a metadata: { program_slug: '<slug>' } too, so the Pay backend can pass it to Memory API after Stripe success.
+
+
+Example button (Business)
+
+<button onclick="efhEnroll({
+  programName:'Business Startup & Marketing',
+  priceId:'',             /* or price_XXXX */
+  amountUSD:4950,
+  metadata:{ program:'Business Startup & Marketing', program_slug:'business' }
+})">Enroll – $4,950</button>
+
+Then in your Pay webhook handler (you already have it), after verifying Stripe:
+
+// pseudo inside checkout.session.completed:
+await fetch('https://api.elevateforhumanity.org/internal/paid', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    email: session.customer_details?.email,
+    program_slug: session.metadata?.program_slug,
+    stripe_customer_id: session.customer,
+    session_id: session.id
+  })
+});
+
+
+---
+
+Shared design + navigation
+
+Reuse the mega-menu header + footer you already have across all sites (paste into each app’s layout).
+
+Maintain a lightweight “Design Tokens” CSS file (colors, spacing, radius) all sites import to stay consistent.
+
+Keep a single programs.json (source of truth) in a tiny GitHub repo that each site fetches at build time (optional but nice).
+
+
+
+---
+
+Deployment checklist
+
+1. Create api. DNS → deploy memory-api.
+
+
+2. Create DB (Supabase Postgres is easy) → run schema SQL.
+
+
+3. Put your IdP public key into JWT_PUBLIC_KEY or switch to shared-cookie auth.
+
+
+4. Update Pay webhook handler to call Memory API /internal/paid.
+
+
+5. Paste Enroll helper + add program_slug metadata on buttons.
+
+
+6. Add header/footer to all sister sites for consistent nav.
+
+
+7. Test flow: login → GET /api/me → enroll → Stripe test → Memory updates → LMS shows “active”.
+
+
+
+
+---
+
+If you want, I can tailor the Memory API to Supabase (so you don’t manage servers), or wire this to your existing pay code directly with copy-paste snippets. Just say which route you prefer (Clerk/Auth0/Supabase vs DIY cookie) and I’ll output the exact config + code.
+

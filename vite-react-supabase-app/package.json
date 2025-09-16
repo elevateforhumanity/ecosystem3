@@ -1,0 +1,21 @@
+{
+  "name": "vite-react-supabase-app",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
+    "analyze": "vite build --report"
+  },
+  "dependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "@supabase/supabase-js": "^2.0.0"
+  },
+  "devDependencies": {
+    "vite": "^4.0.0",
+    "@vitejs/plugin-react": "^2.0.0",
+    "rollup-plugin-visualizer": "^5.0.0"
+  }
+}

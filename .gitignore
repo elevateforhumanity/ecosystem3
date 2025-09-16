@@ -34,5 +34,9 @@ efh-*
 *.zip
 *.tar.gz
 
+# Legacy/backup files
+.legacy-servers/
+.migration_temp_*/
+
 coverage
 stats.html

@@ -1,0 +1,57 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Course",
+  "name": "Data Science & AI Fundamentals Program",
+  "description": "Comprehensive data science and artificial intelligence training program covering Python programming, machine learning basics, data analysis, and AI applications in business contexts.",
+  "provider": {
+    "@type": "Organization",
+    "name": "Elevate for Humanity",
+    "url": "https://www.elevateforhumanity.org/"
+  },
+  "url": "https://www.elevateforhumanity.org/programs/data-science-ai",
+  "courseCode": "DATA-001",
+  "educationalLevel": "Certificate",
+  "timeRequired": "P20W",
+  "coursePrerequisites": "High school diploma or equivalent, basic computer skills",
+  "competencyRequired": [
+    "Basic mathematics and statistics",
+    "Computer literacy",
+    "Problem-solving skills"
+  ],
+  "teaches": [
+    "Python programming fundamentals",
+    "Data analysis with pandas and numpy",
+    "Machine learning basics",
+    "Data visualization",
+    "SQL database fundamentals",
+    "AI ethics and applications",
+    "Business intelligence basics"
+  ],
+  "isAccessibleForFree": true,
+  "inLanguage": "en",
+  "availableLanguage": "en",
+  "offers": [
+    {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD",
+      "availability": "https://schema.org/InStock",
+      "category": "WIOA Eligible Program",
+      "description": "Funded through WIOA, WRG, and other federal workforce development programs"
+    }
+  ],
+  "hasCourseInstance": {
+    "@type": "CourseInstance",
+    "courseMode": "Blended",
+    "courseSchedule": {
+      "@type": "Schedule",
+      "duration": "P20W",
+      "repeatFrequency": "Monthly"
+    }
+  },
+  "educationalCredentialAwarded": [
+    "Data Science Fundamentals Certificate",
+    "Python Programming Certificate",
+    "Machine Learning Basics Certificate"
+  ]
+}

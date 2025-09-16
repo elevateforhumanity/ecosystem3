@@ -2,9 +2,10 @@ generator client {
   provider = "prisma-client-js"
 }
 
+// Using SQLite for local/dev. To switch to Postgres: change provider to "postgresql" and set DATABASE_URL.
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:./dev.db"
 }
 
 model LmsOrganization {
@@ -26,7 +27,7 @@ model LmsUser {
   email     String  @unique
   name      String?
   password  String             // bcrypt hash
-  role      Role    @default(STUDENT)
+  role      String  @default("STUDENT") // values: ADMIN|INSTRUCTOR|STUDENT
   orgId     String?
   org       LmsOrganization? @relation(fields: [orgId], references: [id])
   enrollments LmsEnrollment[]
@@ -36,11 +37,6 @@ model LmsUser {
   @@map("lms_users")
 }
 
-enum Role {
-  ADMIN
-  INSTRUCTOR
-  STUDENT
-}
 
 model LmsCourse {
   id        String  @id @default(cuid())
@@ -77,7 +73,7 @@ model LmsLesson {
   moduleId  String?
   module    LmsModule? @relation(fields: [moduleId], references: [id], onDelete: Cascade)
   title     String
-  type      LessonType @default(TEXT)
+  type      String @default("TEXT") // values: TEXT|VIDEO|QUIZ
   content   String?
   duration  Int? // seconds
   order     Int   @default(0)
@@ -86,11 +82,6 @@ model LmsLesson {
   @@map("lms_lessons")
 }
 
-enum LessonType {
-  TEXT
-  VIDEO
-  QUIZ
-}
 
 model LmsEnrollment {
   id        String  @id @default(cuid())
@@ -99,7 +90,7 @@ model LmsEnrollment {
   courseId  String
   course    LmsCourse @relation(fields: [courseId], references: [id], onDelete: Cascade)
   progress  Float  @default(0)
-  status    EnrollStatus @default(ACTIVE)
+  status    String @default("ACTIVE") // values: ACTIVE|COMPLETED|CANCELLED
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -107,11 +98,6 @@ model LmsEnrollment {
   @@map("lms_enrollments")
 }
 
-enum EnrollStatus {
-  ACTIVE
-  COMPLETED
-  CANCELLED
-}
 
 model LmsCertificate {
   id        String  @id @default(cuid())
@@ -123,12 +109,6 @@ model LmsCertificate {
   @@map("lms_certificates")
 }
 
-enum OrderStatus {
-  PENDING
-  PAID
-  FAILED
-  REFUNDED
-}
 
 model LmsProduct {
   id        String  @id @default(cuid())
@@ -149,7 +129,7 @@ model LmsOrder {
   userId           String?
   user             LmsUser?    @relation(fields: [userId], references: [id])
   total            Int         @default(0)
-  status           OrderStatus @default(PENDING)
+  status           String @default("PENDING") // values: PENDING|PAID|FAILED|REFUNDED
   stripeSessionId  String?
   createdAt        DateTime    @default(now())
 
@@ -183,4 +163,46 @@ model LmsPage {
   createdAt DateTime @default(now())
 
   @@map("lms_pages")
+}
+
+// Monetization & Growth Models (new)
+model Affiliate {
+  code       String  @id
+  email      String
+  name       String?
+  website    String?
+  clicks     Int     @default(0)
+  referrals  Int     @default(0)
+  earnings   Float   @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([email])
+  @@map("affiliates")
+}
+
+model DirectoryListing {
+  id          String  @id @default(cuid())
+  name        String
+  category    String
+  url         String?
+  description String?
+  plan        String  @default("standard")
+  status      String  @default("pending") // pending|approved|rejected
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([status])
+  @@map("directory_listings")
+}
+
+model SocialPostHistory {
+  id        String  @id @default(cuid())
+  templateId String
+  template  String
+  postedAt  DateTime @default(now())
+  channel   String? // future: twitter|linkedin etc
+
+  @@index([templateId])
+  @@map("social_post_history")
 }

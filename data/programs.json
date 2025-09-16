@@ -1,0 +1,15 @@
+[
+  {
+    "path": "/programs/medical-assistant",
+    "title": "Medical Assistant Program (WIOA/WRG Eligible)",
+    "description": "Train for high-demand medical assistant roles. Evening & weekend cohorts. Tuition covered for eligible students.",
+    "hours": 750,
+    "tuition": 8000,
+    "funding": ["WIOA","WRG","JRI"],
+    "cip": "51.0801",
+    "onet": "31-9092.00",
+    "nextStartDate": "2025-10-15",
+    "priority": 0.8,
+    "changefreq": "weekly"
+  }
+]

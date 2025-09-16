@@ -1,0 +1,165 @@
+Perfect 🙌 — here’s your starter pack you can drop straight into your brain repo (assets host). Once these files are live, you only need to paste the <script …> include on each sister site, and they’ll all sync to whatever you update here.
+
+
+---
+
+📂 Folder Structure
+
+/ui
+   header.html
+   footer.html
+   styles.css
+
+/config
+   health-programs.json
+   beauty-programs.json  (optional later)
+
+ /scripts
+   efh-universal.v1.js
+
+
+---
+
+1. /ui/header.html
+
+<nav class="efh-header">
+  <a href="https://www.elevateforhumanity.org">Home</a>
+  <a href="/programs">Programs</a>
+  <a href="/funding">Funding</a>
+  <a href="/policies/hipaa">HIPAA Policy</a>
+  <a href="/help">Help</a>
+  <a href="/portal" class="highlight">Portal</a>
+</nav>
+
+<style>
+.efh-header{display:flex;gap:16px;flex-wrap:wrap;padding:14px;background:#0b6bcb;color:#fff}
+.efh-header a{color:#fff;text-decoration:none;font-weight:500}
+.efh-header a.highlight{background:#fff;color:#0b6bcb;padding:6px 12px;border-radius:8px}
+</style>
+
+
+---
+
+2. /ui/footer.html
+
+<footer class="efh-footer">
+  <div>
+    <p>&copy; 2025 Elevate for Humanity • All rights reserved</p>
+    <nav>
+      <a href="/programs">Programs</a> • 
+      <a href="/funding">Funding</a> • 
+      <a href="/help">Help</a> • 
+      <a href="/policies/hipaa">HIPAA Policy</a>
+    </nav>
+    <p class="muted">Community-based nonprofit and workforce hub</p>
+  </div>
+</footer>
+
+<style>
+.efh-footer{padding:24px;background:#f5f5f5;font-size:14px;color:#333;text-align:center}
+.efh-footer nav a{color:#0b6bcb;text-decoration:none;margin:0 4px}
+.efh-footer .muted{color:#666;font-size:12px;margin-top:4px}
+</style>
+
+
+---
+
+3. /config/health-programs.json
+
+[
+  {
+    "slug": "bls",
+    "name": "BLS – Basic Life Support (Provider)",
+    "track": "state-funded",
+    "funding": ["WIOA", "WRG", "WEX", "JRI", "OJT"],
+    "google_form_url": "https://forms.gle/YOUR_BLS_FORM",
+    "partner_connect_acc": "",
+    "stripe_price_id": ""
+  },
+  {
+    "slug": "acls",
+    "name": "ACLS – Advanced Cardiovascular Life Support",
+    "track": "state-funded",
+    "funding": ["WIOA", "WRG", "WEX", "JRI", "OJT"],
+    "google_form_url": "https://forms.gle/YOUR_ACLS_FORM",
+    "partner_connect_acc": "",
+    "stripe_price_id": ""
+  },
+  {
+    "slug": "tb-safety",
+    "name": "TB Testing & Safety Compliance",
+    "track": "state-funded",
+    "funding": ["WIOA", "WRG", "WEX", "JRI"],
+    "google_form_url": "https://forms.gle/YOUR_TB_FORM",
+    "partner_connect_acc": "",
+    "stripe_price_id": ""
+  },
+  {
+    "slug": "health-admin",
+    "name": "Healthcare Administration Fundamentals",
+    "track": "state-funded",
+    "funding": ["WIOA", "WRG", "OJT"],
+    "google_form_url": "https://forms.gle/YOUR_ADMIN_FORM",
+    "partner_connect_acc": "acct_PARTNER1",
+    "stripe_price_id": "price_PARTNER1"
+  },
+  {
+    "slug": "health-informatics",
+    "name": "Health Informatics & EHR Bootcamp",
+    "track": "state-funded",
+    "funding": ["WIOA", "WRG", "OJT"],
+    "google_form_url": "https://forms.gle/YOUR_INFORMATICS_FORM",
+    "partner_connect_acc": "acct_PARTNER2",
+    "stripe_price_id": "price_PARTNER2"
+  },
+  {
+    "slug": "resp-care-aide",
+    "name": "Respiratory / Patient Care Aide Basics",
+    "track": "state-funded",
+    "funding": ["WIOA", "WEX", "JRI", "OJT"],
+    "google_form_url": "https://forms.gle/YOUR_RESP_AIDE_FORM",
+    "partner_connect_acc": "",
+    "stripe_price_id": ""
+  },
+  {
+    "slug": "telehealth-support",
+    "name": "Telehealth Support Specialist",
+    "track": "open-enrollment",
+    "funding": [],
+    "google_form_url": "",
+    "partner_connect_acc": "",
+    "stripe_price_id": "price_TELEHEALTH"
+  }
+]
+
+
+---
+
+4. /scripts/efh-universal.v1.js
+
+👉 This is the universal script we already built (the one that injects header/footer and programs). Save that file here.
+
+
+---
+
+5. Example usage on any sister site
+
+In your LMS, Connect, Beauty, or Main site HTML:
+
+<div id="efh-header"></div>
+<div id="efh-programs"></div> <!-- optional, only if you want catalog here -->
+<div id="efh-footer"></div>
+
+<script src="https://assets.elevateforhumanity.org/scripts/efh-universal.v1.js"
+        data-assets="https://assets.elevateforhumanity.org"
+        data-payapi="https://pay.elevateforhumanity.org/api/checkout"
+        data-programs="/config/health-programs.json"
+        defer></script>
+
+
+---
+
+✅ Once you upload these four files into your brain repo (/ui, /config, /scripts), every site that includes the universal script will instantly sync to the header, footer, and programs.
+
+Would you like me to also zip these starter files up (like I did with the healthcare bundle) so you can download, upload, and go right away?
+

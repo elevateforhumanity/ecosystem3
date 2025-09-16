@@ -1,0 +1,112 @@
+Got you. Let’s make this stop crashing and keep the site serving even if a build hiccups.
+
+Do these 4 things
+
+1) Make the Run button not fail if the client build fails
+
+Edit .replit to try a quick build, but continue anyway if it errors:
+
+run = "bash -lc '(cd client && npm run quick) || echo \"[WARN] quick build failed — serving last dist\"; npm run start'"
+
+This way, Replit won’t stop the whole workflow just because the Vite/Tailwind build had a moment.
+
+
+---
+
+2) Ensure your root scripts exist
+
+In package.json (root), add:
+
+{
+  "scripts": {
+    "start": "node server.mjs"
+  }
+}
+
+(If npm run start didn’t exist, Replit would stop.)
+
+
+---
+
+3) Add a safe fallback page when client/dist/index.html is missing
+
+Drop this small patch into your server.mjs (near the “Static assets & SPA fallback” section). It keeps serving a basic page instead of dying when dist/ isn’t there.
+
+// -------- Static assets & SPA fallback --------
+if (!fs.existsSync(distPath)) {
+  console.warn("[WARN] dist folder missing at:", distPath);
+}
+
+app.use(express.static(distPath, { etag: false, lastModified: false, maxAge: 0 }));
+
+// Serve SPA if present, else a safe fallback (prevents 'blank' hard failures)
+app.get("*", (_req, res) => {
+  const indexFile = path.join(distPath, "index.html");
+  if (fs.existsSync(indexFile)) {
+    return res.sendFile(indexFile);
+  }
+  // Fallback HTML so the server still responds even if build failed
+  res
+    .status(200)
+    .type("html")
+    .send(`<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>EFH — Server Ready</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial; padding: 2rem; }
+    .card { border: 1px solid #e5e7eb; border-radius: 12px; padding: 1rem; }
+    code { background: #f3f4f6; padding: 2px 4px; border-radius: 6px; }
+  </style>
+</head>
+<body>
+  <h1>EFH server is running</h1>
+  <div class="card">
+    <p>The client build wasn't found (<code>${indexFile}</code>).</p>
+    <p>Use your React <a href="/debug">/debug</a> page to check Tailwind status, or rebuild:</p>
+    <pre><code>cd client
+npm run clean
+cd ..
+npm run start</code></pre>
+  </div>
+  <p>Health: <a href="/health">/health</a></p>
+</body>
+</html>`);
+});
+
+
+---
+
+4) Add a simple heartbeat so you can see it’s alive (and catch stalls)
+
+At the bottom of server.mjs, right after server.listen(...):
+
+setInterval(() => {
+  console.log(`[heartbeat] up ${Math.round(process.uptime())}s | mode=${BUILD_MODE} | cache=${CACHE_VERSION}`);
+}, 30000).unref();
+
+
+---
+
+Quick “why this helps”
+
+The .replit change prevents the workflow from stopping when the build is the thing that fails. You’ll serve the last good dist instead of nothing.
+
+The fallback HTML prevents a scary blank even if dist/ is missing entirely.
+
+The heartbeat shows it’s not frozen and gives you timestamps to correlate with any stalls.
+
+Your /debug + /health already tell you Tailwind/health; keep using the Restart and Purge buttons there.
+
+
+If it still stops, copy-paste:
+
+The last 10 lines of the Replit console (especially any errors)
+
+The JSON from /health (look at ready, uptimeSec, memory, tailwind)
+
+
+I’ll zero in on the exact cause and patch it.
+
