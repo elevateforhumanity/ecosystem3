@@ -17,37 +17,43 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
-            line-height: 1.6; 
-            color: #1a1a1a; 
-            background: #fafafa;
+            font-family: 'Inter', 'Helvetica Neue', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+            line-height: 1.7; 
+            color: var(--dark-gray); 
+            background: var(--light-bg);
+            font-weight: 400;
+            letter-spacing: 0.01em;
         }
         
-        /* Custom Brand Colors */
+        /* Gordonstoun-Inspired Premium Palette */
         :root {
-            --primary-purple: #7c3aed;
-            --primary-blue: #1e40af;
-            --accent-green: #059669;
-            --warm-orange: #ea580c;
-            --soft-gray: #6b7280;
+            --gordonstoun-purple: #4c1d95;
+            --deep-purple: #312e81;
+            --royal-blue: #1e3a8a;
+            --navy: #1e293b;
+            --gold: #d97706;
+            --cream: #fef7ed;
+            --soft-gray: #64748b;
+            --dark-gray: #1e293b;
             --light-bg: #f8fafc;
+            --premium-gradient: linear-gradient(135deg, #1e1b4b 0%, #312e81 30%, #4c1d95 60%, #581c87 100%);
+            --hero-overlay: linear-gradient(135deg, rgba(30, 27, 75, 0.9) 0%, rgba(49, 46, 129, 0.8) 50%, rgba(76, 29, 149, 0.9) 100%);
+            --card-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            --text-gradient: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%);
         }
 
-        /* Hero Section - Authentic Elevate for Humanity */
+        /* Organic Humanitarian Spirit Hero */
         .hero {
-            background: linear-gradient(135deg, 
-                rgba(124, 58, 237, 0.95) 0%, 
-                rgba(30, 64, 175, 0.9) 50%, 
-                rgba(5, 150, 105, 0.85) 100%), 
-                url('/images/AI_Data_Science_Team_1c1aed48.png') center/cover no-repeat;
+            background: var(--premium-gradient);
             color: white;
-            padding: 100px 20px;
+            padding: 0;
             text-align: center;
-            min-height: 80vh;
+            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
+            overflow: hidden;
         }
         .hero::before {
             content: '';
@@ -56,35 +62,158 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.3) 100%);
+            background: 
+                radial-gradient(ellipse at 30% 20%, rgba(34, 197, 94, 0.3) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 80%, rgba(168, 85, 247, 0.2) 0%, transparent 70%),
+                radial-gradient(ellipse at 20% 90%, rgba(251, 191, 36, 0.2) 0%, transparent 60%);
+            animation: organicFlow 30s ease-in-out infinite;
+            z-index: 1;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse at 80% 30%, rgba(239, 68, 68, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 40% 70%, rgba(255, 255, 255, 0.05) 0%, transparent 40%);
+            animation: organicFlow 40s ease-in-out infinite reverse;
+            z-index: 2;
+        }
+        @keyframes organicFlow {
+            0%, 100% { 
+                transform: scale(1) translateX(0) translateY(0);
+                opacity: 0.7;
+            }
+            20% { 
+                transform: scale(1.05) translateX(10px) translateY(-5px);
+                opacity: 0.9;
+            }
+            40% { 
+                transform: scale(0.98) translateX(-8px) translateY(8px);
+                opacity: 0.8;
+            }
+            60% { 
+                transform: scale(1.02) translateX(5px) translateY(-10px);
+                opacity: 1;
+            }
+            80% { 
+                transform: scale(0.96) translateX(-12px) translateY(3px);
+                opacity: 0.85;
+            }
         }
         .hero-content {
             position: relative;
-            z-index: 2;
+            z-index: 3;
             max-width: 900px;
+            padding: 2rem;
+            animation: heroFadeIn 2s ease-out;
+        }
+        
+        /* Video Integration Styles */
+        .video-section {
+            position: relative;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+        }
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 70vh;
+            overflow: hidden;
+        }
+        .video-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+        }
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(76, 29, 149, 0.7) 0%, rgba(34, 197, 94, 0.6) 100%);
+            z-index: 2;
+        }
+        .video-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            z-index: 3;
+            max-width: 800px;
+            padding: 2rem;
+        }
+        .video-title {
+            font-size: 3.5rem;
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+        .video-subtitle {
+            font-size: 1.5rem;
+            font-style: italic;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+        .video-cta {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        .video-cta:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+        }
+        @keyframes heroFadeIn {
+            0% { opacity: 0; transform: translateY(40px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
         .hero h1 {
-            font-size: 4.5rem;
-            font-weight: 800;
+            font-size: 5.5rem;
+            font-weight: 300;
             margin-bottom: 1.5rem;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.4);
-            background: linear-gradient(45deg, #ffffff, #e0e7ff);
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            background: var(--text-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
         .hero .tagline {
-            font-size: 1.8rem;
+            font-size: 2.2rem;
             margin-bottom: 1rem;
             font-weight: 300;
             opacity: 0.95;
+            letter-spacing: 0.01em;
+            font-style: italic;
         }
         .hero .foundation {
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             margin-bottom: 2.5rem;
             font-style: italic;
             opacity: 0.9;
-            color: #e0e7ff;
+            color: var(--gold);
+            font-weight: 400;
+            letter-spacing: 0.05em;
         }
         .hero-cta {
             display: inline-flex;
@@ -93,32 +222,50 @@
             justify-content: center;
         }
         .cta-btn {
-            padding: 15px 35px;
+            padding: 18px 40px;
             border-radius: 50px;
             text-decoration: none;
-            font-weight: 600;
+            font-weight: 500;
             font-size: 1.1rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            letter-spacing: 0.02em;
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.6s;
+        }
+        .cta-btn:hover::before {
+            left: 100%;
         }
         .cta-primary {
-            background: var(--accent-green);
+            background: var(--gold);
             color: white;
         }
         .cta-primary:hover {
-            background: #047857;
+            background: #b45309;
             transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(5, 150, 105, 0.4);
+            box-shadow: 0 12px 40px rgba(217, 119, 6, 0.4);
         }
         .cta-secondary {
-            background: rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.1);
             color: white;
-            border: 2px solid rgba(255,255,255,0.3);
-            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.2);
+            backdrop-filter: blur(15px);
         }
         .cta-secondary:hover {
-            background: rgba(255,255,255,0.25);
+            background: rgba(255,255,255,0.2);
+            border-color: rgba(255,255,255,0.4);
             transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(255,255,255,0.1);
         }
 
         /* Container */
@@ -152,41 +299,76 @@
             font-weight: 500;
         }
 
-        /* Mission Section */
+        /* Premium Mission Section */
         .mission {
-            background: var(--light-bg);
-            padding: 100px 0;
+            background: white;
+            padding: 120px 0;
             text-align: center;
+            position: relative;
+        }
+        .mission::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(217, 119, 6, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(76, 29, 149, 0.03) 0%, transparent 50%);
         }
         .mission h2 {
-            font-size: 3rem;
-            color: var(--primary-blue);
-            margin-bottom: 2rem;
-            font-weight: 700;
+            font-size: 4rem;
+            color: var(--gordonstoun-purple);
+            margin-bottom: 3rem;
+            font-weight: 300;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+            position: relative;
+            z-index: 2;
         }
         .mission-content {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
-            font-size: 1.3rem;
+            font-size: 1.5rem;
             color: var(--soft-gray);
             line-height: 1.8;
+            font-weight: 300;
+            letter-spacing: 0.01em;
+            position: relative;
+            z-index: 2;
         }
         .mission-highlight {
-            color: var(--primary-purple);
-            font-weight: 600;
+            color: var(--gordonstoun-purple);
+            font-weight: 500;
+            font-style: italic;
         }
 
-        /* Programs Grid */
+        /* Premium Programs Grid */
         .programs {
-            background: white;
-            padding: 100px 0;
+            background: var(--light-bg);
+            padding: 120px 0;
+            position: relative;
+        }
+        .programs::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="hexagon" width="30" height="30" patternUnits="userSpaceOnUse"><polygon points="15,2 26,8 26,22 15,28 4,22 4,8" fill="none" stroke="rgba(76,29,149,0.05)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23hexagon)"/></svg>');
+            opacity: 0.5;
         }
         .programs h2 {
             text-align: center;
-            font-size: 3rem;
-            color: var(--primary-blue);
-            margin-bottom: 3rem;
-            font-weight: 700;
+            font-size: 4rem;
+            color: var(--gordonstoun-purple);
+            margin-bottom: 4rem;
+            font-weight: 300;
+            letter-spacing: -0.02em;
+            position: relative;
+            z-index: 2;
         }
         .programs-grid {
             display: grid;
@@ -198,11 +380,12 @@
             background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
             padding: 3rem;
             border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
-            transition: all 0.3s ease;
-            border: 1px solid #e5e7eb;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.08);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(76, 29, 149, 0.1);
             position: relative;
             overflow: hidden;
+            z-index: 1;
         }
         .program-card::before {
             content: '';
@@ -211,11 +394,32 @@
             left: 0;
             right: 0;
             height: 4px;
-            background: linear-gradient(90deg, var(--primary-purple), var(--accent-green));
+            background: var(--premium-gradient);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .program-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--card-gradient);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: -1;
         }
         .program-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 30px 80px rgba(76, 29, 149, 0.15);
+        }
+        .program-card:hover::before {
+            transform: scaleX(1);
+        }
+        .program-card:hover::after {
+            opacity: 1;
         }
         .program-icon {
             font-size: 3rem;
@@ -246,10 +450,23 @@
             transform: translateX(5px);
         }
 
-        /* Foundation Leadership Section */
+        /* Premium Foundation Leadership Section */
         .philanthropist-section {
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-            padding: 100px 0;
+            background: 
+                linear-gradient(135deg, var(--cream) 0%, #f1f5f9 100%),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="rgba(76,29,149,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23dots)"/></svg>');
+            padding: 120px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .philanthropist-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 80% 20%, rgba(76, 29, 149, 0.05) 0%, transparent 50%);
         }
         .philanthropist-content {
             display: grid;
@@ -260,16 +477,19 @@
             margin: 0 auto;
         }
         .philanthropist-text h2 {
-            font-size: 2.5rem;
-            color: var(--primary-purple);
+            font-size: 3.5rem;
+            color: var(--gordonstoun-purple);
             margin-bottom: 1rem;
-            font-weight: 700;
+            font-weight: 300;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
         }
         .philanthropist-text h3 {
-            font-size: 2rem;
-            color: var(--primary-blue);
+            font-size: 2.5rem;
+            color: var(--deep-purple);
             margin-bottom: 0.5rem;
-            font-weight: 600;
+            font-weight: 400;
+            letter-spacing: -0.01em;
         }
         .philanthropist-title {
             font-size: 1.2rem;
@@ -312,9 +532,9 @@
             align-items: center;
         }
         .image-placeholder {
-            width: 300px;
-            height: 300px;
-            background: linear-gradient(135deg, var(--primary-purple), var(--accent-green));
+            width: 350px;
+            height: 350px;
+            background: var(--premium-gradient);
             border-radius: 20px;
             display: flex;
             flex-direction: column;
@@ -322,7 +542,24 @@
             align-items: center;
             color: white;
             text-align: center;
-            box-shadow: 0 20px 60px rgba(124, 58, 237, 0.3);
+            box-shadow: 0 30px 80px rgba(76, 29, 149, 0.3);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .image-placeholder::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--card-gradient);
+            backdrop-filter: blur(10px);
+        }
+        .image-placeholder:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 40px 100px rgba(76, 29, 149, 0.4);
         }
         .image-placeholder span {
             font-size: 1.5rem;
@@ -681,12 +918,13 @@
     <!-- Hero Section -->
     <header class="hero">
         <div class="hero-content">
-            <h1>Elevate for Humanity</h1>
-            <p class="tagline">Transforming Lives Through Technology & Opportunity</p>
-            <p class="foundation">Rise Forward Foundation</p>
+            <h1>THE GARDEN OF HUMAN POTENTIAL</h1>
+            <p class="tagline">Where Seeds of Possibility Become Forests of Change</p>
+            <p class="foundation">*Cultivating the Extraordinary in Every Soul*</p>
+            <p class="hero-descriptor">Rise Forward Foundation</p>
             <div class="hero-cta">
-                <a href="/programs" class="cta-btn cta-primary">Explore Programs</a>
-                <a href="/connect" class="cta-btn cta-secondary">Get Started Today</a>
+                <a href="/programs" class="cta-btn cta-primary">PLANT YOUR SEED</a>
+                <a href="/connect" class="cta-btn cta-secondary">GROW WITH US</a>
             </div>
         </div>
     </header>
@@ -711,6 +949,23 @@
                     <span class="stat-number">33+</span>
                     <span class="stat-label">Training Programs</span>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Transformation Stories Video -->
+    <section class="video-section">
+        <div class="video-container">
+            <video class="video-background" autoplay muted loop playsinline>
+                <source src="/videos/transformation-stories.mp4" type="video/mp4">
+                <!-- Fallback for browsers that don't support video -->
+                <div style="background: linear-gradient(135deg, #4c1d95 0%, #22c55e 100%); height: 100%;"></div>
+            </video>
+            <div class="video-overlay"></div>
+            <div class="video-content">
+                <h2 class="video-title">SEEDS OF CHANGE</h2>
+                <p class="video-subtitle">*Watch Maria transform from unemployed single mother to AI engineer in 8 months*</p>
+                <a href="/stories" class="video-cta">WITNESS THE TRANSFORMATION</a>
             </div>
         </div>
     </section>
@@ -765,9 +1020,9 @@
     <!-- Mission -->
     <section class="mission">
         <div class="container">
-            <h2>Our Mission</h2>
+            <h2>ROOTED IN HUMANITY, REACHING FOR TOMORROW</h2>
             <div class="mission-content">
-                <p>We believe in the power of <span class="mission-highlight">technology and education</span> to transform lives and communities. Through innovative workforce development programs, cutting-edge AI and Data Science training, and strategic philanthropic initiatives, we create <span class="mission-highlight">pathways to prosperity</span> for individuals and families across America.</p>
+                <p>Like a tree that draws strength from deep roots while reaching toward infinite sky, we ground ourselves in <span class="mission-highlight">human dignity</span> while stretching toward <span class="mission-highlight">technological possibility</span>. In this sacred space where compassion meets innovation, we don't just develop skills—we <span class="mission-highlight">nurture the whole person</span>. Every individual is a unique ecosystem of potential, deserving of care, respect, and the opportunity to flourish.</p>
             </div>
         </div>
     </section>
@@ -776,10 +1031,10 @@
     <section class="workforce-hub-section">
         <div class="container">
             <div class="hub-content">
-                <h2>Elevate for Humanity Workforce Hub</h2>
-                <p class="hub-tagline">Your Gateway to Career Transformation & Community</p>
+                <h2>THE VILLAGE OF SHARED GROWTH</h2>
+                <p class="hub-tagline">*Where Every Voice Matters, Every Story Inspires*</p>
                 <div class="hub-description">
-                    <p>More than just training—we're building a <strong>workforce community</strong> where individuals connect, learn, and grow together. Our hub integrates all services under the Selfish Inc. DBA Rise Foundation umbrella, creating seamless pathways from education to employment to entrepreneurship.</p>
+                    <p>In the tradition of ancient villages where wisdom was shared around fires and growth happened in community, we create modern gatherings of the heart and mind. This is a <strong>living ecosystem</strong> where your struggles become our collective strength, where your victories lift us all. Here, learning is not solitary—it's a <strong>celebration of human connection</strong>, where every individual's journey enriches the tapestry of our shared humanity.</p>
                 </div>
                 
                 <div class="hub-features">
@@ -813,23 +1068,54 @@
         </div>
     </section>
 
+    <!-- AI Lab in Action Video -->
+    <section class="video-section">
+        <div class="video-container">
+            <video class="video-background" autoplay muted loop playsinline>
+                <source src="/videos/ai-lab-action.mp4" type="video/mp4">
+                <!-- Fallback gradient -->
+                <div style="background: linear-gradient(135deg, #1e1b4b 0%, #059669 100%); height: 100%;"></div>
+            </video>
+            <div class="video-overlay"></div>
+            <div class="video-content">
+                <h2 class="video-title">THE LABORATORY OF DREAMS</h2>
+                <p class="video-subtitle">*Step inside our AI development spaces where the future is born daily*</p>
+                <a href="/facilities" class="video-cta">EXPLORE OUR SPACES</a>
+            </div>
+        </div>
+    </section>
+
     <!-- Programs -->
     <section class="programs">
         <div class="container">
-            <h2>Transform Your Future</h2>
+            <h2>PATHWAYS TO EXTRAORDINARY</h2>
             <div class="programs-grid">
                 <div class="program-card">
-                    <span class="program-icon">🤖</span>
-                    <h3>AI & Data Science Bootcamp</h3>
-                    <p>Master Python, machine learning, and AI fundamentals. Industry-leading curriculum with hands-on projects and guaranteed job placement support.</p>
-                    <a href="/programs" class="program-link">Explore AI Programs →</a>
+                    <div class="card-video-container">
+                        <video autoplay muted loop playsinline style="width: 100%; height: 200px; object-fit: cover; border-radius: 15px; margin-bottom: 1.5rem;">
+                            <source src="/videos/ai-compassion-demo.mp4" type="video/mp4">
+                            <div style="background: linear-gradient(135deg, #22c55e 0%, #8b5cf6 100%); height: 200px; border-radius: 15px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem;">🌱 AI with Heart</div>
+                        </video>
+                    </div>
+                    <span class="program-icon">🌱</span>
+                    <h3>TECHNOLOGY WITH SOUL</h3>
+                    <p>*Where Human Wisdom Guides Digital Innovation*</p>
+                    <p>Technology is not cold code—it's the extension of human intention. Here, you'll learn to weave compassion into algorithms, to build AI that serves humanity's highest aspirations. Every line of Python becomes a prayer for progress. Every neural network you create carries the potential to <strong>heal, connect, and elevate</strong> the human experience.</p>
+                    <a href="/programs" class="program-link">CULTIVATE COMPASSIONATE TECH →</a>
                 </div>
                 
                 <div class="program-card">
+                    <div class="card-video-container">
+                        <video autoplay muted loop playsinline style="width: 100%; height: 200px; object-fit: cover; border-radius: 15px; margin-bottom: 1.5rem;">
+                            <source src="/videos/wioa-success-stories.mp4" type="video/mp4">
+                            <div style="background: linear-gradient(135deg, #1e40af 0%, #059669 100%); height: 200px; border-radius: 15px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem;">🏛️ Federal Partnership</div>
+                        </video>
+                    </div>
                     <span class="program-icon">🏛️</span>
-                    <h3>WIOA Workforce Development</h3>
-                    <p>Federally-funded training programs in high-demand industries. Free tuition, career counseling, and direct pathways to employment.</p>
-                    <a href="/hub" class="program-link">Access Workforce Hub →</a>
+                    <h3>FEDERALLY EMPOWERED TRANSFORMATION</h3>
+                    <p>*Government Investment in Your Extraordinary Future*</p>
+                    <p>When opportunity meets preparation, transformation is inevitable. Through federally-funded pathways, we remove every barrier between you and your potential. This is more than training—it's a <strong>national investment in your success</strong>. Your journey is supported by the full weight of federal commitment to your transformation.</p>
+                    <a href="/hub" class="program-link">CLAIM YOUR PATHWAY →</a>
                 </div>
                 
                 <div class="program-card">
