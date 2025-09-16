@@ -6,18 +6,7 @@
   NODE_VERSION = "18"
   SECRETS_SCAN_SMART_DETECTION_ENABLED = "false"
 
-# Domain redirect - non-www to www for SEO (force override)
-[[redirects]]
-  from = "https://elevateforhumanity.org/*"
-  to = "https://www.elevateforhumanity.org/:splat"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "http://elevateforhumanity.org/*"
-  to = "https://www.elevateforhumanity.org/:splat"
-  status = 301
-  force = true
+# Domain redirects handled in _redirects file to avoid conflicts
 
 # Pass through built assets
 [[redirects]]
