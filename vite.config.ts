@@ -19,8 +19,7 @@ export default defineConfig({
     host: true
   },
   css: {
-    postcss: {
-      plugins: []
-    }
+    postcss: false,
+    preprocessorOptions: {}
   }
 });
