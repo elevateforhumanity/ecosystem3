@@ -1,8 +1,8 @@
 const https = require('https');
 const fs = require('fs');
 
-const CLOUDFLARE_API_TOKEN = '7W2pnC5oQxQKewWDjTLKB-1tY9Zd9xqEpA9qjyoB';
-const ACCOUNT_ID = 'ff0d5ca582b5911a626ba012935cf3ec';
+const CLOUDFLARE_API_TOKEN = process.env.CLOUDFLARE_API_TOKEN || 'YOUR_CLOUDFLARE_API_TOKEN';
+const ACCOUNT_ID = process.env.CLOUDFLARE_ACCOUNT_ID || 'YOUR_CLOUDFLARE_ACCOUNT_ID';
 
 // Create a simple deployment
 function deployToCloudFlare() {
