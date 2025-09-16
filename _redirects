@@ -1,8 +1,11 @@
 # Pass static assets straight through
 /assets/*  /assets/:splat  200
 
-# Redirect non-www to www (primary domain for SEO)
-https://elevateforhumanity.org/* https://www.elevateforhumanity.org/:splat 301!
+# TEMPORARILY DISABLED: Redirect causing loop with external redirect rule
+# https://elevateforhumanity.org/* https://www.elevateforhumanity.org/:splat 301!
+# 
+# ISSUE: External service (Cloudflare/Netlify) is redirecting www→non-www
+# This conflicts with our non-www→www redirect, creating infinite loop
 
 # Note: HTTPS redirect removed - Cloudflare handles HTTP->HTTPS automatically
 # Keeping this would create a redirect loop with Cloudflare's "Always Use HTTPS"
