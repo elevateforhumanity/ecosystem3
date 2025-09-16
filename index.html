@@ -146,7 +146,7 @@
             z-index: 3;
             max-width: 900px;
             padding: 2rem;
-            animation: heroFadeIn 2s ease-out;
+
         }
         
         /* Video Integration Styles */
@@ -315,6 +315,11 @@
             padding: 2rem;
             border-radius: 20px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+        .story-highlight:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.12);
         }
         .story-icon {
             font-size: 2.5rem;
@@ -334,6 +339,11 @@
             text-decoration: none;
             border-radius: 50px;
             font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .transformation-cta:hover {
+            background: var(--deep-purple);
+            transform: translateY(-3px);
         }
 
         /* Innovation Section */
@@ -387,6 +397,11 @@
             padding: 2rem;
             border-radius: 20px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+        .feature-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.12);
         }
         .feature-icon {
             font-size: 2.5rem;
@@ -406,12 +421,25 @@
             text-decoration: none;
             border-radius: 50px;
             font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .innovation-cta:hover {
+            background: var(--deep-purple);
+            transform: translateY(-3px);
         }
         @keyframes heroFadeIn {
             0% { opacity: 0; transform: translateY(40px); }
             100% { opacity: 1; transform: translateY(0); }
         }
+        @keyframes organicFlow {
+            0% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(90deg) scale(1.1); }
+            50% { transform: rotate(180deg) scale(1); }
+            75% { transform: rotate(270deg) scale(1.1); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
         .hero h1 {
+            animation: heroFadeIn 2s ease-out;
             font-size: 5.5rem;
             font-weight: 300;
             margin-bottom: 1.5rem;
@@ -536,17 +564,7 @@
             text-align: center;
             position: relative;
         }
-        .mission::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(217, 119, 6, 0.03) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(76, 29, 149, 0.03) 0%, transparent 50%);
-        }
+
         .mission h2 {
             font-size: 2.8rem;
             color: var(--gordonstoun-purple);
@@ -1157,7 +1175,8 @@
 
         /* Responsive */
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2.8rem; }
+            .hero h1 {
+            animation: heroFadeIn 2s ease-out; font-size: 2.8rem; }
             .hero .tagline { font-size: 1.4rem; }
             .hero .foundation { font-size: 1.1rem; }
             .programs-grid { grid-template-columns: 1fr; }
@@ -1522,31 +1541,17 @@
             <h2>OUR TRAINING PROGRAMS</h2>
             <div class="programs-grid">
                 <div class="program-card">
-                    <div class="card-video-container">
-                        <video autoplay muted loop playsinline loading="lazy" preload="none" style="width: 100%; height: 160px; object-fit: cover; border-radius: 15px; margin-bottom: 1rem;">
-                            <source data-src="/videos/ai-compassion-demo.mp4" type="video/mp4">
-                            <div style="background: linear-gradient(135deg, #22c55e 0%, #8b5cf6 100%); height: 160px; border-radius: 15px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.1rem;">🌱 AI with Heart</div>
-                        </video>
-                    </div>
-                    <span class="program-icon">🌱</span>
-                    <h3>TECHNOLOGY WITH SOUL</h3>
-                    <p>*Where Human Wisdom Guides Digital Innovation*</p>
-                    <p>Technology is not cold code—it's the extension of human intention. Here, you'll learn to weave compassion into algorithms, to build AI that serves humanity's highest aspirations. Every line of Python becomes a prayer for progress. Every neural network you create carries the potential to <strong>heal, connect, and elevate</strong> the human experience.</p>
-                    <a href="/programs" class="program-link">CULTIVATE COMPASSIONATE TECH →</a>
+                    <span class="program-icon">🤖</span>
+                    <h3>AI & Data Science</h3>
+                    <p>Comprehensive training in artificial intelligence, machine learning, and data analysis. Industry-standard tools and real-world projects.</p>
+                    <a href="/programs.html" class="program-link">View Programs →</a>
                 </div>
                 
                 <div class="program-card">
-                    <div class="card-video-container">
-                        <video autoplay muted loop playsinline loading="lazy" preload="none" style="width: 100%; height: 160px; object-fit: cover; border-radius: 15px; margin-bottom: 1rem;">
-                            <source data-src="/videos/wioa-success-stories.mp4" type="video/mp4">
-                            <div style="background: linear-gradient(135deg, #1e40af 0%, #059669 100%); height: 160px; border-radius: 15px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.1rem;">🏛️ Federal Partnership</div>
-                        </video>
-                    </div>
                     <span class="program-icon">🏛️</span>
-                    <h3>FEDERALLY EMPOWERED TRANSFORMATION</h3>
-                    <p>*Government Investment in Your Extraordinary Future*</p>
-                    <p>When opportunity meets preparation, transformation is inevitable. Through federally-funded pathways, we remove every barrier between you and your potential. This is more than training—it's a <strong>national investment in your success</strong>. Your journey is supported by the full weight of federal commitment to your transformation.</p>
-                    <a href="/hub" class="program-link">CLAIM YOUR PATHWAY →</a>
+                    <h3>Workforce Development</h3>
+                    <p>Federally-funded WIOA programs with job placement assistance. Free training with 89% job placement rate.</p>
+                    <a href="/hub.html" class="program-link">Explore Programs →</a>
                 </div>
                 
                 <div class="program-card">
@@ -1714,70 +1719,29 @@
         }
       }
       
-      // Core Web Vitals Monitoring
+      // Lightweight performance monitoring (reduced overhead)
       function measureCoreWebVitals() {
-        // Largest Contentful Paint
-        new PerformanceObserver((entryList) => {
-          const entries = entryList.getEntries();
-          const lastEntry = entries[entries.length - 1];
-          console.log('LCP:', lastEntry.startTime);
-          
-          if (typeof gtag !== 'undefined') {
-            gtag('event', 'web_vitals', {
-              event_category: 'Performance',
-              event_label: 'LCP',
-              value: Math.round(lastEntry.startTime)
-            });
-          }
-        }).observe({entryTypes: ['largest-contentful-paint']});
-        
-        // First Input Delay
-        new PerformanceObserver((entryList) => {
-          const firstInput = entryList.getEntries()[0];
-          if (firstInput) {
-            console.log('FID:', firstInput.processingStart - firstInput.startTime);
-            
-            if (typeof gtag !== 'undefined') {
-              gtag('event', 'web_vitals', {
-                event_category: 'Performance',
-                event_label: 'FID',
-                value: Math.round(firstInput.processingStart - firstInput.startTime)
-              });
+        // Only measure on page load, not continuously
+        if (document.readyState === 'complete') {
+          setTimeout(() => {
+            const navigation = performance.getEntriesByType('navigation')[0];
+            if (navigation) {
+              console.log('Page Load Time:', navigation.loadEventEnd - navigation.fetchStart);
             }
-          }
-        }).observe({entryTypes: ['first-input']});
-        
-        // Cumulative Layout Shift
-        let clsValue = 0;
-        new PerformanceObserver((entryList) => {
-          for (const entry of entryList.getEntries()) {
-            if (!entry.hadRecentInput) {
-              clsValue += entry.value;
-            }
-          }
-          console.log('CLS:', clsValue);
-          
-          if (typeof gtag !== 'undefined') {
-            gtag('event', 'web_vitals', {
-              event_category: 'Performance',
-              event_label: 'CLS',
-              value: Math.round(clsValue * 1000)
-            });
-          }
-        }).observe({entryTypes: ['layout-shift']});
+          }, 1000);
+        }
       }
       
-      // Initialize everything
+      // Initialize everything with reduced overhead
       document.addEventListener('DOMContentLoaded', () => {
-        // Initialize performance manager
-        new PerformanceManager().init();
+        // Initialize performance manager with throttling
+        const perfManager = new PerformanceManager();
+        perfManager.init();
         
-        // Initialize performance monitoring
-        if (document.readyState === 'complete') {
+        // Delayed performance monitoring to avoid blocking input
+        setTimeout(() => {
           measureCoreWebVitals();
-        } else {
-          window.addEventListener('load', measureCoreWebVitals);
-        }
+        }, 2000);
       });
     </script>
 
