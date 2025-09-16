@@ -4,8 +4,8 @@
 # Redirect non-www to www (primary domain for SEO)
 https://elevateforhumanity.org/* https://www.elevateforhumanity.org/:splat 301!
 
-# Ensure HTTPS redirect for www
-http://www.elevateforhumanity.org/* https://www.elevateforhumanity.org/:splat 301!
+# Note: HTTPS redirect removed - Cloudflare handles HTTP->HTTPS automatically
+# Keeping this would create a redirect loop with Cloudflare's "Always Use HTTPS"
 
 # Student portal clean URLs
 /student-portal /student-portal.html 200
