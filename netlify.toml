@@ -5,6 +5,13 @@
 [build.environment]
   NODE_VERSION = "18"
 
+# Domain redirect - non-www to www for SEO
+[[redirects]]
+  from = "https://elevateforhumanity.org/*"
+  to = "https://www.elevateforhumanity.org/:splat"
+  status = 301
+  force = true
+
 # Pass through built assets
 [[redirects]]
   from = "/assets/*"

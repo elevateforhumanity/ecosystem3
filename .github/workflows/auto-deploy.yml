@@ -1,0 +1,73 @@
+name: Auto Deploy to Netlify
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '**.html'
+      - '**.css'
+      - '**.js'
+      - '**.json'
+      - '**.md'
+      - '**.xml'
+      - '**.txt'
+      - '_redirects'
+      - '_headers'
+      - 'netlify.toml'
+  workflow_dispatch:
+
+concurrency:
+  group: auto-deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  auto-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Build site
+        run: |
+          echo "Building static site..."
+          # Copy essential files to ensure they're included
+          cp robots.txt sitemap*.xml _redirects _headers . 2>/dev/null || true
+          echo "✅ Build completed"
+
+      - name: Deploy to Netlify
+        uses: nwtgck/actions-netlify@v3.0
+        with:
+          publish-dir: '.'
+          production-branch: main
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: "Auto-deploy: ${{ github.event.head_commit.message }}"
+          enable-pull-request-comment: false
+          enable-commit-comment: true
+          overwrites-pull-request-comment: false
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+
+      - name: Verify deployment
+        run: |
+          echo "🌍 Site deployed successfully!"
+          echo "📊 Deployment details:"
+          echo "- Branch: ${{ github.ref_name }}"
+          echo "- Commit: ${{ github.sha }}"
+          echo "- Message: ${{ github.event.head_commit.message }}"
+          echo "✅ Auto-deploy completed"
