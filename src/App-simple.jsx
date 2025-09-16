@@ -1,8 +1,17 @@
 import React from "react";
 
 export default function App() {
+  // Add some basic global styles
+  React.useEffect(() => {
+    document.body.style.margin = '0';
+    document.body.style.padding = '0';
+    document.body.style.fontFamily = 'system-ui, -apple-system, sans-serif';
+    document.body.style.lineHeight = '1.6';
+    document.body.style.backgroundColor = '#ffffff';
+  }, []);
+
   return (
-    <div style={{ padding: '2rem', fontFamily: 'Arial, sans-serif' }}>
+    <div style={{ padding: '2rem', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
       <h1 style={{ color: '#1e40af', fontSize: '3rem', textAlign: 'center' }}>
         🚀 Elevate for Humanity
       </h1>
