@@ -1,0 +1,63 @@
+{
+  "task": "cloudflare_pages_setup",
+  "description": "Configure CloudFlare Pages for elevateforhumanity.org with government contracting and philanthropy platform",
+  "priority": "high",
+  "credentials": {
+    "cloudflare_api_token": "7W2pnC5oQxQKewWDjTLKB-1tY9Zd9xqEpA9qjyoB",
+    "account_id": "ff0d5ca582b5911a626ba012935cf3ec",
+    "zone_id": "0cde07dbe1f6b3e3c25ec30421ee7ced"
+  },
+  "configuration": {
+    "project_name": "elevateforhumanity",
+    "repository": "elevateforhumanity/new-ecosysstem",
+    "branch": "main",
+    "build_command": "cp quick-deploy.html index.html",
+    "output_directory": "./",
+    "custom_domains": [
+      "elevateforhumanity.org",
+      "www.elevateforhumanity.org"
+    ],
+    "environment_variables": {
+      "NODE_VERSION": "20"
+    }
+  },
+  "dns_configuration": {
+    "records": [
+      {
+        "type": "CNAME",
+        "name": "@",
+        "content": "elevateforhumanity.pages.dev",
+        "ttl": 3600
+      },
+      {
+        "type": "CNAME", 
+        "name": "www",
+        "content": "elevateforhumanity.pages.dev",
+        "ttl": 3600
+      }
+    ]
+  },
+  "expected_outcome": {
+    "pages_url": "https://elevateforhumanity.pages.dev",
+    "custom_domain": "https://elevateforhumanity.org",
+    "features": [
+      "Government contracting services",
+      "Philanthropy & grant management",
+      "Accessibility compliance",
+      "Veteran services",
+      "Performance metrics"
+    ]
+  },
+  "validation": {
+    "check_urls": [
+      "https://elevateforhumanity.pages.dev",
+      "https://elevateforhumanity.org"
+    ],
+    "expected_content": [
+      "Government Contracting",
+      "Philanthropy",
+      "Veteran-Owned Small Business",
+      "Elizabeth L. Greene Foundation"
+    ]
+  }
+}

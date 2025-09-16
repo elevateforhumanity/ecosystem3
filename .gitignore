@@ -37,6 +37,16 @@ efh-*
 # Legacy/backup files
 .legacy-servers/
 .migration_temp_*/
+attached_assets/
+data/fixtures/
+
+# Sensitive files
+*secret*
+*key*
+*token*
+*password*
+*AIza*
+*curvaturebodysculpting*
 
 coverage
 stats.html
