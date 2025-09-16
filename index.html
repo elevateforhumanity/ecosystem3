@@ -6,6 +6,12 @@
     <title>Elevate for Humanity | Rise Forward Foundation | Workforce Development & Philanthropy</title>
     <meta name="description" content="Elevate for Humanity transforms lives through workforce development, AI/Data Science training, and philanthropic initiatives. Rise Forward Foundation creating pathways to prosperity.">
     
+    <!-- Critical Resource Preloads -->
+    <link rel="preload" href="/videos/transformation-stories.mp4" as="video" type="video/mp4">
+    <link rel="preload" href="/videos/ai-lab-action.mp4" as="video" type="video/mp4">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
     <script>
@@ -14,6 +20,89 @@
         gtag('js', new Date());
         gtag('config', 'G-XXXXXXXXXX'); // Replace with your GA4 ID
     </script>
+    
+    <!-- Structured Data for Rich Snippets -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "EducationalOrganization",
+      "name": "Elevate for Humanity",
+      "alternateName": "Rise Forward Foundation",
+      "description": "Transforming lives through technology education, AI training, and workforce development programs.",
+      "url": "https://elevateforhumanity.org",
+      "logo": "https://elevateforhumanity.org/images/logo.png",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "US",
+        "addressRegion": "IN"
+      },
+      "offers": [
+        {
+          "@type": "Course",
+          "name": "AI & Data Science Bootcamp",
+          "description": "Comprehensive AI and machine learning training program",
+          "provider": {
+            "@type": "Organization",
+            "name": "Elevate for Humanity"
+          },
+          "courseMode": "blended",
+          "educationalCredentialAwarded": "Professional Certificate"
+        },
+        {
+          "@type": "Course", 
+          "name": "WIOA Workforce Development",
+          "description": "Federally-funded workforce training programs",
+          "provider": {
+            "@type": "Organization",
+            "name": "Elevate for Humanity"
+          },
+          "courseMode": "blended",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          }
+        }
+      ]
+    }
+    </script>
+    
+    <!-- Critical CSS for Core Web Vitals -->
+    <style>
+      /* Critical above-the-fold styles */
+      body { 
+        font-family: 'Inter', 'Helvetica Neue', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+        margin: 0; 
+        line-height: 1.7; 
+        color: #1e293b; 
+        background: #f8fafc;
+      }
+      .hero { 
+        background: linear-gradient(135deg, #1e1b4b 0%, #312e81 30%, #4c1d95 60%, #581c87 100%);
+        min-height: 100vh; 
+        display: flex; 
+        align-items: center; 
+        justify-content: center; 
+        position: relative;
+        overflow: hidden;
+      }
+      .hero-content { 
+        max-width: 900px; 
+        text-align: center; 
+        color: white; 
+        z-index: 3; 
+        position: relative; 
+        padding: 2rem;
+      }
+      .hero h1 {
+        font-size: 5.5rem;
+        font-weight: 300;
+        margin-bottom: 1.5rem;
+        letter-spacing: -0.02em;
+        line-height: 1.1;
+      }
+      .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+    </style>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
@@ -956,8 +1045,8 @@
     <!-- Transformation Stories Video -->
     <section class="video-section">
         <div class="video-container">
-            <video class="video-background" autoplay muted loop playsinline>
-                <source src="/videos/transformation-stories.mp4" type="video/mp4">
+            <video class="video-background" autoplay muted loop playsinline loading="lazy" preload="metadata">
+                <source data-src="/videos/transformation-stories.mp4" type="video/mp4">
                 <!-- Fallback for browsers that don't support video -->
                 <div style="background: linear-gradient(135deg, #4c1d95 0%, #22c55e 100%); height: 100%;"></div>
             </video>
@@ -1071,8 +1160,8 @@
     <!-- AI Lab in Action Video -->
     <section class="video-section">
         <div class="video-container">
-            <video class="video-background" autoplay muted loop playsinline>
-                <source src="/videos/ai-lab-action.mp4" type="video/mp4">
+            <video class="video-background" autoplay muted loop playsinline loading="lazy" preload="metadata">
+                <source data-src="/videos/ai-lab-action.mp4" type="video/mp4">
                 <!-- Fallback gradient -->
                 <div style="background: linear-gradient(135deg, #1e1b4b 0%, #059669 100%); height: 100%;"></div>
             </video>
@@ -1092,8 +1181,8 @@
             <div class="programs-grid">
                 <div class="program-card">
                     <div class="card-video-container">
-                        <video autoplay muted loop playsinline style="width: 100%; height: 200px; object-fit: cover; border-radius: 15px; margin-bottom: 1.5rem;">
-                            <source src="/videos/ai-compassion-demo.mp4" type="video/mp4">
+                        <video autoplay muted loop playsinline loading="lazy" preload="none" style="width: 100%; height: 200px; object-fit: cover; border-radius: 15px; margin-bottom: 1.5rem;">
+                            <source data-src="/videos/ai-compassion-demo.mp4" type="video/mp4">
                             <div style="background: linear-gradient(135deg, #22c55e 0%, #8b5cf6 100%); height: 200px; border-radius: 15px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem;">🌱 AI with Heart</div>
                         </video>
                     </div>
@@ -1106,8 +1195,8 @@
                 
                 <div class="program-card">
                     <div class="card-video-container">
-                        <video autoplay muted loop playsinline style="width: 100%; height: 200px; object-fit: cover; border-radius: 15px; margin-bottom: 1.5rem;">
-                            <source src="/videos/wioa-success-stories.mp4" type="video/mp4">
+                        <video autoplay muted loop playsinline loading="lazy" preload="none" style="width: 100%; height: 200px; object-fit: cover; border-radius: 15px; margin-bottom: 1.5rem;">
+                            <source data-src="/videos/wioa-success-stories.mp4" type="video/mp4">
                             <div style="background: linear-gradient(135deg, #1e40af 0%, #059669 100%); height: 200px; border-radius: 15px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem;">🏛️ Federal Partnership</div>
                         </video>
                     </div>
@@ -1209,6 +1298,146 @@
 
     <!-- Assistant Toggle Button -->
     <button class="assistant-toggle" onclick="toggleAssistant()">💬</button>
+
+    <!-- Performance Optimization Scripts -->
+    <script>
+      // Progressive Video Loading Manager
+      class VideoManager {
+        constructor() {
+          this.loadedVideos = new Set();
+          this.videoQueue = [];
+          this.maxConcurrentLoads = 2;
+          this.currentLoads = 0;
+        }
+        
+        loadVideo(videoElement) {
+          return new Promise((resolve, reject) => {
+            const source = videoElement.querySelector('source[data-src]');
+            if (!source || this.loadedVideos.has(source.dataset.src)) {
+              resolve();
+              return;
+            }
+            
+            if (this.currentLoads >= this.maxConcurrentLoads) {
+              this.videoQueue.push(() => this.loadVideo(videoElement));
+              return;
+            }
+            
+            this.currentLoads++;
+            
+            const tempVideo = document.createElement('video');
+            tempVideo.onloadeddata = () => {
+              source.src = source.dataset.src;
+              videoElement.load();
+              this.loadedVideos.add(source.dataset.src);
+              this.currentLoads--;
+              this.processQueue();
+              resolve();
+            };
+            
+            tempVideo.onerror = () => {
+              this.currentLoads--;
+              this.processQueue();
+              reject();
+            };
+            
+            tempVideo.src = source.dataset.src;
+          });
+        }
+        
+        processQueue() {
+          if (this.videoQueue.length > 0 && this.currentLoads < this.maxConcurrentLoads) {
+            const nextLoad = this.videoQueue.shift();
+            nextLoad();
+          }
+        }
+        
+        init() {
+          const videos = document.querySelectorAll('video');
+          const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                this.loadVideo(entry.target);
+                observer.unobserve(entry.target);
+              }
+            });
+          }, { threshold: 0.1, rootMargin: '100px' });
+          
+          videos.forEach(video => {
+            const source = video.querySelector('source[data-src]');
+            if (source) {
+              observer.observe(video);
+            }
+          });
+        }
+      }
+      
+      // Core Web Vitals Monitoring
+      function measureCoreWebVitals() {
+        // Largest Contentful Paint
+        new PerformanceObserver((entryList) => {
+          const entries = entryList.getEntries();
+          const lastEntry = entries[entries.length - 1];
+          console.log('LCP:', lastEntry.startTime);
+          
+          if (typeof gtag !== 'undefined') {
+            gtag('event', 'web_vitals', {
+              event_category: 'Performance',
+              event_label: 'LCP',
+              value: Math.round(lastEntry.startTime)
+            });
+          }
+        }).observe({entryTypes: ['largest-contentful-paint']});
+        
+        // First Input Delay
+        new PerformanceObserver((entryList) => {
+          const firstInput = entryList.getEntries()[0];
+          if (firstInput) {
+            console.log('FID:', firstInput.processingStart - firstInput.startTime);
+            
+            if (typeof gtag !== 'undefined') {
+              gtag('event', 'web_vitals', {
+                event_category: 'Performance',
+                event_label: 'FID',
+                value: Math.round(firstInput.processingStart - firstInput.startTime)
+              });
+            }
+          }
+        }).observe({entryTypes: ['first-input']});
+        
+        // Cumulative Layout Shift
+        let clsValue = 0;
+        new PerformanceObserver((entryList) => {
+          for (const entry of entryList.getEntries()) {
+            if (!entry.hadRecentInput) {
+              clsValue += entry.value;
+            }
+          }
+          console.log('CLS:', clsValue);
+          
+          if (typeof gtag !== 'undefined') {
+            gtag('event', 'web_vitals', {
+              event_category: 'Performance',
+              event_label: 'CLS',
+              value: Math.round(clsValue * 1000)
+            });
+          }
+        }).observe({entryTypes: ['layout-shift']});
+      }
+      
+      // Initialize everything
+      document.addEventListener('DOMContentLoaded', () => {
+        // Initialize video manager
+        new VideoManager().init();
+        
+        // Initialize performance monitoring
+        if (document.readyState === 'complete') {
+          measureCoreWebVitals();
+        } else {
+          window.addEventListener('load', measureCoreWebVitals);
+        }
+      });
+    </script>
 
     <!-- Scripts -->
     <script src="autopilot.js"></script>
