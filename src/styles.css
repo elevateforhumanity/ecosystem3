@@ -1,0 +1,77 @@
+/* Elevate for Humanity - Main Styles */
+body { 
+  font-family: Arial, sans-serif; 
+  margin: 0; 
+  padding: 20px; 
+  background: #f0f8ff; 
+}
+
+.container { 
+  max-width: 1000px; 
+  margin: 0 auto; 
+  background: white; 
+  padding: 30px; 
+  border-radius: 10px; 
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+}
+
+h1 { 
+  color: #1e40af; 
+  text-align: center; 
+  font-size: 2.5em; 
+  margin-bottom: 30px; 
+}
+
+.section { 
+  margin: 30px 0; 
+  padding: 20px; 
+  border-left: 4px solid #1e40af; 
+  background: #f8fafc; 
+}
+
+.section h2 { 
+  color: #1e40af; 
+  margin-top: 0; 
+}
+
+.stats { 
+  display: flex; 
+  justify-content: space-around; 
+  flex-wrap: wrap; 
+  margin: 20px 0; 
+}
+
+.stat { 
+  text-align: center; 
+  margin: 10px; 
+}
+
+.stat-number { 
+  font-size: 2em; 
+  font-weight: bold; 
+  color: #059669; 
+}
+
+.contact { 
+  background: #1e40af; 
+  color: white; 
+  padding: 20px; 
+  border-radius: 8px; 
+  text-align: center; 
+  margin-top: 30px; 
+}
+
+ul { 
+  list-style-type: none; 
+  padding: 0; 
+}
+
+li { 
+  padding: 5px 0; 
+}
+
+li:before { 
+  content: "✓ "; 
+  color: #059669; 
+  font-weight: bold; 
+}

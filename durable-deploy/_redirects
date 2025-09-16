@@ -1,0 +1,17 @@
+# Pass static assets straight through
+/assets/*  /assets/:splat  200
+
+# Redirect www to non-www (primary domain)
+https://www.elevateforhumanity.org/* https://elevateforhumanity.org/:splat 301!
+
+# Ensure HTTPS redirect for non-www
+http://elevateforhumanity.org/* https://elevateforhumanity.org/:splat 301!
+
+# Student portal clean URLs
+/student-portal /student-portal.html 200
+/enroll /student-portal.html 200
+/login /student-portal.html 200
+/certificates /student-portal.html 200
+
+# SPA fallback (place explicit html routes ABOVE this if you want them to win)
+/*          /index.html     200

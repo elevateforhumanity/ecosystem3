@@ -17,9 +17,6 @@ export default defineConfig({
   server: {
     port: 3000,
     host: true
-  },
-  css: {
-    postcss: false,
-    preprocessorOptions: {}
   }
+  // No CSS config - let Vite handle CSS natively without PostCSS
 });

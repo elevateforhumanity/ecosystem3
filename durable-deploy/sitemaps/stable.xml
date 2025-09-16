@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://example.com/</loc><lastmod>2025-09-09</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://example.com/programs</loc><lastmod>2025-09-09</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://example.com/programs/medical-assistant</loc><lastmod>2025-09-09</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://example.com/hub</loc><lastmod>2025-09-09</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://example.com/lms</loc><lastmod>2025-09-09</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://example.com/connect</loc><lastmod>2025-09-09</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://example.com/compliance</loc><lastmod>2025-09-09</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://example.com/pay</loc><lastmod>2025-09-09</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://example.com/partners</loc><lastmod>2025-09-09</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://example.com/account</loc><lastmod>2025-09-09</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://example.com/employer-dashboard</loc><lastmod>2025-09-09</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+</urlset>
