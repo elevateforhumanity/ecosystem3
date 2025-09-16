@@ -1,0 +1,258 @@
+name: Deploy Elevate Platform License System
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'src/license/**'
+      - 'middleware/**'
+      - 'config/license.env'
+      - 'api/license-**'
+      - 'scripts/license-**'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'src/license/**'
+      - 'middleware/**'
+
+env:
+  NODE_VERSION: '18'
+  CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+  SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+    name: Security & License Validation
+    
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+      
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        
+    - name: Install Dependencies
+      run: |
+        npm ci --only=production
+        npm audit --audit-level moderate
+        
+    - name: Validate License System
+      run: |
+        echo "🔐 Validating license system integrity..."
+        node scripts/validate-license-system.js
+        
+    - name: Security Scan
+      run: |
+        echo "🛡️ Running security scan..."
+        npm audit --audit-level high
+        
+    - name: License Watermark Check
+      run: |
+        echo "🧬 Checking digital watermarks..."
+        grep -r "Elevate for Humanity" src/ || echo "⚠️ Watermark missing"
+        grep -r "Licensed Use Only" src/ || echo "⚠️ License notice missing"
+
+  build-and-test:
+    runs-on: ubuntu-latest
+    needs: security-scan
+    name: Build & Test License Components
+    
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+      
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        
+    - name: Install Dependencies
+      run: npm ci
+      
+    - name: Run License Tests
+      run: |
+        echo "🧪 Testing license validation..."
+        npm test -- --testPathPattern=license
+        
+    - name: Build License Components
+      run: |
+        echo "🔨 Building license system..."
+        npm run build:license
+        
+    - name: Generate Test License
+      run: |
+        echo "🎫 Generating test license..."
+        node scripts/generate-license.js \
+          --licensee "GitHub Actions Test" \
+          --domain "test.elevateforhumanity.com" \
+          --tier "enterprise" \
+          --output "test-license.txt"
+          
+    - name: Upload License Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: license-artifacts
+        path: |
+          test-license.txt
+          licenses/
+          
+  deploy-license-server:
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    if: github.ref == 'refs/heads/main'
+    name: Deploy License Server
+    
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+      
+    - name: Deploy to Cloudflare Workers
+      run: |
+        echo "🚀 Deploying license server to Cloudflare..."
+        npx wrangler deploy api/license-server.js \
+          --name elevate-license-server \
+          --env production
+          
+    - name: Update Supabase Functions
+      run: |
+        echo "📡 Updating Supabase edge functions..."
+        npx supabase functions deploy license-validator \
+          --project-ref ${{ secrets.SUPABASE_PROJECT_REF }}
+          
+    - name: Notify License System Update
+      run: |
+        echo "📧 Notifying license system update..."
+        curl -X POST "${{ secrets.SLACK_WEBHOOK_URL }}" \
+          -H 'Content-type: application/json' \
+          --data '{"text":"🔐 Elevate Platform license system updated and deployed successfully!"}'
+
+  monitor-violations:
+    runs-on: ubuntu-latest
+    needs: deploy-license-server
+    if: github.ref == 'refs/heads/main'
+    name: Monitor License Violations
+    
+    steps:
+    - name: Check Recent Violations
+      run: |
+        echo "🚨 Checking for recent license violations..."
+        curl -H "Authorization: Bearer ${{ secrets.LICENSE_API_KEY }}" \
+          "${{ secrets.LICENSE_SERVER_URL }}/api/violations?hours=24" \
+          | jq '.violations[] | select(.severity == "high")'
+          
+    - name: Generate Violation Report
+      run: |
+        echo "📊 Generating violation report..."
+        curl -H "Authorization: Bearer ${{ secrets.LICENSE_API_KEY }}" \
+          "${{ secrets.LICENSE_SERVER_URL }}/api/admin/usage" \
+          > violation-report.json
+          
+    - name: Send DMCA Takedowns
+      run: |
+        echo "⚖️ Processing DMCA takedown requests..."
+        node scripts/process-dmca-takedowns.js
+
+  performance-test:
+    runs-on: ubuntu-latest
+    needs: deploy-license-server
+    name: Performance & Load Testing
+    
+    steps:
+    - name: License Server Load Test
+      run: |
+        echo "⚡ Running license server load test..."
+        npx artillery run tests/license-load-test.yml
+        
+    - name: Database Performance Test
+      run: |
+        echo "🗄️ Testing database performance..."
+        node tests/database-performance.js
+        
+    - name: CDN Performance Test
+      run: |
+        echo "🌐 Testing CDN performance..."
+        curl -w "@curl-format.txt" -o /dev/null -s \
+          "https://elevateforhumanity.com/api/license-check"
+
+  backup-and-archive:
+    runs-on: ubuntu-latest
+    needs: [deploy-license-server, monitor-violations]
+    name: Backup License Data
+    
+    steps:
+    - name: Backup License Database
+      run: |
+        echo "💾 Backing up license database..."
+        pg_dump "${{ secrets.DATABASE_URL }}" \
+          --table=licenses \
+          --table=license_usage \
+          --table=license_violations \
+          > license-backup-$(date +%Y%m%d).sql
+          
+    - name: Archive to Cloudflare R2
+      run: |
+        echo "📦 Archiving to Cloudflare R2..."
+        aws s3 cp license-backup-$(date +%Y%m%d).sql \
+          s3://elevate-backups/licenses/ \
+          --endpoint-url https://${{ secrets.CLOUDFLARE_ACCOUNT_ID }}.r2.cloudflarestorage.com
+          
+    - name: Cleanup Old Backups
+      run: |
+        echo "🧹 Cleaning up old backups..."
+        aws s3 ls s3://elevate-backups/licenses/ \
+          --endpoint-url https://${{ secrets.CLOUDFLARE_ACCOUNT_ID }}.r2.cloudflarestorage.com \
+          | head -n -7 | awk '{print $4}' \
+          | xargs -I {} aws s3 rm s3://elevate-backups/licenses/{} \
+          --endpoint-url https://${{ secrets.CLOUDFLARE_ACCOUNT_ID }}.r2.cloudflarestorage.com
+
+  notify-completion:
+    runs-on: ubuntu-latest
+    needs: [performance-test, backup-and-archive]
+    if: always()
+    name: Deployment Notification
+    
+    steps:
+    - name: Success Notification
+      if: ${{ needs.deploy-license-server.result == 'success' }}
+      run: |
+        echo "✅ License system deployment completed successfully!"
+        curl -X POST "${{ secrets.DISCORD_WEBHOOK_URL }}" \
+          -H 'Content-type: application/json' \
+          --data '{
+            "embeds": [{
+              "title": "🔐 Elevate Platform License System",
+              "description": "License system updated and deployed successfully!",
+              "color": 3066993,
+              "fields": [
+                {"name": "Status", "value": "✅ Deployed", "inline": true},
+                {"name": "Environment", "value": "Production", "inline": true},
+                {"name": "Commit", "value": "'$GITHUB_SHA'", "inline": true}
+              ]
+            }]
+          }'
+          
+    - name: Failure Notification
+      if: ${{ needs.deploy-license-server.result == 'failure' }}
+      run: |
+        echo "❌ License system deployment failed!"
+        curl -X POST "${{ secrets.DISCORD_WEBHOOK_URL }}" \
+          -H 'Content-type: application/json' \
+          --data '{
+            "embeds": [{
+              "title": "🚨 Elevate Platform License System",
+              "description": "License system deployment failed!",
+              "color": 15158332,
+              "fields": [
+                {"name": "Status", "value": "❌ Failed", "inline": true},
+                {"name": "Environment", "value": "Production", "inline": true},
+                {"name": "Commit", "value": "'$GITHUB_SHA'", "inline": true}
+              ]
+            }]
+          }'

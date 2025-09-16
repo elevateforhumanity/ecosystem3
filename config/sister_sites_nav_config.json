@@ -1,0 +1,43 @@
+{
+  "kingdom-konnect": {
+    "display_name": "Kingdom Konnect",
+    "landing_title": "Welcome to Kingdom Konnect",
+    "landing_url": "/kingdom-konnect",
+    "drop_down_pages": [
+      "mission",
+      "programs",
+      "events"
+    ]
+  },
+  "urban-build-crew": {
+    "display_name": "Urban Build Crew",
+    "landing_title": "Urban Workforce Training",
+    "landing_url": "/urban-build-crew",
+    "drop_down_pages": [
+      "about",
+      "courses",
+      "contact"
+    ]
+  },
+  "serene-comfort-care": {
+    "display_name": "Serene Comfort Care",
+    "landing_title": "Care with Compassion",
+    "landing_url": "/serene-comfort-care",
+    "drop_down_pages": [
+      "services",
+      "care-team",
+      "apply"
+    ]
+  },
+  "elevate-brain": {
+    "display_name": "Elevate Brain (Private)",
+    "landing_title": "Internal Operations Intelligence Hub",
+    "landing_url": "/elevate-brain",
+    "drop_down_pages": [
+      "admin-dashboard",
+      "analytics",
+      "internal-notes"
+    ],
+    "private": true
+  }
+}

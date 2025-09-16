@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔐 Elevate License Manager Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .license-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <header class="gradient-bg text-white py-6">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <div class="text-3xl">🔐</div>
+                    <div>
+                        <h1 class="text-2xl font-bold">Elevate License Manager</h1>
+                        <p class="text-blue-100">Professional License Generation & Management</p>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <p class="text-sm text-blue-100">Elevate for Humanity</p>
+                    <p class="text-xs text-blue-200">Licensed Use Only</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 py-8">
+        <!-- License Generation Form -->
+        <div class="grid lg:grid-cols-2 gap-8">
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h2 class="text-xl font-bold text-gray-900 mb-6">🎫 Generate New License</h2>
+                
+                <form id="licenseForm" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Licensee Name *</label>
+                        <input type="text" id="licensee" required 
+                               class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500"
+                               placeholder="e.g., Acme Corporation">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Licensed Domain *</label>
+                        <input type="text" id="domain" required 
+                               class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500"
+                               placeholder="e.g., acme.com">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">License Tier</label>
+                        <select id="tier" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500">
+                            <option value="basic">Basic ($299/year)</option>
+                            <option value="sister">Sister Sites ($799/year)</option>
+                            <option value="enterprise" selected>Enterprise ($1,999/year)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Features</label>
+                        <div class="grid grid-cols-2 gap-2">
+                            <label class="flex items-center">
+                                <input type="checkbox" id="feature-lms" checked class="mr-2">
+                                <span class="text-sm">LMS Access</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" id="feature-sister" class="mr-2">
+                                <span class="text-sm">Sister Sites</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" id="feature-ai" class="mr-2">
+                                <span class="text-sm">AI Tutoring</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" id="feature-analytics" class="mr-2">
+                                <span class="text-sm">Analytics</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" id="feature-compliance" class="mr-2">
+                                <span class="text-sm">Compliance</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" id="feature-admin" class="mr-2">
+                                <span class="text-sm">Admin Access</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Expiration Date</label>
+                        <input type="date" id="expires" 
+                               class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Client Email (for PDF delivery)</label>
+                        <input type="email" id="clientEmail" 
+                               class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500"
+                               placeholder="client@company.com">
+                    </div>
+
+                    <div class="flex space-x-4">
+                        <button type="button" onclick="generateLicense()" 
+                                class="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 font-medium">
+                            🎫 Generate License
+                        </button>
+                        <button type="button" onclick="generatePDF()" 
+                                class="flex-1 bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 font-medium">
+                            📄 Generate PDF
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- License Output -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h2 class="text-xl font-bold text-gray-900 mb-6">📋 Generated License</h2>
+                
+                <div id="licenseOutput" class="bg-gray-50 rounded-lg p-4 min-h-96 font-mono text-sm">
+                    <p class="text-gray-500 text-center py-8">Generated license will appear here...</p>
+                </div>
+
+                <div class="mt-4 flex space-x-2">
+                    <button onclick="copyLicense()" 
+                            class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 text-sm">
+                        📋 Copy License
+                    </button>
+                    <button onclick="signLicense()" 
+                            class="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 text-sm">
+                        🔑 Digital Sign
+                    </button>
+                    <button onclick="emailLicense()" 
+                            class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 text-sm">
+                        📧 Email Client
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Licenses -->
+        <div class="mt-8 bg-white rounded-xl shadow-lg p-6">
+            <h2 class="text-xl font-bold text-gray-900 mb-6">📊 Recent Licenses</h2>
+            <div id="recentLicenses" class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Licensee</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Domain</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tier</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Expires</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="licensesTableBody" class="bg-white divide-y divide-gray-200">
+                        <!-- Recent licenses will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let currentLicense = null;
+        let recentLicenses = JSON.parse(localStorage.getItem('elevate_licenses') || '[]');
+
+        // Set default expiration date (1 year from now)
+        document.getElementById('expires').value = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+
+        // Update features based on tier selection
+        document.getElementById('tier').addEventListener('change', function() {
+            const tier = this.value;
+            const features = {
+                basic: ['feature-lms'],
+                sister: ['feature-lms', 'feature-sister', 'feature-ai'],
+                enterprise: ['feature-lms', 'feature-sister', 'feature-ai', 'feature-analytics', 'feature-compliance', 'feature-admin']
+            };
+
+            // Reset all checkboxes
+            document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+            
+            // Check appropriate features
+            features[tier].forEach(featureId => {
+                document.getElementById(featureId).checked = true;
+            });
+        });
+
+        function generateLicense() {
+            const licensee = document.getElementById('licensee').value;
+            const domain = document.getElementById('domain').value;
+            const tier = document.getElementById('tier').value;
+            const expires = document.getElementById('expires').value;
+
+            if (!licensee || !domain) {
+                alert('Please fill in required fields (Licensee Name and Domain)');
+                return;
+            }
+
+            // Get selected features
+            const features = [];
+            document.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => {
+                features.push(cb.nextElementSibling.textContent);
+            });
+
+            // Generate license key
+            const licenseKey = generateLicenseKey(domain, tier);
+
+            const license = {
+                licensee: licensee,
+                domain: domain,
+                licenseKey: licenseKey,
+                tier: tier,
+                features: features,
+                expires: expires,
+                issued: new Date().toISOString(),
+                issuer: 'Elevate for Humanity',
+                status: 'active',
+                id: Date.now().toString()
+            };
+
+            currentLicense = license;
+
+            // Display license
+            const output = document.getElementById('licenseOutput');
+            output.innerHTML = `
+<div class="space-y-2">
+<div class="text-lg font-bold text-blue-600">ELEVATE FOR HUMANITY LICENSE</div>
+<div class="border-b pb-2 mb-4"></div>
+
+<div><strong>Licensee:</strong> ${license.licensee}</div>
+<div><strong>Domain:</strong> ${license.domain}</div>
+<div><strong>License Key:</strong> ${license.licenseKey}</div>
+<div><strong>Tier:</strong> ${license.tier.toUpperCase()}</div>
+<div><strong>Features:</strong> ${license.features.join(', ')}</div>
+<div><strong>Issued:</strong> ${new Date(license.issued).toLocaleDateString()}</div>
+<div><strong>Expires:</strong> ${new Date(license.expires).toLocaleDateString()}</div>
+<div><strong>Status:</strong> <span class="text-green-600 font-semibold">${license.status.toUpperCase()}</span></div>
+
+<div class="border-t pt-4 mt-4">
+<div class="text-xs text-gray-500">
+© 2024 Selfish Inc. DBA Rise Foundation. All Rights Reserved.
+Licensed Use Only - Unauthorized use prohibited.
+</div>
+</div>
+</div>
+            `;
+
+            // Save to recent licenses
+            recentLicenses.unshift(license);
+            if (recentLicenses.length > 10) recentLicenses.pop();
+            localStorage.setItem('elevate_licenses', JSON.stringify(recentLicenses));
+            
+            updateRecentLicensesTable();
+        }
+
+        function generateLicenseKey(domain, tier) {
+            const prefix = 'EFH';
+            const tierCode = tier.substring(0, 3).toUpperCase();
+            const domainHash = CryptoJS.MD5(domain).toString().substring(0, 8).toUpperCase();
+            const timestamp = Date.now().toString(36).toUpperCase();
+            
+            return `${prefix}-${tierCode}-${domainHash}-${timestamp}`;
+        }
+
+        function copyLicense() {
+            if (!currentLicense) {
+                alert('Please generate a license first');
+                return;
+            }
+
+            const licenseText = JSON.stringify(currentLicense, null, 2);
+            navigator.clipboard.writeText(licenseText).then(() => {
+                alert('License copied to clipboard!');
+            });
+        }
+
+        function signLicense() {
+            if (!currentLicense) {
+                alert('Please generate a license first');
+                return;
+            }
+
+            // Generate digital signature
+            const licenseData = JSON.stringify(currentLicense);
+            const signature = CryptoJS.HmacSHA256(licenseData, 'elevate-secret-key').toString();
+            
+            currentLicense.signature = signature;
+            currentLicense.signed = true;
+            currentLicense.signedAt = new Date().toISOString();
+
+            alert('License digitally signed successfully!');
+            
+            // Update display
+            const output = document.getElementById('licenseOutput');
+            output.innerHTML += `
+<div class="border-t pt-2 mt-2">
+<div class="text-green-600 font-semibold">✅ DIGITALLY SIGNED</div>
+<div class="text-xs text-gray-500">Signature: ${signature.substring(0, 32)}...</div>
+<div class="text-xs text-gray-500">Signed: ${new Date().toLocaleString()}</div>
+</div>
+            `;
+        }
+
+        function generatePDF() {
+            if (!currentLicense) {
+                alert('Please generate a license first');
+                return;
+            }
+
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            // Header
+            doc.setFontSize(20);
+            doc.setTextColor(30, 27, 75);
+            doc.text('ELEVATE FOR HUMANITY', 105, 30, { align: 'center' });
+            
+            doc.setFontSize(14);
+            doc.setTextColor(100, 100, 100);
+            doc.text('LICENSE CERTIFICATE', 105, 40, { align: 'center' });
+
+            // License details
+            doc.setFontSize(12);
+            doc.setTextColor(0, 0, 0);
+            
+            const details = [
+                ['Licensee:', currentLicense.licensee],
+                ['Domain:', currentLicense.domain],
+                ['License Key:', currentLicense.licenseKey],
+                ['Tier:', currentLicense.tier.toUpperCase()],
+                ['Features:', currentLicense.features.join(', ')],
+                ['Issued:', new Date(currentLicense.issued).toLocaleDateString()],
+                ['Expires:', new Date(currentLicense.expires).toLocaleDateString()],
+                ['Status:', currentLicense.status.toUpperCase()]
+            ];
+
+            let y = 60;
+            details.forEach(([label, value]) => {
+                doc.setFont(undefined, 'bold');
+                doc.text(label, 20, y);
+                doc.setFont(undefined, 'normal');
+                doc.text(value, 70, y);
+                y += 10;
+            });
+
+            // Terms
+            y += 10;
+            doc.setFontSize(10);
+            doc.text('TERMS AND CONDITIONS:', 20, y);
+            y += 8;
+            
+            const terms = [
+                '• This license is valid only for the specified domain and licensee.',
+                '• Unauthorized use, copying, or redistribution is strictly prohibited.',
+                '• License is non-transferable without written consent.',
+                '• Violation may result in immediate termination and legal action.'
+            ];
+
+            terms.forEach(term => {
+                doc.text(term, 20, y);
+                y += 6;
+            });
+
+            // Footer
+            y += 20;
+            doc.setFontSize(8);
+            doc.setTextColor(100, 100, 100);
+            doc.text('© 2024 Selfish Inc. DBA Rise Foundation. All Rights Reserved.', 105, y, { align: 'center' });
+            doc.text('Licensed Use Only - Unauthorized use prohibited', 105, y + 5, { align: 'center' });
+
+            // Save PDF
+            const filename = `license-${currentLicense.domain.replace(/[^a-zA-Z0-9]/g, '-')}-${Date.now()}.pdf`;
+            doc.save(filename);
+        }
+
+        function emailLicense() {
+            const email = document.getElementById('clientEmail').value;
+            if (!email) {
+                alert('Please enter client email address');
+                return;
+            }
+
+            if (!currentLicense) {
+                alert('Please generate a license first');
+                return;
+            }
+
+            // Simulate email sending (in real implementation, this would call your email API)
+            const subject = `Elevate Platform License - ${currentLicense.domain}`;
+            const body = `Dear ${currentLicense.licensee},
+
+Your Elevate for Humanity platform license has been generated.
+
+License Details:
+- Domain: ${currentLicense.domain}
+- Tier: ${currentLicense.tier}
+- License Key: ${currentLicense.licenseKey}
+- Expires: ${new Date(currentLicense.expires).toLocaleDateString()}
+
+Please keep this license information secure.
+
+Best regards,
+Elevate for Humanity Licensing Team`;
+
+            // Open email client
+            window.open(`mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`);
+            
+            alert(`Email template opened for ${email}`);
+        }
+
+        function updateRecentLicensesTable() {
+            const tbody = document.getElementById('licensesTableBody');
+            tbody.innerHTML = recentLicenses.map(license => `
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${license.licensee}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${license.domain}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 py-1 text-xs font-semibold rounded-full ${
+                            license.tier === 'enterprise' ? 'bg-purple-100 text-purple-800' :
+                            license.tier === 'sister' ? 'bg-blue-100 text-blue-800' :
+                            'bg-gray-100 text-gray-800'
+                        }">${license.tier}</span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${new Date(license.expires).toLocaleDateString()}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">${license.status}</span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <button onclick="viewLicense('${license.id}')" class="text-blue-600 hover:text-blue-900 mr-3">View</button>
+                        <button onclick="revokeLicense('${license.id}')" class="text-red-600 hover:text-red-900">Revoke</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function viewLicense(id) {
+            const license = recentLicenses.find(l => l.id === id);
+            if (license) {
+                currentLicense = license;
+                
+                // Populate form
+                document.getElementById('licensee').value = license.licensee;
+                document.getElementById('domain').value = license.domain;
+                document.getElementById('tier').value = license.tier;
+                document.getElementById('expires').value = license.expires.split('T')[0];
+                
+                // Update display
+                generateLicense();
+            }
+        }
+
+        function revokeLicense(id) {
+            if (confirm('Are you sure you want to revoke this license?')) {
+                const licenseIndex = recentLicenses.findIndex(l => l.id === id);
+                if (licenseIndex !== -1) {
+                    recentLicenses[licenseIndex].status = 'revoked';
+                    localStorage.setItem('elevate_licenses', JSON.stringify(recentLicenses));
+                    updateRecentLicensesTable();
+                    alert('License revoked successfully');
+                }
+            }
+        }
+
+        // Initialize
+        updateRecentLicensesTable();
+    </script>
+</body>
+</html>
