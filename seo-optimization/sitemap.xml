@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+    <!-- Homepage -->
+    <url>
+        <loc>https://elevateforhumanity.org/</loc>
+        <lastmod>2024-09-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>1.0</priority>
+    </url>
+
+    <!-- High Priority Compliance Pages -->
+    <url>
+        <loc>https://elevateforhumanity.org/funding-eligibility/</loc>
+        <lastmod>2024-09-17</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+
+    <url>
+        <loc>https://elevateforhumanity.org/student-outcomes/</loc>
+        <lastmod>2024-09-17</lastmod>
+        <changefreq>quarterly</changefreq>
+        <priority>0.9</priority>
+    </url>
+
+    <url>
+        <loc>https://elevateforhumanity.org/complaints/</loc>
+        <lastmod>2024-09-17</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://elevateforhumanity.org/accessibility/</loc>
+        <lastmod>2024-09-17</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://elevateforhumanity.org/privacy-policy/</loc>
+        <lastmod>2024-09-17</lastmod>
+        <changefreq>quarterly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <!-- Programs Overview -->
+    <url>
+        <loc>https://elevateforhumanity.org/programs/</loc>
+        <lastmod>2024-09-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+
+    <!-- High Priority Programs (Healthcare & IT) -->
+    <url>
+        <loc>https://elevateforhumanity.org/programs/home-health-aide/</loc>
+        <lastmod>2024-09-17</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://elevateforhumanity.org/programs/remote-work-helpdesk/</loc>
+        <lastmod>2024-09-17</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://elevateforhumanity.org/programs/direct-support-professional/</loc>
+        <lastmod>2024-09-17</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://elevateforhumanity.org/programs/barbering-youth-bootcamp/</loc>
+        <lastmod>2024-09-17</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Medium Priority Programs -->
+    <url>
+        <loc>https://elevateforhumanity.org/programs/beauty-career-educator/</loc>
+        <lastmod>2024-09-17</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>https://elevateforhumanity.org/programs/cpr-osha-safety/</loc>
+        <lastmod>2024-09-17</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>https://elevateforhumanity.org/programs/microsoft-office-specialist/</loc>
+        <lastmod>2024-09-17</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>https://elevateforhumanity.org/programs/google-workspace/</loc>
+        <lastmod>2024-09-17</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>https://elevateforhumanity.org/programs/digital-literacy-ic3/</loc>
+        <lastmod>2024-09-17</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>https://elevateforhumanity.org/programs/servsafe-manager/</loc>
+        <lastmod>2024-09-17</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>https://elevateforhumanity.org/programs/youth-entrepreneurship/</loc>
+        <lastmod>2024-09-17</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>https://elevateforhumanity.org/programs/business-administration/</loc>
+        <lastmod>2024-09-17</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>https://elevateforhumanity.org/programs/janitorial-services/</loc>
+        <lastmod>2024-09-17</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <!-- Lower Priority Programs -->
+    <url>
+        <loc>https://elevateforhumanity.org/programs/servsafe-food-handler/</loc>
+        <lastmod>2024-09-17</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+
+    <url>
+        <loc>https://elevateforhumanity.org/programs/osha-10-hour/</loc>
+        <lastmod>2024-09-17</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+
+    <url>
+        <loc>https://elevateforhumanity.org/programs/osha-30-hour/</loc>
+        <lastmod>2024-09-17</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+
+    <url>
+        <loc>https://elevateforhumanity.org/programs/first-aid-workplace-safety/</loc>
+        <lastmod>2024-09-17</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+
+    <!-- Support Pages -->
+    <url>
+        <loc>https://elevateforhumanity.org/meet-our-instructors/</loc>
+        <lastmod>2024-09-17</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>https://elevateforhumanity.org/employer-partners/</loc>
+        <lastmod>2024-09-17</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>https://elevateforhumanity.org/faq/</loc>
+        <lastmod>2024-09-17</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+
+    <!-- Action Pages -->
+    <url>
+        <loc>https://elevateforhumanity.org/enroll/</loc>
+        <lastmod>2024-09-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://elevateforhumanity.org/contact/</loc>
+        <lastmod>2024-09-17</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+
+</urlset>

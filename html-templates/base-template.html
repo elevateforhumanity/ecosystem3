@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{{PAGE_DESCRIPTION}}">
+    <meta name="keywords" content="{{PAGE_KEYWORDS}}">
+    
+    <!-- Open Graph for social sharing -->
+    <meta property="og:title" content="{{PAGE_TITLE}} | Elevate for Humanity">
+    <meta property="og:description" content="{{PAGE_DESCRIPTION}}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{PAGE_URL}}">
+    <meta property="og:image" content="https://elevateforhumanity.org/assets/images/og-image.jpg">
+    
+    <!-- Schema.org structured data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "EducationalOrganization",
+        "name": "Elevate for Humanity",
+        "url": "https://elevateforhumanity.org",
+        "description": "Workforce development and training programs in Indiana",
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Indianapolis",
+            "addressRegion": "IN",
+            "addressCountry": "US"
+        },
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+1-317-999-9999",
+            "contactType": "customer service"
+        }
+    }
+    </script>
+    
+    <title>{{PAGE_TITLE}} | Elevate for Humanity</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="/assets/css/compliance.css">
+    
+    <!-- Accessibility -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <header role="banner">
+        <nav role="navigation" aria-label="Main navigation">
+            <div class="nav-container">
+                <div class="logo">
+                    <a href="/" aria-label="Elevate for Humanity Homepage">
+                        <img src="/assets/images/logo.svg" alt="Elevate for Humanity" width="200" height="60">
+                    </a>
+                </div>
+                
+                <ul class="nav-menu">
+                    <li><a href="/programs/">Programs</a></li>
+                    <li><a href="/funding-eligibility/">Funding</a></li>
+                    <li><a href="/student-outcomes/">Outcomes</a></li>
+                    <li><a href="/meet-our-instructors/">Instructors</a></li>
+                    <li><a href="/enroll/" class="cta-button">Enroll Now</a></li>
+                </ul>
+                
+                <!-- Mobile menu toggle -->
+                <button class="mobile-menu-toggle" aria-label="Toggle mobile menu" aria-expanded="false">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </nav>
+    </header>
+    
+    <main id="main-content" role="main">
+        {{MAIN_CONTENT}}
+    </main>
+    
+    <footer role="contentinfo">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Programs</h3>
+                <ul>
+                    <li><a href="/programs/home-health-aide/">Home Health Aide</a></li>
+                    <li><a href="/programs/remote-work-helpdesk/">Remote Work & Help Desk</a></li>
+                    <li><a href="/programs/barbering-youth-bootcamp/">Barbering Youth Bootcamp</a></li>
+                    <li><a href="/programs/">View All Programs</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Student Resources</h3>
+                <ul>
+                    <li><a href="/funding-eligibility/">Funding Options</a></li>
+                    <li><a href="/student-outcomes/">Graduate Outcomes</a></li>
+                    <li><a href="/faq/">Frequently Asked Questions</a></li>
+                    <li><a href="/accessibility/">Accessibility</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>About</h3>
+                <ul>
+                    <li><a href="/meet-our-instructors/">Our Instructors</a></li>
+                    <li><a href="/employer-partners/">Hiring Partners</a></li>
+                    <li><a href="/contact/">Contact Us</a></li>
+                    <li><a href="/complaints/">File a Complaint</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Legal</h3>
+                <ul>
+                    <li><a href="/privacy-policy/">Privacy Policy</a></li>
+                    <li><a href="/accessibility/">Accessibility Statement</a></li>
+                    <li><a href="/complaints/">Student Complaints</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2024 Elevate for Humanity. All rights reserved.</p>
+            <p>Last updated: <time datetime="2024-09-17">September 17, 2024</time></p>
+        </div>
+    </footer>
+    
+    <!-- JavaScript -->
+    <script src="/assets/js/main.js"></script>
+    <script src="/assets/js/funding-system.js"></script>
+    
+    <!-- Analytics (replace with your tracking code) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'GA_MEASUREMENT_ID');
+    </script>
+</body>
+</html>

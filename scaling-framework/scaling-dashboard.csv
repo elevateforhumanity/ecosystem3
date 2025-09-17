@@ -1,0 +1,28 @@
+Metric Category,KPI Name,Current Value,Target Value,Frequency,Data Source,Owner,Status,Notes,Last Updated
+Enrollment,Total Active Students,45,75,Weekly,Student Information System,Admissions Coordinator,On Track,Steady growth trend,2024-09-17
+Enrollment,New Enrollments This Month,12,20,Monthly,CRM,Admissions Coordinator,Below Target,Need more marketing outreach,2024-09-17
+Enrollment,Enrollment Conversion Rate,35%,50%,Monthly,CRM,Admissions Coordinator,Below Target,Improve intake process,2024-09-17
+Funding,Students with Full Funding,38,60,Weekly,Financial Aid System,Compliance Officer,On Track,WIOA and WRG strong,2024-09-17
+Funding,Funding Application Success Rate,85%,90%,Monthly,Financial Aid System,Compliance Officer,Good,Maintain current process,2024-09-17
+Funding,Average Days to Funding Approval,8,5,Monthly,Financial Aid System,Compliance Officer,Needs Improvement,Streamline documentation,2024-09-17
+Academic,Program Completion Rate,82%,90%,Monthly,Student Information System,Program Manager,Good,Focus on at-risk students,2024-09-17
+Academic,Student Satisfaction Score,4.2,4.5,Monthly,Survey Platform,Program Manager,Good,Address specific feedback,2024-09-17
+Academic,Instructor Performance Rating,4.4,4.5,Quarterly,Student Evaluations,Program Manager,Excellent,Maintain quality,2024-09-17
+Employment,Job Placement Rate (6 months),78%,85%,Quarterly,Graduate Tracking System,Job Placement Coach,Below Target,Strengthen employer partnerships,2024-09-17
+Employment,Average Starting Salary,$32500,$35000,Quarterly,Graduate Tracking System,Job Placement Coach,Below Target,Target higher-paying positions,2024-09-17
+Employment,Employer Satisfaction Rating,4.1,4.3,Quarterly,Employer Surveys,Job Placement Coach,Good,Regular employer check-ins,2024-09-17
+Operations,Staff Retention Rate,90%,95%,Quarterly,HR Records,Director,Good,Competitive compensation,2024-09-17
+Operations,Website Conversion Rate,3.2%,5%,Monthly,Google Analytics,Marketing Coordinator,Below Target,Optimize landing pages,2024-09-17
+Operations,Social Media Engagement Rate,4.8%,7%,Monthly,Social Media Analytics,Marketing Coordinator,Below Target,Increase content quality,2024-09-17
+Financial,Revenue per Student,$4200,$4500,Monthly,Financial System,Director,Good,Optimize funding mix,2024-09-17
+Financial,Cost per Acquisition,$180,$150,Monthly,Marketing Analytics,Director,Above Target,Improve marketing efficiency,2024-09-17
+Financial,Monthly Operating Margin,12%,15%,Monthly,Financial System,Director,Below Target,Control costs and increase revenue,2024-09-17
+Compliance,Data Accuracy Rate,96%,99%,Monthly,Data Audit,Compliance Officer,Good,Implement additional checks,2024-09-17
+Compliance,Report Submission Timeliness,100%,100%,Quarterly,Compliance Calendar,Compliance Officer,Excellent,Maintain current process,2024-09-17
+Compliance,Audit Findings (Critical),0,0,Annual,External Audit,Director,Excellent,Strong compliance culture,2024-09-17
+Quality,Student Complaint Rate,2%,1%,Monthly,Complaint Log,Program Manager,Needs Improvement,Address root causes,2024-09-17
+Quality,Complaint Resolution Time (days),6,3,Monthly,Complaint Log,Program Manager,Needs Improvement,Streamline process,2024-09-17
+Quality,Repeat Complaint Rate,5%,2%,Quarterly,Complaint Log,Program Manager,Needs Improvement,Focus on prevention,2024-09-17
+Growth,Number of Employer Partners,8,15,Quarterly,Partnership Database,Director,Below Target,Aggressive outreach needed,2024-09-17
+Growth,Programs Offered,16,20,Annual,Program Catalog,Director,On Track,Research new opportunities,2024-09-17
+Growth,Geographic Reach (counties),3,5,Annual,Student Demographics,Director,Below Target,Expand marketing reach,2024-09-17

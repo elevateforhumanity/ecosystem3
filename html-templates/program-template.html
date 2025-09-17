@@ -1,0 +1,332 @@
+<!-- Program Page Template - Replace {{VARIABLES}} with actual content -->
+
+<article class="program-page" itemscope itemtype="https://schema.org/Course">
+    <!-- Breadcrumb Navigation -->
+    <nav aria-label="Breadcrumb" class="breadcrumb">
+        <ol>
+            <li><a href="/">Home</a></li>
+            <li><a href="/programs/">Programs</a></li>
+            <li aria-current="page">{{PROGRAM_NAME}}</li>
+        </ol>
+    </nav>
+    
+    <!-- Program Header -->
+    <header class="program-header">
+        <div class="program-badges">
+            <span class="badge etpl-status" data-status="{{ETPL_STATUS}}">
+                {{ETPL_STATUS_TEXT}}
+            </span>
+            <span class="badge funding-available">Funding Available</span>
+        </div>
+        
+        <h1 itemprop="name">{{PROGRAM_NAME}}</h1>
+        <p class="program-subtitle" itemprop="description">{{PROGRAM_SUBTITLE}}</p>
+    </header>
+    
+    <!-- Program Overview -->
+    <section class="program-overview">
+        <div class="overview-grid">
+            <div class="overview-item">
+                <h3>Credential Awarded</h3>
+                <p itemprop="educationalCredentialAwarded">{{CREDENTIAL_NAME}}</p>
+            </div>
+            
+            <div class="overview-item">
+                <h3>Delivery Format</h3>
+                <p itemprop="courseMode">{{DELIVERY_FORMAT}}</p>
+            </div>
+            
+            <div class="overview-item">
+                <h3>Duration</h3>
+                <p>
+                    <span itemprop="timeRequired">{{DURATION_WEEKS}} weeks</span> / 
+                    {{CONTACT_HOURS}} contact hours / 
+                    {{WEEKLY_HOURS}} hours per week
+                </p>
+            </div>
+            
+            <div class="overview-item funding-display" data-program-id="{{PROGRAM_ID}}">
+                <h3>Cost</h3>
+                <div class="cost-content">
+                    <p class="funding-message">Fully Funded for Eligible Students</p>
+                    <p class="funding-details">via WIOA, Workforce Ready Grant, and other programs</p>
+                    <details class="cost-breakdown">
+                        <summary>View standard program costs</summary>
+                        <div class="cost-details">
+                            <div class="cost-line">
+                                <span>Tuition:</span>
+                                <span>${{BASE_TUITION}}</span>
+                            </div>
+                            {{#if ADDITIONAL_FEES}}
+                            <div class="fees-section">
+                                {{#each ADDITIONAL_FEES}}
+                                <div class="cost-line">
+                                    <span>{{name}}:</span>
+                                    <span>${{amount}}</span>
+                                </div>
+                                {{/each}}
+                            </div>
+                            {{/if}}
+                            <div class="cost-line total">
+                                <span><strong>Total Program Cost:</strong></span>
+                                <span><strong>${{TOTAL_COST}}</strong></span>
+                            </div>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Eligibility Requirements -->
+    <section class="program-eligibility">
+        <h2>Eligibility Requirements</h2>
+        <ul class="eligibility-list">
+            {{#each ELIGIBILITY_REQUIREMENTS}}
+            <li>{{this}}</li>
+            {{/each}}
+        </ul>
+        
+        <div class="funding-eligibility">
+            <h3>Funding Eligibility</h3>
+            <p>This program is eligible for funding through:</p>
+            <ul class="funding-options">
+                {{#each FUNDING_OPTIONS}}
+                <li class="funding-option">
+                    <strong>{{name}}</strong>
+                    <p>{{description}}</p>
+                    <span class="coverage">Coverage: {{coverage}}</span>
+                </li>
+                {{/each}}
+            </ul>
+            <p><a href="/funding-eligibility/" class="link-button">Learn more about funding options</a></p>
+        </div>
+    </section>
+    
+    <!-- Program Outcomes -->
+    <section class="program-outcomes">
+        <h2>Program Outcomes</h2>
+        <p class="outcomes-intro">Our commitment to transparency includes sharing real student outcomes:</p>
+        
+        <div class="outcomes-grid">
+            <div class="outcome-card">
+                <div class="outcome-number">{{COMPLETION_RATE}}%</div>
+                <div class="outcome-label">Completion Rate</div>
+                <div class="outcome-description">Students who complete the program</div>
+            </div>
+            
+            <div class="outcome-card">
+                <div class="outcome-number">{{CREDENTIAL_RATE}}%</div>
+                <div class="outcome-label">Credential Attainment</div>
+                <div class="outcome-description">Graduates who earn the credential</div>
+            </div>
+            
+            <div class="outcome-card">
+                <div class="outcome-number">{{EMPLOYMENT_Q2}}%</div>
+                <div class="outcome-label">Employed Q2 After Exit</div>
+                <div class="outcome-description">Graduates employed 6 months later</div>
+            </div>
+            
+            <div class="outcome-card">
+                <div class="outcome-number">{{EMPLOYMENT_Q4}}%</div>
+                <div class="outcome-label">Employed Q4 After Exit</div>
+                <div class="outcome-description">Graduates employed 12 months later</div>
+            </div>
+            
+            <div class="outcome-card">
+                <div class="outcome-number">${{MEDIAN_EARNINGS_Q2}}</div>
+                <div class="outcome-label">Median Q2 Earnings</div>
+                <div class="outcome-description">Average salary 6 months after graduation</div>
+            </div>
+            
+            <div class="outcome-card">
+                <div class="outcome-number">${{MEDIAN_EARNINGS_Q4}}</div>
+                <div class="outcome-label">Median Q4 Earnings</div>
+                <div class="outcome-description">Average salary 12 months after graduation</div>
+            </div>
+        </div>
+        
+        <div class="outcomes-note">
+            <p><em>Data based on graduates from {{DATA_PERIOD}}. Sample size: {{SAMPLE_SIZE}} students.</em></p>
+            <p><a href="/student-outcomes/">View outcomes for all programs</a></p>
+        </div>
+    </section>
+    
+    <!-- Program Curriculum -->
+    <section class="program-curriculum">
+        <h2>What You'll Learn</h2>
+        <div class="curriculum-content">
+            {{#if CURRICULUM_MODULES}}
+            <div class="curriculum-modules">
+                {{#each CURRICULUM_MODULES}}
+                <div class="module">
+                    <h3>{{title}}</h3>
+                    <p>{{description}}</p>
+                    <ul>
+                        {{#each topics}}
+                        <li>{{this}}</li>
+                        {{/each}}
+                    </ul>
+                </div>
+                {{/each}}
+            </div>
+            {{else}}
+            <div class="curriculum-overview">
+                <p>{{CURRICULUM_DESCRIPTION}}</p>
+            </div>
+            {{/if}}
+        </div>
+    </section>
+    
+    <!-- Instructor Information -->
+    <section class="program-instructor">
+        <h2>Meet Your Instructor</h2>
+        {{#if INSTRUCTOR_INFO}}
+        <div class="instructor-card">
+            <div class="instructor-photo">
+                <img src="{{INSTRUCTOR_PHOTO}}" alt="{{INSTRUCTOR_NAME}}" width="150" height="150">
+            </div>
+            <div class="instructor-details">
+                <h3>{{INSTRUCTOR_NAME}}</h3>
+                <p class="instructor-title">{{INSTRUCTOR_TITLE}}</p>
+                <p class="instructor-bio">{{INSTRUCTOR_BIO}}</p>
+                <div class="instructor-credentials">
+                    <h4>Credentials & Experience</h4>
+                    <ul>
+                        {{#each INSTRUCTOR_CREDENTIALS}}
+                        <li>{{this}}</li>
+                        {{/each}}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {{else}}
+        <div class="instructor-placeholder">
+            <p>Our experienced instructors bring real-world expertise to the classroom. Instructor information will be updated prior to program start.</p>
+            <p><a href="/meet-our-instructors/">Meet all our instructors</a></p>
+        </div>
+        {{/if}}
+    </section>
+    
+    <!-- Schedule & Format -->
+    <section class="program-schedule">
+        <h2>Schedule & Format</h2>
+        <div class="schedule-grid">
+            <div class="schedule-item">
+                <h3>Class Schedule</h3>
+                <p>{{CLASS_SCHEDULE}}</p>
+            </div>
+            
+            <div class="schedule-item">
+                <h3>Start Dates</h3>
+                <p>{{START_DATES}}</p>
+            </div>
+            
+            <div class="schedule-item">
+                <h3>Location</h3>
+                <p>{{LOCATION}}</p>
+            </div>
+            
+            <div class="schedule-item">
+                <h3>Class Size</h3>
+                <p>{{CLASS_SIZE}}</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Career Outcomes -->
+    <section class="career-outcomes">
+        <h2>Career Opportunities</h2>
+        <div class="career-content">
+            <div class="job-titles">
+                <h3>Potential Job Titles</h3>
+                <ul>
+                    {{#each JOB_TITLES}}
+                    <li>{{this}}</li>
+                    {{/each}}
+                </ul>
+            </div>
+            
+            <div class="salary-range">
+                <h3>Salary Range</h3>
+                <p>{{SALARY_RANGE}}</p>
+                <p class="salary-note">Based on Indiana Department of Labor statistics</p>
+            </div>
+            
+            {{#if EMPLOYER_PARTNERS}}
+            <div class="hiring-partners">
+                <h3>Our Hiring Partners</h3>
+                <div class="partner-logos">
+                    {{#each EMPLOYER_PARTNERS}}
+                    <img src="{{logo}}" alt="{{name}}" class="partner-logo">
+                    {{/each}}
+                </div>
+                <p><a href="/employer-partners/">View all hiring partners</a></p>
+            </div>
+            {{/if}}
+        </div>
+    </section>
+    
+    <!-- Call to Action -->
+    <section class="program-cta">
+        <div class="cta-content">
+            <h2>Ready to Start Your Career?</h2>
+            <p>Take the first step toward a new career with funding available for eligible students.</p>
+            
+            <div class="cta-buttons">
+                <a href="/enroll/" class="button primary">Apply Now</a>
+                <a href="/contact/" class="button secondary">Get More Information</a>
+                <a href="tel:+1-317-999-9999" class="button tertiary">Call (317) 999-9999</a>
+            </div>
+            
+            <div class="cta-note">
+                <p><strong>Next Steps:</strong></p>
+                <ol>
+                    <li>Complete our brief application</li>
+                    <li>Meet with a career advisor to discuss funding options</li>
+                    <li>Attend orientation and begin your training</li>
+                </ol>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Program Metadata -->
+    <footer class="program-footer">
+        <div class="program-meta">
+            <p><strong>Program Code:</strong> {{PROGRAM_CODE}}</p>
+            <p><strong>ETPL Number:</strong> {{ETPL_NUMBER}}</p>
+            <p><strong>Last Updated:</strong> <time datetime="{{LAST_UPDATED_ISO}}">{{LAST_UPDATED_DISPLAY}}</time></p>
+        </div>
+        
+        <div class="compliance-links">
+            <p>
+                <a href="/complaints/">File a Complaint</a> | 
+                <a href="/accessibility/">Accessibility</a> | 
+                <a href="/privacy-policy/">Privacy Policy</a>
+            </p>
+        </div>
+    </footer>
+</article>
+
+<!-- Structured Data for Search Engines -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "{{PROGRAM_NAME}}",
+    "description": "{{PROGRAM_DESCRIPTION}}",
+    "provider": {
+        "@type": "EducationalOrganization",
+        "name": "Elevate for Humanity",
+        "url": "https://elevateforhumanity.org"
+    },
+    "educationalCredentialAwarded": "{{CREDENTIAL_NAME}}",
+    "timeRequired": "{{DURATION_WEEKS}} weeks",
+    "courseMode": "{{DELIVERY_FORMAT}}",
+    "offers": {
+        "@type": "Offer",
+        "category": "Educational Course",
+        "eligibleRegion": "Indiana, US"
+    }
+}
+</script>

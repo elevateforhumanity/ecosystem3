@@ -1,0 +1,551 @@
+{
+  "workspace": {
+    "title": "Elevate for Humanity - Implementation Hub",
+    "description": "Complete project management workspace for marketing, compliance, and website implementation",
+    "databases": [
+      {
+        "title": "🎯 Master Task Tracker",
+        "description": "Central hub for all implementation tasks",
+        "properties": {
+          "Task": {
+            "type": "title",
+            "title": {}
+          },
+          "Status": {
+            "type": "select",
+            "select": {
+              "options": [
+                {
+                  "name": "Not Started",
+                  "color": "gray"
+                },
+                {
+                  "name": "In Progress", 
+                  "color": "blue"
+                },
+                {
+                  "name": "Review",
+                  "color": "yellow"
+                },
+                {
+                  "name": "Done",
+                  "color": "green"
+                },
+                {
+                  "name": "Blocked",
+                  "color": "red"
+                }
+              ]
+            }
+          },
+          "Owner": {
+            "type": "people",
+            "people": {}
+          },
+          "Due Date": {
+            "type": "date",
+            "date": {}
+          },
+          "Priority": {
+            "type": "select",
+            "select": {
+              "options": [
+                {
+                  "name": "High",
+                  "color": "red"
+                },
+                {
+                  "name": "Medium",
+                  "color": "yellow"
+                },
+                {
+                  "name": "Low",
+                  "color": "green"
+                }
+              ]
+            }
+          },
+          "Category": {
+            "type": "multi_select",
+            "multi_select": {
+              "options": [
+                {
+                  "name": "Tech",
+                  "color": "blue"
+                },
+                {
+                  "name": "Content",
+                  "color": "green"
+                },
+                {
+                  "name": "Marketing",
+                  "color": "orange"
+                },
+                {
+                  "name": "Compliance",
+                  "color": "red"
+                },
+                {
+                  "name": "Analytics",
+                  "color": "purple"
+                },
+                {
+                  "name": "Automation",
+                  "color": "pink"
+                }
+              ]
+            }
+          },
+          "Progress": {
+            "type": "number",
+            "number": {
+              "format": "percent"
+            }
+          },
+          "Estimated Hours": {
+            "type": "number",
+            "number": {}
+          },
+          "Actual Hours": {
+            "type": "number", 
+            "number": {}
+          },
+          "Dependencies": {
+            "type": "relation",
+            "relation": {
+              "database_id": "self"
+            }
+          },
+          "Notes": {
+            "type": "rich_text",
+            "rich_text": {}
+          },
+          "Deliverables": {
+            "type": "rich_text",
+            "rich_text": {}
+          }
+        },
+        "sample_data": [
+          {
+            "Task": "Setup Blog System + RSS Feed",
+            "Status": "Not Started",
+            "Priority": "High",
+            "Category": ["Tech", "Content"],
+            "Estimated Hours": 8,
+            "Due Date": "2024-10-01",
+            "Deliverables": "• Blog directory structure\n• Post template with SEO\n• RSS.xml feed\n• Social sharing integration",
+            "Notes": "Foundation for all content marketing automation"
+          },
+          {
+            "Task": "Social Media Automation Setup",
+            "Status": "Not Started", 
+            "Priority": "High",
+            "Category": ["Marketing", "Automation"],
+            "Estimated Hours": 12,
+            "Due Date": "2024-10-03",
+            "Deliverables": "• Zamp integration\n• Platform connections\n• Content templates\n• Posting schedule",
+            "Notes": "Connects RSS feed to all social platforms"
+          },
+          {
+            "Task": "Email/SMS Automation Flows",
+            "Status": "Not Started",
+            "Priority": "Medium", 
+            "Category": ["Marketing", "Automation"],
+            "Estimated Hours": 10,
+            "Due Date": "2024-10-05",
+            "Deliverables": "• ConvertKit sequences\n• Twilio SMS setup\n• Trigger configurations\n• Template library",
+            "Notes": "Lead nurturing and student communication"
+          }
+        ]
+      },
+      {
+        "title": "📚 Program Content Tracker",
+        "description": "Track completion status for all program pages",
+        "properties": {
+          "Program Name": {
+            "type": "title",
+            "title": {}
+          },
+          "Page Status": {
+            "type": "select",
+            "select": {
+              "options": [
+                {"name": "Not Started", "color": "gray"},
+                {"name": "Draft", "color": "yellow"},
+                {"name": "Review", "color": "orange"},
+                {"name": "Published", "color": "green"}
+              ]
+            }
+          },
+          "Credential Info": {
+            "type": "checkbox",
+            "checkbox": {}
+          },
+          "Instructor Bio": {
+            "type": "checkbox", 
+            "checkbox": {}
+          },
+          "Duration/Hours": {
+            "type": "checkbox",
+            "checkbox": {}
+          },
+          "Outcomes Data": {
+            "type": "checkbox",
+            "checkbox": {}
+          },
+          "SEO Optimized": {
+            "type": "checkbox",
+            "checkbox": {}
+          },
+          "Funding Info": {
+            "type": "checkbox",
+            "checkbox": {}
+          },
+          "Completion %": {
+            "type": "formula",
+            "formula": {
+              "expression": "round(((prop(\"Credential Info\") ? 1 : 0) + (prop(\"Instructor Bio\") ? 1 : 0) + (prop(\"Duration/Hours\") ? 1 : 0) + (prop(\"Outcomes Data\") ? 1 : 0) + (prop(\"SEO Optimized\") ? 1 : 0) + (prop(\"Funding Info\") ? 1 : 0)) / 6 * 100)"
+            }
+          },
+          "Last Updated": {
+            "type": "date",
+            "date": {}
+          },
+          "Priority": {
+            "type": "select",
+            "select": {
+              "options": [
+                {"name": "High", "color": "red"},
+                {"name": "Medium", "color": "yellow"}, 
+                {"name": "Low", "color": "green"}
+              ]
+            }
+          },
+          "Notes": {
+            "type": "rich_text",
+            "rich_text": {}
+          }
+        },
+        "sample_data": [
+          {
+            "Program Name": "Home Health Aide Training",
+            "Page Status": "Draft",
+            "Priority": "High",
+            "Credential Info": true,
+            "Duration/Hours": true,
+            "Funding Info": true,
+            "Notes": "High enrollment program - prioritize completion"
+          },
+          {
+            "Program Name": "Remote Work & Help Desk",
+            "Page Status": "Not Started",
+            "Priority": "High", 
+            "Notes": "High-demand IT pathway"
+          },
+          {
+            "Program Name": "Barbering Youth Bootcamp",
+            "Page Status": "Not Started",
+            "Priority": "High",
+            "Notes": "Youth-specific requirements needed"
+          }
+        ]
+      },
+      {
+        "title": "📅 Content Calendar",
+        "description": "Blog posts and social media content planning",
+        "properties": {
+          "Content Title": {
+            "type": "title",
+            "title": {}
+          },
+          "Content Type": {
+            "type": "select",
+            "select": {
+              "options": [
+                {"name": "Blog Post", "color": "blue"},
+                {"name": "Social Post", "color": "green"},
+                {"name": "Email", "color": "orange"},
+                {"name": "Video/Reel", "color": "purple"}
+              ]
+            }
+          },
+          "Status": {
+            "type": "select",
+            "select": {
+              "options": [
+                {"name": "Idea", "color": "gray"},
+                {"name": "Outlined", "color": "yellow"},
+                {"name": "Draft", "color": "orange"},
+                {"name": "Review", "color": "red"},
+                {"name": "Scheduled", "color": "blue"},
+                {"name": "Published", "color": "green"}
+              ]
+            }
+          },
+          "Publish Date": {
+            "type": "date",
+            "date": {}
+          },
+          "Author": {
+            "type": "people",
+            "people": {}
+          },
+          "Platforms": {
+            "type": "multi_select",
+            "multi_select": {
+              "options": [
+                {"name": "Blog", "color": "blue"},
+                {"name": "Facebook", "color": "blue"},
+                {"name": "Instagram", "color": "pink"},
+                {"name": "LinkedIn", "color": "blue"},
+                {"name": "Twitter", "color": "blue"},
+                {"name": "Email", "color": "orange"}
+              ]
+            }
+          },
+          "Target Keywords": {
+            "type": "rich_text",
+            "rich_text": {}
+          },
+          "Content Brief": {
+            "type": "rich_text",
+            "rich_text": {}
+          },
+          "Assets Needed": {
+            "type": "multi_select",
+            "multi_select": {
+              "options": [
+                {"name": "Featured Image", "color": "green"},
+                {"name": "Social Graphics", "color": "orange"},
+                {"name": "Video", "color": "purple"},
+                {"name": "Photos", "color": "yellow"}
+              ]
+            }
+          }
+        },
+        "sample_data": [
+          {
+            "Content Title": "Top 5 High-Demand Jobs in Indiana 2024",
+            "Content Type": "Blog Post",
+            "Status": "Idea",
+            "Publish Date": "2024-10-07",
+            "Platforms": ["Blog", "Facebook", "LinkedIn"],
+            "Target Keywords": "high demand jobs indiana, career opportunities, job market",
+            "Content Brief": "Research-based article highlighting fastest-growing careers in Indiana with salary data and training requirements"
+          },
+          {
+            "Content Title": "How to Qualify for WIOA Funding",
+            "Content Type": "Blog Post", 
+            "Status": "Outlined",
+            "Publish Date": "2024-10-09",
+            "Platforms": ["Blog", "Facebook", "LinkedIn", "Email"],
+            "Target Keywords": "WIOA funding, free job training, workforce development",
+            "Content Brief": "Step-by-step guide to WIOA eligibility and application process"
+          }
+        ]
+      },
+      {
+        "title": "📊 Metrics Dashboard",
+        "description": "Track key performance indicators",
+        "properties": {
+          "Metric": {
+            "type": "title",
+            "title": {}
+          },
+          "Current Value": {
+            "type": "number",
+            "number": {}
+          },
+          "Previous Period": {
+            "type": "number",
+            "number": {}
+          },
+          "Goal": {
+            "type": "number",
+            "number": {}
+          },
+          "Change %": {
+            "type": "formula",
+            "formula": {
+              "expression": "round(((prop(\"Current Value\") - prop(\"Previous Period\")) / prop(\"Previous Period\")) * 100)"
+            }
+          },
+          "Status": {
+            "type": "select",
+            "select": {
+              "options": [
+                {"name": "Above Goal", "color": "green"},
+                {"name": "On Track", "color": "yellow"},
+                {"name": "Below Goal", "color": "red"}
+              ]
+            }
+          },
+          "Category": {
+            "type": "select",
+            "select": {
+              "options": [
+                {"name": "Traffic", "color": "blue"},
+                {"name": "Leads", "color": "green"},
+                {"name": "Conversions", "color": "orange"},
+                {"name": "Social", "color": "purple"},
+                {"name": "Email", "color": "pink"}
+              ]
+            }
+          },
+          "Last Updated": {
+            "type": "date",
+            "date": {}
+          },
+          "Notes": {
+            "type": "rich_text",
+            "rich_text": {}
+          }
+        },
+        "sample_data": [
+          {
+            "Metric": "Monthly Website Visitors",
+            "Current Value": 2500,
+            "Previous Period": 1800,
+            "Goal": 3000,
+            "Category": "Traffic",
+            "Status": "On Track",
+            "Last Updated": "2024-09-17"
+          },
+          {
+            "Metric": "Application Submissions",
+            "Current Value": 45,
+            "Previous Period": 32,
+            "Goal": 60,
+            "Category": "Conversions",
+            "Status": "On Track",
+            "Last Updated": "2024-09-17"
+          },
+          {
+            "Metric": "Social Media Followers",
+            "Current Value": 850,
+            "Previous Period": 720,
+            "Goal": 1000,
+            "Category": "Social",
+            "Status": "On Track",
+            "Last Updated": "2024-09-17"
+          }
+        ]
+      }
+    ],
+    "views": [
+      {
+        "database": "Master Task Tracker",
+        "views": [
+          {
+            "name": "📋 Kanban Board",
+            "type": "board",
+            "group_by": "Status",
+            "sort": [{"property": "Priority", "direction": "descending"}]
+          },
+          {
+            "name": "📅 Timeline",
+            "type": "timeline",
+            "timeline_by": "Due Date"
+          },
+          {
+            "name": "👥 By Owner",
+            "type": "table",
+            "group_by": "Owner",
+            "sort": [{"property": "Due Date", "direction": "ascending"}]
+          },
+          {
+            "name": "🔥 High Priority",
+            "type": "table",
+            "filter": {
+              "property": "Priority",
+              "select": {
+                "equals": "High"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "database": "Program Content Tracker", 
+        "views": [
+          {
+            "name": "📊 Progress Overview",
+            "type": "table",
+            "sort": [{"property": "Completion %", "direction": "ascending"}]
+          },
+          {
+            "name": "🚨 Needs Attention",
+            "type": "table",
+            "filter": {
+              "property": "Completion %",
+              "number": {
+                "less_than": 50
+              }
+            }
+          }
+        ]
+      },
+      {
+        "database": "Content Calendar",
+        "views": [
+          {
+            "name": "📅 Calendar View",
+            "type": "calendar",
+            "calendar_by": "Publish Date"
+          },
+          {
+            "name": "📝 This Week",
+            "type": "table",
+            "filter": {
+              "property": "Publish Date",
+              "date": {
+                "this_week": {}
+              }
+            }
+          },
+          {
+            "name": "📚 Blog Posts Only",
+            "type": "table",
+            "filter": {
+              "property": "Content Type",
+              "select": {
+                "equals": "Blog Post"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "templates": [
+      {
+        "name": "New Blog Post",
+        "database": "Content Calendar",
+        "properties": {
+          "Content Type": "Blog Post",
+          "Status": "Idea",
+          "Platforms": ["Blog", "Facebook", "LinkedIn"],
+          "Assets Needed": ["Featured Image", "Social Graphics"]
+        }
+      },
+      {
+        "name": "Social Media Campaign",
+        "database": "Content Calendar",
+        "properties": {
+          "Content Type": "Social Post",
+          "Status": "Idea",
+          "Platforms": ["Facebook", "Instagram", "LinkedIn"],
+          "Assets Needed": ["Social Graphics"]
+        }
+      },
+      {
+        "name": "Program Page Task",
+        "database": "Master Task Tracker",
+        "properties": {
+          "Category": ["Content"],
+          "Priority": "Medium",
+          "Estimated Hours": 4
+        }
+      }
+    ]
+  }
+}

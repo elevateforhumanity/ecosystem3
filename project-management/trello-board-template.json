@@ -1,0 +1,240 @@
+{
+  "name": "Elevate for Humanity - Complete Implementation",
+  "desc": "Full marketing, compliance, and website implementation roadmap",
+  "prefs": {
+    "permissionLevel": "org",
+    "voting": "disabled",
+    "comments": "members",
+    "invitations": "members",
+    "selfJoin": true,
+    "cardCovers": true,
+    "background": "blue"
+  },
+  "lists": [
+    {
+      "name": "📋 Backlog / Planning",
+      "pos": 1,
+      "cards": [
+        {
+          "name": "🔧 Setup Blog System + RSS Feed",
+          "desc": "Create complete blog infrastructure with RSS automation\n\n**Deliverables:**\n- Blog directory structure\n- Post template with SEO\n- RSS.xml feed\n- Social sharing integration\n\n**Dependencies:** Web hosting access\n**Estimated Time:** 8 hours",
+          "pos": 1,
+          "due": "2024-10-01T17:00:00.000Z",
+          "labels": ["Tech", "Blog", "High Priority"],
+          "checklists": [
+            {
+              "name": "Technical Setup",
+              "checkItems": [
+                {"name": "Create /blog directory structure"},
+                {"name": "Build responsive post template"},
+                {"name": "Setup RSS.xml feed"},
+                {"name": "Add social sharing buttons"},
+                {"name": "Test RSS feed validation"},
+                {"name": "Configure SEO meta tags"}
+              ]
+            }
+          ]
+        },
+        {
+          "name": "📱 Social Media Automation (Zamp Setup)",
+          "desc": "Configure automated social posting across all platforms\n\n**Platforms:**\n- Facebook Page\n- Instagram (Posts + Stories)\n- LinkedIn Company Page\n- Twitter/X\n\n**Automation Rules:**\n- RSS to social (3x daily)\n- Scheduled content calendar\n- Cross-platform posting",
+          "pos": 2,
+          "due": "2024-10-03T17:00:00.000Z",
+          "labels": ["Social", "Automation", "High Priority"],
+          "checklists": [
+            {
+              "name": "Platform Connections",
+              "checkItems": [
+                {"name": "Connect Facebook Page to Zamp"},
+                {"name": "Connect Instagram Business account"},
+                {"name": "Connect LinkedIn Company Page"},
+                {"name": "Connect Twitter/X account"},
+                {"name": "Test all platform connections"}
+              ]
+            },
+            {
+              "name": "Content Templates",
+              "checkItems": [
+                {"name": "Create blog promotion templates"},
+                {"name": "Create student spotlight templates"},
+                {"name": "Create motivation Monday templates"},
+                {"name": "Create program highlight templates"},
+                {"name": "Test template variables"}
+              ]
+            }
+          ]
+        },
+        {
+          "name": "📧 Email/SMS Automation Flows",
+          "desc": "Setup ConvertKit + Twilio for lead nurturing\n\n**Email Flows:**\n- New applicant welcome sequence\n- Funding eligibility follow-up\n- Graduate success tracking\n\n**SMS Triggers:**\n- Application reminders\n- Class start notifications\n- Job placement check-ins",
+          "pos": 3,
+          "due": "2024-10-05T17:00:00.000Z",
+          "labels": ["Automation", "Email", "SMS"],
+          "checklists": [
+            {
+              "name": "ConvertKit Setup",
+              "checkItems": [
+                {"name": "Create email sequences"},
+                {"name": "Design email templates"},
+                {"name": "Setup form integrations"},
+                {"name": "Configure automation triggers"},
+                {"name": "Test email deliverability"}
+              ]
+            },
+            {
+              "name": "Twilio SMS Setup",
+              "checkItems": [
+                {"name": "Configure SMS workflows"},
+                {"name": "Create message templates"},
+                {"name": "Setup opt-in/opt-out handling"},
+                {"name": "Test SMS delivery"},
+                {"name": "Ensure compliance with SMS regulations"}
+              ]
+            }
+          ]
+        },
+        {
+          "name": "🌐 SEO Optimization (All Pages)",
+          "desc": "Implement comprehensive SEO across website\n\n**Target Keywords:**\n- 'free job training indiana'\n- 'WIOA funding programs'\n- 'career change Indianapolis'\n- Program-specific keywords\n\n**Technical SEO:**\n- Meta tags\n- Schema markup\n- Site speed optimization",
+          "pos": 4,
+          "due": "2024-10-07T17:00:00.000Z",
+          "labels": ["SEO", "Content", "Tech"],
+          "checklists": [
+            {
+              "name": "On-Page SEO",
+              "checkItems": [
+                {"name": "Optimize all program page titles"},
+                {"name": "Write meta descriptions for all pages"},
+                {"name": "Add schema markup for courses"},
+                {"name": "Optimize images with alt text"},
+                {"name": "Create XML sitemap"},
+                {"name": "Setup Google Search Console"}
+              ]
+            },
+            {
+              "name": "Content SEO",
+              "checkItems": [
+                {"name": "Keyword research for each program"},
+                {"name": "Optimize blog post templates"},
+                {"name": "Create location-based landing pages"},
+                {"name": "Setup internal linking strategy"}
+              ]
+            }
+          ]
+        },
+        {
+          "name": "📊 Daily Reporting Dashboard",
+          "desc": "Automated reporting system with Zamp integration\n\n**Reports:**\n- 8am: Overnight metrics\n- 1pm: Blog & social performance\n- 6pm: Daily conversions\n\n**Metrics:**\n- Applications, leads, traffic\n- Social engagement\n- Email performance\n- Conversion rates",
+          "pos": 5,
+          "due": "2024-10-10T17:00:00.000Z",
+          "labels": ["Analytics", "Automation", "Reporting"],
+          "checklists": [
+            {
+              "name": "Zamp Reporting Setup",
+              "checkItems": [
+                {"name": "Configure daily report triggers"},
+                {"name": "Create report templates"},
+                {"name": "Setup email delivery"},
+                {"name": "Connect Google Sheets integration"},
+                {"name": "Test automated reports"}
+              ]
+            },
+            {
+              "name": "Dashboard Creation",
+              "checkItems": [
+                {"name": "Build real-time metrics dashboard"},
+                {"name": "Create conversion funnel tracking"},
+                {"name": "Setup goal tracking in GA4"},
+                {"name": "Configure alert thresholds"}
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "🔄 In Progress",
+      "pos": 2,
+      "cards": []
+    },
+    {
+      "name": "👀 Review / Testing",
+      "pos": 3,
+      "cards": []
+    },
+    {
+      "name": "✅ Completed",
+      "pos": 4,
+      "cards": []
+    },
+    {
+      "name": "🚫 Blocked / On Hold",
+      "pos": 5,
+      "cards": []
+    }
+  ],
+  "labels": [
+    {
+      "name": "Tech",
+      "color": "blue"
+    },
+    {
+      "name": "Content",
+      "color": "green"
+    },
+    {
+      "name": "Social",
+      "color": "orange"
+    },
+    {
+      "name": "Automation",
+      "color": "purple"
+    },
+    {
+      "name": "Compliance",
+      "color": "red"
+    },
+    {
+      "name": "High Priority",
+      "color": "yellow"
+    },
+    {
+      "name": "Blog",
+      "color": "pink"
+    },
+    {
+      "name": "SEO",
+      "color": "lime"
+    },
+    {
+      "name": "Analytics",
+      "color": "sky"
+    },
+    {
+      "name": "Email",
+      "color": "black"
+    },
+    {
+      "name": "SMS",
+      "color": "light_blue"
+    },
+    {
+      "name": "Reporting",
+      "color": "light_green"
+    }
+  ],
+  "powerUps": [
+    {
+      "name": "Calendar",
+      "enabled": true
+    },
+    {
+      "name": "Card Aging",
+      "enabled": true
+    },
+    {
+      "name": "Voting",
+      "enabled": false
+    }
+  ]
+}

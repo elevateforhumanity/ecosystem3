@@ -1,0 +1,71 @@
+# Robots.txt for Elevate for Humanity
+# Optimized for compliance and program visibility
+
+User-agent: *
+Allow: /
+
+# Priority crawling for compliance pages
+Allow: /programs/
+Allow: /funding-eligibility/
+Allow: /student-outcomes/
+Allow: /complaints/
+Allow: /accessibility/
+Allow: /privacy-policy/
+Allow: /meet-our-instructors/
+Allow: /employer-partners/
+Allow: /enroll/
+
+# Block admin and private areas
+Disallow: /admin/
+Disallow: /wp-admin/
+Disallow: /wp-content/uploads/private/
+Disallow: /student-portal/
+Disallow: /staff-only/
+Disallow: /internal/
+
+# Block search and filter URLs to prevent duplicate content
+Disallow: /*?search=*
+Disallow: /*?filter=*
+Disallow: /*?sort=*
+Disallow: /*?page=*
+
+# Block development and testing areas
+Disallow: /dev/
+Disallow: /test/
+Disallow: /staging/
+Disallow: /_test/
+
+# Allow specific file types that are important for SEO
+Allow: /*.css
+Allow: /*.js
+Allow: /*.png
+Allow: /*.jpg
+Allow: /*.jpeg
+Allow: /*.gif
+Allow: /*.svg
+Allow: /*.pdf
+
+# Sitemap location
+Sitemap: https://elevateforhumanity.org/sitemap.xml
+
+# Crawl delay to be respectful of server resources
+Crawl-delay: 1
+
+# Special instructions for major search engines
+User-agent: Googlebot
+Crawl-delay: 0
+Allow: /
+
+User-agent: Bingbot
+Crawl-delay: 1
+Allow: /
+
+# Block AI training crawlers if desired (optional)
+# User-agent: GPTBot
+# Disallow: /
+
+# User-agent: ChatGPT-User
+# Disallow: /
+
+# User-agent: CCBot
+# Disallow: /
