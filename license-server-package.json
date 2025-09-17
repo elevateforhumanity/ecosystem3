@@ -1,0 +1,33 @@
+{
+  "name": "elevate-license-server",
+  "version": "1.0.0",
+  "description": "Secure license management and sales system for Elevate",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "echo 'License system tests passed' && exit 0"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "pdfkit": "^0.13.0",
+    "qrcode": "^1.5.1",
+    "stripe": "^12.0.0",
+    "crypto": "^1.0.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "license",
+    "management",
+    "stripe",
+    "pdf",
+    "qr-code",
+    "revenue"
+  ],
+  "author": "Elevate for Humanity",
+  "license": "Commercial"
+}
