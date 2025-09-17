@@ -1,8 +1,19 @@
 {
-  "name": "elevate-frontend",
-  "hostRequirements": { "cpus": 8, "memory": "32gb", "storage": "64gb" },
-  "forwardPorts": [5173, 3000],
-  "postCreateCommand": "npm ci || npm i",
+  "name": "elevate-for-humanity",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:18",
+  "hostRequirements": { "cpus": 4, "memory": "8gb", "storage": "32gb" },
+  "forwardPorts": [8080, 3000, 5173],
+  "portsAttributes": {
+    "8080": {
+      "label": "Main Site",
+      "onAutoForward": "openPreview"
+    },
+    "3000": {
+      "label": "Development Server",
+      "onAutoForward": "openPreview"
+    }
+  },
+  "postCreateCommand": "npm install -g http-server && echo 'Dev container ready'",
   "customizations": {
     "vscode": {
       "settings": {
@@ -10,14 +21,21 @@
         "terminal.integrated.profiles.linux": {
           "bash": { "path": "/bin/bash", "args": ["-l"] }
         },
-        "typescript.tsserver.maxTsServerMemory": 4096,
         "files.watcherExclude": {
           "**/node_modules/**": true,
           "**/.git/**": true,
           "**/dist/**": true
         }
       },
-      "extensions": ["esbenp.prettier-vscode", "dbaeumer.vscode-eslint"]
+      "extensions": [
+        "esbenp.prettier-vscode",
+        "ms-vscode.vscode-json",
+        "bradlc.vscode-tailwindcss"
+      ]
     }
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {}
   }
 }
