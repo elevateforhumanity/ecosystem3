@@ -1,0 +1,44 @@
+
+User-agent: *
+Allow: /
+
+# Main content pages
+Allow: /
+Allow: /programs/
+Allow: /contracts/
+Allow: /students/
+Allow: /about/
+Allow: /contact/
+Allow: /grants/
+Allow: /veterans/
+Allow: /policies/
+Allow: /accessibility/
+
+# Static assets
+Allow: /images/
+Allow: /assets/
+Allow: /client/
+
+# Block admin and sensitive areas
+Disallow: /admin/
+Disallow: /api/
+Disallow: /logs/
+Disallow: /data/
+Disallow: /.env
+Disallow: /node_modules/
+Disallow: /tools/
+Disallow: /test/
+Disallow: /config/
+Disallow: /lib/
+Disallow: /scripts/
+Disallow: /.replit
+Disallow: /package.json
+
+# Sitemap location
+Sitemap: https://www.elevateforhumanity.org/sitemap.xml
+
+# Crawl delay for politeness
+Crawl-delay: 1
+
+# Last updated
+# Generated: 2024-09-16

@@ -1,0 +1,39 @@
+# 🔐 ELEVATE STORE ENVIRONMENT VARIABLES
+# Copy this to .env and fill in your actual values
+
+# Stripe Configuration
+STRIPE_SECRET_KEY=sk_test_your_stripe_secret_key_here
+STRIPE_PUBLISHABLE_KEY=pk_test_your_stripe_publishable_key_here
+STRIPE_WEBHOOK_SECRET=whsec_your_webhook_secret_here
+
+# Email Configuration (choose one)
+EMAIL_USER=your-email@gmail.com
+EMAIL_PASS=your-app-password
+
+# Or use SendGrid
+SENDGRID_API_KEY=SG.your_sendgrid_api_key
+
+# Or use Mailgun
+MAILGUN_API_KEY=your_mailgun_api_key
+MAILGUN_DOMAIN=your_mailgun_domain
+
+# Database (optional - for license storage)
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_SERVICE_KEY=your_supabase_service_key
+
+# Or use Firebase
+FIREBASE_PROJECT_ID=your_firebase_project
+FIREBASE_PRIVATE_KEY=your_firebase_private_key
+
+# File Storage (for downloads)
+DOWNLOAD_BASE_URL=https://your-cdn.com/downloads
+AWS_S3_BUCKET=your-s3-bucket
+AWS_ACCESS_KEY_ID=your_aws_access_key
+AWS_SECRET_ACCESS_KEY=your_aws_secret_key
+
+# License Validation
+LICENSE_ENCRYPTION_KEY=your_32_character_encryption_key_here
+
+# Optional: Analytics
+GOOGLE_ANALYTICS_ID=GA_MEASUREMENT_ID
+MIXPANEL_TOKEN=your_mixpanel_token

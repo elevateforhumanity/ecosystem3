@@ -1,0 +1,29 @@
+GOOGLE SEARCH CONSOLE REMOVAL REQUESTS
+=====================================
+
+Go to: https://search.google.com/search-console/
+
+1. Select your property: elevateforhumanity.org
+2. Click "Removals" in left sidebar
+3. Click "New Request"
+4. Choose "Temporarily remove URL"
+5. Enter these URLs one by one:
+
+URLs to remove:
+- https://elevateforhumanity.org/
+- https://www.elevateforhumanity.org/
+- https://elevateforhumanity.org/sitemap.xml
+- https://www.elevateforhumanity.org/sitemap.xml
+- https://elevateforhumanity.org/hub.html
+- https://elevateforhumanity.org/programs.html
+- https://elevateforhumanity.org/lms.html
+- https://elevateforhumanity.org/connect.html
+- https://elevateforhumanity.org/compliance.html
+
+6. Select "Remove this URL and temporarily remove all pages with this prefix"
+7. Click "Submit Request"
+
+ALTERNATIVE: Request entire domain removal
+- Enter: https://elevateforhumanity.org/
+- Select: "Remove this URL only" 
+- Reason: "Content removed by site owner"

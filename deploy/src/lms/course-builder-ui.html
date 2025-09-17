@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Course Builder - Superior to LearnWorlds</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <style>
+        .drag-drop-zone {
+            border: 2px dashed #cbd5e0;
+            transition: all 0.3s ease;
+        }
+        .drag-drop-zone.dragover {
+            border-color: #3182ce;
+            background-color: #ebf8ff;
+        }
+        .course-preview {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen" x-data="courseBuilder()">
+    <!-- Header -->
+    <header class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <div class="text-3xl">🎓</div>
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-900">AI Course Builder</h1>
+                        <p class="text-gray-600">Superior to LearnWorlds - Create complete courses in minutes</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button @click="enableAutopilot()" 
+                            class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700">
+                        🤖 Enable Autopilot
+                    </button>
+                    <button @click="previewCourse()" 
+                            class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                        👁️ Preview Course
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 py-8">
+        <!-- Step Indicator -->
+        <div class="mb-8">
+            <div class="flex items-center justify-center space-x-4">
+                <div class="flex items-center" :class="step >= 1 ? 'text-blue-600' : 'text-gray-400'">
+                    <div class="w-8 h-8 rounded-full flex items-center justify-center" 
+                         :class="step >= 1 ? 'bg-blue-600 text-white' : 'bg-gray-300'">1</div>
+                    <span class="ml-2">Upload Content</span>
+                </div>
+                <div class="w-16 h-1" :class="step >= 2 ? 'bg-blue-600' : 'bg-gray-300'"></div>
+                <div class="flex items-center" :class="step >= 2 ? 'text-blue-600' : 'text-gray-400'">
+                    <div class="w-8 h-8 rounded-full flex items-center justify-center" 
+                         :class="step >= 2 ? 'bg-blue-600 text-white' : 'bg-gray-300'">2</div>
+                    <span class="ml-2">AI Generation</span>
+                </div>
+                <div class="w-16 h-1" :class="step >= 3 ? 'bg-blue-600' : 'bg-gray-300'"></div>
+                <div class="flex items-center" :class="step >= 3 ? 'text-blue-600' : 'text-gray-400'">
+                    <div class="w-8 h-8 rounded-full flex items-center justify-center" 
+                         :class="step >= 3 ? 'bg-blue-600 text-white' : 'bg-gray-300'">3</div>
+                    <span class="ml-2">Customize</span>
+                </div>
+                <div class="w-16 h-1" :class="step >= 4 ? 'bg-blue-600' : 'bg-gray-300'"></div>
+                <div class="flex items-center" :class="step >= 4 ? 'text-blue-600' : 'text-gray-400'">
+                    <div class="w-8 h-8 rounded-full flex items-center justify-center" 
+                         :class="step >= 4 ? 'bg-blue-600 text-white' : 'bg-gray-300'">4</div>
+                    <span class="ml-2">Publish</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 1: Upload Content -->
+        <div x-show="step === 1" class="space-y-6">
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h2 class="text-xl font-bold mb-4">📁 Upload Your Content</h2>
+                <p class="text-gray-600 mb-6">Upload any document, video, or material and our AI will create a complete course automatically.</p>
+                
+                <!-- Drag & Drop Zone -->
+                <div class="drag-drop-zone rounded-lg p-8 text-center mb-6"
+                     @dragover.prevent="dragOver = true"
+                     @dragleave="dragOver = false"
+                     @drop.prevent="handleFileDrop($event)"
+                     :class="{ 'dragover': dragOver }">
+                    <div class="text-6xl mb-4">📄</div>
+                    <h3 class="text-lg font-semibold mb-2">Drag & Drop Your Files Here</h3>
+                    <p class="text-gray-500 mb-4">Or click to browse files</p>
+                    <input type="file" multiple accept=".pdf,.doc,.docx,.ppt,.pptx,.txt,.mp4,.mov,.avi" 
+                           @change="handleFileSelect($event)" class="hidden" id="fileInput">
+                    <button onclick="document.getElementById('fileInput').click()" 
+                            class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+                        Browse Files
+                    </button>
+                    <p class="text-xs text-gray-400 mt-2">Supports: PDF, Word, PowerPoint, Videos, Text files</p>
+                </div>
+
+                <!-- Uploaded Files -->
+                <div x-show="uploadedFiles.length > 0" class="space-y-2">
+                    <h4 class="font-semibold">Uploaded Files:</h4>
+                    <template x-for="file in uploadedFiles" :key="file.name">
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                            <div class="flex items-center space-x-3">
+                                <div class="text-2xl">📄</div>
+                                <div>
+                                    <p class="font-medium" x-text="file.name"></p>
+                                    <p class="text-sm text-gray-500" x-text="formatFileSize(file.size)"></p>
+                                </div>
+                            </div>
+                            <button @click="removeFile(file)" class="text-red-600 hover:text-red-800">
+                                ❌
+                            </button>
+                        </div>
+                    </template>
+                </div>
+
+                <!-- Course Settings -->
+                <div class="grid md:grid-cols-2 gap-6 mt-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Course Title</label>
+                        <input type="text" x-model="courseSettings.title" 
+                               class="w-full border border-gray-300 rounded-lg px-3 py-2"
+                               placeholder="AI will suggest a title">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Target Audience</label>
+                        <select x-model="courseSettings.audience" class="w-full border border-gray-300 rounded-lg px-3 py-2">
+                            <option value="beginner">Beginner</option>
+                            <option value="intermediate">Intermediate</option>
+                            <option value="advanced">Advanced</option>
+                            <option value="professional">Professional</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mt-6 flex justify-end">
+                    <button @click="processFiles()" :disabled="uploadedFiles.length === 0"
+                            class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 disabled:bg-gray-400">
+                        🚀 Generate Course with AI
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2: AI Generation -->
+        <div x-show="step === 2" class="space-y-6">
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h2 class="text-xl font-bold mb-4">🤖 AI Course Generation</h2>
+                
+                <div x-show="isGenerating" class="text-center py-8">
+                    <div class="animate-spin w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full mx-auto mb-4"></div>
+                    <h3 class="text-lg font-semibold mb-2">Creating Your Course...</h3>
+                    <p class="text-gray-600 mb-4" x-text="generationStatus">Analyzing your content...</p>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="bg-blue-600 h-2 rounded-full transition-all duration-500" 
+                             :style="`width: ${generationProgress}%`"></div>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-2" x-text="`${generationProgress}% Complete`"></p>
+                </div>
+
+                <div x-show="!isGenerating && generatedCourse" class="space-y-6">
+                    <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold text-green-800 mb-2">✅ Course Generated Successfully!</h3>
+                        <p class="text-green-700">Your AI-powered course is ready for customization.</p>
+                    </div>
+
+                    <!-- Generated Course Overview -->
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-semibold mb-3">📚 Course Structure</h4>
+                            <div class="space-y-2">
+                                <template x-for="(module, index) in generatedCourse.modules" :key="index">
+                                    <div class="p-3 bg-gray-50 rounded-lg">
+                                        <h5 class="font-medium" x-text="`Module ${index + 1}: ${module.title}`"></h5>
+                                        <p class="text-sm text-gray-600" x-text="`${module.lessons.length} lessons • ${module.estimatedHours}h`"></p>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold mb-3">🎯 Course Details</h4>
+                            <div class="space-y-2">
+                                <div><strong>Title:</strong> <span x-text="generatedCourse.title"></span></div>
+                                <div><strong>Duration:</strong> <span x-text="`${generatedCourse.estimatedHours} hours`"></span></div>
+                                <div><strong>Difficulty:</strong> <span x-text="generatedCourse.difficulty"></span></div>
+                                <div><strong>Modules:</strong> <span x-text="generatedCourse.modules.length"></span></div>
+                                <div><strong>Assessments:</strong> <span x-text="generatedCourse.assessments.length"></span></div>
+                                <div><strong>Videos:</strong> <span x-text="generatedCourse.videos.length"></span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between">
+                        <button @click="step = 1" class="bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-700">
+                            ← Back
+                        </button>
+                        <button @click="step = 3" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+                            Customize Course →
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3: Customize -->
+        <div x-show="step === 3" class="space-y-6">
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h2 class="text-xl font-bold mb-4">🎨 Customize Your Course</h2>
+                
+                <div class="grid lg:grid-cols-3 gap-6">
+                    <!-- Course Settings -->
+                    <div class="lg:col-span-1">
+                        <h3 class="font-semibold mb-4">⚙️ Course Settings</h3>
+                        
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium mb-2">Course Title</label>
+                                <input type="text" x-model="generatedCourse.title" 
+                                       class="w-full border border-gray-300 rounded-lg px-3 py-2">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium mb-2">Price</label>
+                                <input type="number" x-model="courseSettings.price" 
+                                       class="w-full border border-gray-300 rounded-lg px-3 py-2"
+                                       placeholder="299">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium mb-2">Drip Schedule</label>
+                                <select x-model="courseSettings.dripSchedule" class="w-full border border-gray-300 rounded-lg px-3 py-2">
+                                    <option value="immediate">All Available Immediately</option>
+                                    <option value="daily">Daily Release</option>
+                                    <option value="weekly">Weekly Release</option>
+                                    <option value="biweekly">Bi-weekly Release</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label class="flex items-center">
+                                    <input type="checkbox" x-model="courseSettings.enableCertificate" class="mr-2">
+                                    <span class="text-sm">Enable Certificate</span>
+                                </label>
+                            </div>
+                            
+                            <div>
+                                <label class="flex items-center">
+                                    <input type="checkbox" x-model="courseSettings.enableCommunity" class="mr-2">
+                                    <span class="text-sm">Enable Community</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Course Content -->
+                    <div class="lg:col-span-2">
+                        <h3 class="font-semibold mb-4">📝 Course Content</h3>
+                        
+                        <div class="space-y-4">
+                            <template x-for="(module, moduleIndex) in generatedCourse.modules" :key="moduleIndex">
+                                <div class="border border-gray-200 rounded-lg p-4">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <h4 class="font-medium" x-text="`Module ${moduleIndex + 1}: ${module.title}`"></h4>
+                                        <button @click="editModule(moduleIndex)" class="text-blue-600 hover:text-blue-800">
+                                            ✏️ Edit
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="space-y-2">
+                                        <template x-for="(lesson, lessonIndex) in module.lessons" :key="lessonIndex">
+                                            <div class="flex items-center justify-between p-2 bg-gray-50 rounded">
+                                                <div class="flex items-center space-x-3">
+                                                    <span x-text="lesson.type === 'video' ? '🎥' : lesson.type === 'quiz' ? '❓' : '📄'"></span>
+                                                    <span x-text="lesson.title"></span>
+                                                    <span class="text-xs text-gray-500" x-text="`${lesson.estimatedMinutes}min`"></span>
+                                                </div>
+                                                <button @click="editLesson(moduleIndex, lessonIndex)" class="text-blue-600 hover:text-blue-800 text-sm">
+                                                    Edit
+                                                </button>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex justify-between mt-6">
+                    <button @click="step = 2" class="bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-700">
+                        ← Back
+                    </button>
+                    <button @click="step = 4" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700">
+                        Publish Course →
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 4: Publish -->
+        <div x-show="step === 4" class="space-y-6">
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h2 class="text-xl font-bold mb-4">🚀 Publish Your Course</h2>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="font-semibold mb-4">📊 Course Summary</h3>
+                        <div class="space-y-2">
+                            <div><strong>Title:</strong> <span x-text="generatedCourse.title"></span></div>
+                            <div><strong>Modules:</strong> <span x-text="generatedCourse.modules.length"></span></div>
+                            <div><strong>Total Lessons:</strong> <span x-text="getTotalLessons()"></span></div>
+                            <div><strong>Estimated Duration:</strong> <span x-text="`${generatedCourse.estimatedHours} hours`"></span></div>
+                            <div><strong>Price:</strong> $<span x-text="courseSettings.price"></span></div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-semibold mb-4">🎯 Publishing Options</h3>
+                        <div class="space-y-3">
+                            <label class="flex items-center">
+                                <input type="radio" name="publishType" value="draft" x-model="publishSettings.type" class="mr-2">
+                                <span>Save as Draft</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="radio" name="publishType" value="private" x-model="publishSettings.type" class="mr-2">
+                                <span>Publish Privately</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="radio" name="publishType" value="public" x-model="publishSettings.type" class="mr-2">
+                                <span>Publish Publicly</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                    <h4 class="font-semibold text-blue-800 mb-2">🎉 Ready to Launch!</h4>
+                    <p class="text-blue-700">Your AI-generated course is ready to publish. Students will be able to enroll and start learning immediately.</p>
+                </div>
+                
+                <div class="flex justify-between mt-6">
+                    <button @click="step = 3" class="bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-700">
+                        ← Back
+                    </button>
+                    <button @click="publishCourse()" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 font-semibold">
+                        🚀 Publish Course
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function courseBuilder() {
+            return {
+                step: 1,
+                dragOver: false,
+                uploadedFiles: [],
+                isGenerating: false,
+                generationProgress: 0,
+                generationStatus: 'Analyzing your content...',
+                generatedCourse: null,
+                courseSettings: {
+                    title: '',
+                    audience: 'beginner',
+                    price: 299,
+                    dripSchedule: 'weekly',
+                    enableCertificate: true,
+                    enableCommunity: true
+                },
+                publishSettings: {
+                    type: 'public'
+                },
+
+                handleFileDrop(event) {
+                    this.dragOver = false;
+                    const files = Array.from(event.dataTransfer.files);
+                    this.addFiles(files);
+                },
+
+                handleFileSelect(event) {
+                    const files = Array.from(event.target.files);
+                    this.addFiles(files);
+                },
+
+                addFiles(files) {
+                    files.forEach(file => {
+                        if (!this.uploadedFiles.find(f => f.name === file.name)) {
+                            this.uploadedFiles.push(file);
+                        }
+                    });
+                },
+
+                removeFile(file) {
+                    this.uploadedFiles = this.uploadedFiles.filter(f => f !== file);
+                },
+
+                formatFileSize(bytes) {
+                    if (bytes === 0) return '0 Bytes';
+                    const k = 1024;
+                    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                    const i = Math.floor(Math.log(bytes) / Math.log(k));
+                    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+                },
+
+                async processFiles() {
+                    this.step = 2;
+                    this.isGenerating = true;
+                    this.generationProgress = 0;
+
+                    // Simulate AI course generation
+                    const steps = [
+                        { progress: 20, status: 'Extracting content from files...' },
+                        { progress: 40, status: 'Analyzing learning objectives...' },
+                        { progress: 60, status: 'Generating course structure...' },
+                        { progress: 80, status: 'Creating video scripts...' },
+                        { progress: 90, status: 'Generating assessments...' },
+                        { progress: 100, status: 'Course generation complete!' }
+                    ];
+
+                    for (const step of steps) {
+                        await new Promise(resolve => setTimeout(resolve, 1500));
+                        this.generationProgress = step.progress;
+                        this.generationStatus = step.status;
+                    }
+
+                    // Generate mock course data
+                    this.generatedCourse = {
+                        title: this.courseSettings.title || 'AI-Generated Course',
+                        description: 'A comprehensive course generated from your uploaded content.',
+                        difficulty: this.courseSettings.audience,
+                        estimatedHours: 12,
+                        modules: [
+                            {
+                                title: 'Introduction and Fundamentals',
+                                estimatedHours: 3,
+                                lessons: [
+                                    { title: 'Course Overview', type: 'video', estimatedMinutes: 15 },
+                                    { title: 'Key Concepts', type: 'text', estimatedMinutes: 20 },
+                                    { title: 'Knowledge Check', type: 'quiz', estimatedMinutes: 10 }
+                                ]
+                            },
+                            {
+                                title: 'Core Principles',
+                                estimatedHours: 4,
+                                lessons: [
+                                    { title: 'Principle 1', type: 'video', estimatedMinutes: 25 },
+                                    { title: 'Practical Application', type: 'text', estimatedMinutes: 30 },
+                                    { title: 'Hands-on Exercise', type: 'assignment', estimatedMinutes: 45 },
+                                    { title: 'Module Assessment', type: 'quiz', estimatedMinutes: 20 }
+                                ]
+                            },
+                            {
+                                title: 'Advanced Topics',
+                                estimatedHours: 5,
+                                lessons: [
+                                    { title: 'Advanced Concepts', type: 'video', estimatedMinutes: 30 },
+                                    { title: 'Case Studies', type: 'text', estimatedMinutes: 40 },
+                                    { title: 'Final Project', type: 'assignment', estimatedMinutes: 90 },
+                                    { title: 'Final Assessment', type: 'quiz', estimatedMinutes: 30 }
+                                ]
+                            }
+                        ],
+                        assessments: ['Module 1 Quiz', 'Module 2 Assessment', 'Final Exam'],
+                        videos: ['Intro Video', 'Principle 1 Video', 'Advanced Concepts Video']
+                    };
+
+                    this.isGenerating = false;
+                },
+
+                getTotalLessons() {
+                    if (!this.generatedCourse) return 0;
+                    return this.generatedCourse.modules.reduce((total, module) => total + module.lessons.length, 0);
+                },
+
+                editModule(index) {
+                    alert(`Edit Module ${index + 1} - Feature coming soon!`);
+                },
+
+                editLesson(moduleIndex, lessonIndex) {
+                    alert(`Edit Lesson - Feature coming soon!`);
+                },
+
+                enableAutopilot() {
+                    alert('🤖 Autopilot Mode - Requires subscription upgrade to automatically manage and optimize your course!');
+                },
+
+                previewCourse() {
+                    if (this.generatedCourse) {
+                        alert('🎓 Course preview would open here showing the student experience');
+                    } else {
+                        alert('Please generate a course first');
+                    }
+                },
+
+                async publishCourse() {
+                    if (!this.generatedCourse) {
+                        alert('Please generate a course first');
+                        return;
+                    }
+
+                    // Simulate publishing
+                    const publishButton = event.target;
+                    publishButton.disabled = true;
+                    publishButton.textContent = 'Publishing...';
+
+                    await new Promise(resolve => setTimeout(resolve, 2000));
+
+                    alert('🎉 Course published successfully! Students can now enroll and start learning.');
+                    
+                    // Reset for next course
+                    this.step = 1;
+                    this.uploadedFiles = [];
+                    this.generatedCourse = null;
+                    publishButton.disabled = false;
+                    publishButton.textContent = '🚀 Publish Course';
+                }
+            }
+        }
+    </script>
+</body>
+</html>

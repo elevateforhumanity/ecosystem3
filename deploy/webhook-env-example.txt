@@ -1,0 +1,31 @@
+# 🔐 ELEVATE WEBHOOK ENVIRONMENT VARIABLES
+# Copy this to .env in your webhook directory
+
+# Stripe Configuration
+STRIPE_SECRET_KEY=sk_test_your_stripe_secret_key_here
+STRIPE_WEBHOOK_SECRET=whsec_your_webhook_secret_here
+
+# Email Configuration (Gmail example)
+EMAIL_USER=your-email@gmail.com
+EMAIL_PASS=your-gmail-app-password
+
+# Server Configuration
+PORT=4242
+NODE_ENV=production
+
+# Optional: Database URLs (for future upgrades)
+MONGODB_URL=mongodb://localhost:27017/elevate-licenses
+REDIS_URL=redis://localhost:6379
+
+# Optional: File Storage
+AWS_ACCESS_KEY_ID=your_aws_access_key
+AWS_SECRET_ACCESS_KEY=your_aws_secret_key
+AWS_S3_BUCKET=elevate-downloads
+
+# Optional: Analytics
+GOOGLE_ANALYTICS_ID=GA_MEASUREMENT_ID
+MIXPANEL_TOKEN=your_mixpanel_token
+
+# Security
+JWT_SECRET=your_jwt_secret_for_api_auth
+RATE_LIMIT_MAX=100

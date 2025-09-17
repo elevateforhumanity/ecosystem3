@@ -1,5 +1,5 @@
 [build]
-  command = "npm ci && npm run ci:ignore || npm run build:partial"
+  command = "./build-deploy.sh"
   publish = "deploy"
 
 [build.environment]

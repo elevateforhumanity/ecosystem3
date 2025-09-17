@@ -1,0 +1,21 @@
+{
+  "name": "Elevate Storefront",
+  "short_name": "Elevate",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "description": "Purchase secure licenses and workbooks from Elevate for Humanity.",
+  "theme_color": "#0070f3",
+  "icons": [
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

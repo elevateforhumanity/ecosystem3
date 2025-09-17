@@ -1,0 +1,21 @@
+BING WEBMASTER TOOLS REMOVAL REQUESTS
+====================================
+
+Go to: https://www.bing.com/webmasters/
+
+1. Select your site: elevateforhumanity.org
+2. Click "Block URLs" in left menu
+3. Enter URLs to block:
+
+URLs to block:
+- https://elevateforhumanity.org/
+- https://www.elevateforhumanity.org/
+- https://elevateforhumanity.org/*
+
+4. Set block type: "Block page and remove from search results"
+5. Click "Submit"
+
+ALTERNATIVE: Remove entire site
+- Go to "Configure My Site" 
+- Click "Delete Site"
+- Confirm deletion
