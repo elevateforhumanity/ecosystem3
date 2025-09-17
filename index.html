@@ -1271,9 +1271,9 @@
             .nav-mobile { display: block; }
         }
         
-        /* Adjust hero for fixed nav */
+        /* Adjust hero for fixed nav and banner */
         .hero {
-            margin-top: 70px;
+            margin-top: 110px;
         }
         
         /* Footer Styles */
@@ -1354,8 +1354,14 @@
     </style>
 </head>
 <body>
+    <!-- Emergency Flash Sale Banner -->
+    <div style="background: linear-gradient(90deg, #dc2626, #991b1b); color: white; text-align: center; padding: 10px; font-weight: bold; animation: pulse 2s infinite; position: fixed; top: 0; left: 0; right: 0; z-index: 1001;">
+        🚨 EMERGENCY FLASH SALE: $800K+ Platform for 80% OFF - Limited Time Only! 
+        <a href="/flash-sale-store.html" style="color: #fbbf24; text-decoration: underline; margin-left: 10px;">SHOP NOW →</a>
+    </div>
+    
     <!-- Navigation Header -->
-    <nav class="main-nav">
+    <nav class="main-nav" style="top: 40px;">
         <div class="nav-container">
             <div class="nav-brand">
                 <a href="/">
@@ -1369,6 +1375,7 @@
                 <a href="/contracts/" class="nav-tab">Government Contracts</a>
                 <a href="/students/" class="nav-tab">Student Portal</a>
                 <a href="/contact/" class="nav-tab">Contact</a>
+                <a href="/flash-sale-store.html" class="nav-cta" style="background: #dc2626 !important; animation: pulse 2s infinite;">🔥 FLASH SALE</a>
                 <a href="/programs/#apply" class="nav-cta">Apply Now</a>
             </div>
             <div class="nav-mobile">
