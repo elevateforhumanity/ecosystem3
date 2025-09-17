@@ -84,6 +84,10 @@ class UnifiedNavigation {
     }
 
     initializeNavigation() {
+        // Temporarily disabled - user doesn't like "All Sites" approach
+        console.log('🚫 Unified navigation disabled by user preference');
+        return;
+        
         this.injectNavigationCSS();
         this.createUnifiedHeader();
         this.createUnifiedFooter();
@@ -131,99 +135,23 @@ class UnifiedNavigation {
             .nav-links {
                 display: flex;
                 align-items: center;
-                gap: 0;
+                gap: 24px;
             }
-
-            .nav-dropdown {
-                position: relative;
-                display: inline-block;
-            }
-
-            .nav-dropdown-btn {
-                background: none;
-                border: none;
+            
+            .nav-link {
                 color: white;
-                padding: 12px 16px;
-                cursor: pointer;
-                font-size: 0.95rem;
-                font-weight: 500;
+                text-decoration: none;
+                padding: 8px 12px;
                 border-radius: 6px;
+                font-weight: 500;
                 transition: all 0.2s ease;
-                display: flex;
-                align-items: center;
-                gap: 6px;
             }
-
-            .nav-dropdown-btn:hover {
+            
+            .nav-link:hover {
                 background: rgba(255,255,255,0.1);
             }
 
-            .nav-dropdown-content {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                background: white;
-                min-width: 280px;
-                box-shadow: 0 8px 32px rgba(0,0,0,0.15);
-                border-radius: 12px;
-                padding: 12px 0;
-                margin-top: 8px;
-                border: 1px solid #e2e8f0;
-            }
 
-            .nav-dropdown:hover .nav-dropdown-content {
-                display: block;
-                animation: fadeInDown 0.3s ease;
-            }
-
-            @keyframes fadeInDown {
-                from { opacity: 0; transform: translateY(-10px); }
-                to { opacity: 1; transform: translateY(0); }
-            }
-
-            .dropdown-site {
-                padding: 12px 20px;
-                border-bottom: 1px solid #f1f5f9;
-            }
-
-            .dropdown-site:last-child {
-                border-bottom: none;
-            }
-
-            .dropdown-site-name {
-                font-weight: 600;
-                color: #1e293b;
-                margin-bottom: 4px;
-                font-size: 0.95rem;
-            }
-
-            .dropdown-site-desc {
-                font-size: 0.8rem;
-                color: #64748b;
-                margin-bottom: 8px;
-            }
-
-            .dropdown-pages {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 8px;
-            }
-
-            .dropdown-page {
-                color: #4c1d95;
-                text-decoration: none;
-                font-size: 0.8rem;
-                padding: 4px 8px;
-                border-radius: 4px;
-                transition: all 0.2s ease;
-                border: 1px solid #e2e8f0;
-            }
-
-            .dropdown-page:hover {
-                background: #4c1d95;
-                color: white;
-            }
 
             .brain-integration {
                 background: none;
@@ -302,10 +230,13 @@ class UnifiedNavigation {
                     font-size: 1rem;
                 }
 
-                .nav-dropdown-content {
-                    min-width: 250px;
-                    right: 0;
-                    left: auto;
+                .nav-links {
+                    gap: 16px;
+                }
+                
+                .nav-link {
+                    font-size: 0.9rem;
+                    padding: 6px 10px;
                 }
 
                 .footer-content {
@@ -345,14 +276,10 @@ class UnifiedNavigation {
                 </a>
                 
                 <div class="nav-links">
-                    <div class="nav-dropdown">
-                        <button class="nav-dropdown-btn">
-                            All Sites <span>▼</span>
-                        </button>
-                        <div class="nav-dropdown-content">
-                            ${this.generateSiteDropdowns()}
-                        </div>
-                    </div>
+                    <a href="/" class="nav-link">Home</a>
+                    <a href="/programs/" class="nav-link">Programs</a>
+                    <a href="/funding-options.html" class="nav-link">Funding</a>
+                    <a href="/contact/" class="nav-link">Contact</a>
                     
                     <button class="brain-integration" onclick="window.unifiedNav.openBrainChat()">
                         🧠 AI Assistant
@@ -365,19 +292,7 @@ class UnifiedNavigation {
         document.body.insertBefore(header, document.body.firstChild);
     }
 
-    generateSiteDropdowns() {
-        return Object.entries(this.sisterSites).map(([key, site]) => `
-            <div class="dropdown-site">
-                <div class="dropdown-site-name">${site.name}</div>
-                <div class="dropdown-site-desc">${site.description}</div>
-                <div class="dropdown-pages">
-                    ${site.pages.map(page => `
-                        <a href="${page.url}" class="dropdown-page">${page.name}</a>
-                    `).join('')}
-                </div>
-            </div>
-        `).join('');
-    }
+
 
     createUnifiedFooter() {
         const footer = document.createElement('footer');
