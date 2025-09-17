@@ -1,3 +1,8 @@
 User-agent: *
 Allow: /
+
+# Enterprise sitemaps
 Sitemap: https://www.elevateforhumanity.org/sitemap_index.xml
+
+# Crawl-delay for respectful crawling
+Crawl-delay: 1
