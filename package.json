@@ -64,6 +64,9 @@
     "robots": "node -e \"require('fs').writeFileSync('sites/marketing/robots.txt', 'User-agent: *\\nAllow: /\\nSitemap: https://www.elevateforhumanity.org/sitemap_index.xml\\n')\"",
     "seo:crawl": "node scripts/enterprise-crawl.mjs --base=https://www.elevateforhumanity.org --out=sites/marketing --chunk=1000 --latest=1000",
     "seo:crawl:indexnow": "node scripts/enterprise-crawl.mjs --base=https://www.elevateforhumanity.org --out=sites/marketing --chunk=1000 --latest=1000",
+    "multitenant:deploy": "node scripts/multitenant-deploy.mjs",
+    "multitenant:engine": "node scripts/tenant-engine.mjs",
+    "enterprise:full": "node scripts/enterprise-engine.mjs --base=https://www.elevateforhumanity.org --out=sites/marketing --chunk=1000 --latest=1000",
     "memory:check": "node scripts/memory-manager.mjs",
     "memory:cleanup": "node scripts/memory-manager.mjs --cleanup",
     "memory:monitor": "./scripts/memory-monitor.sh"

@@ -1,0 +1,30 @@
+{
+  "@context": "https://schema.org",
+  "@type": "EducationalOrganization",
+  "name": "Elevate for Humanity Career & Training Institute",
+  "url": "https://programs.elevateforhumanity.org",
+  "sameAs": [
+    "https://www.facebook.com/elevateforhumanity",
+    "https://www.linkedin.com/company/elevateforhumanity"
+  ],
+  "contactPoint": [
+    {
+      "@type": "ContactPoint",
+      "telephone": "+1-317-555-1234",
+      "contactType": "customer service"
+    }
+  ],
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Indianapolis",
+    "addressRegion": "IN",
+    "addressCountry": "US"
+  },
+  "description": "Multi-tenant enterprise-grade career training and workforce development programs",
+  "tenant": {
+    "slug": "programs",
+    "base": "https://programs.elevateforhumanity.org",
+    "chunkSize": 1000,
+    "generated": "2025-09-17T12:48:28.105Z"
+  }
+}

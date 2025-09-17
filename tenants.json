@@ -1,0 +1,18 @@
+[
+  {
+    "slug": "marketing",
+    "base": "https://www.elevateforhumanity.org",
+    "out": "sites/marketing",
+    "chunk": 1000,
+    "latest": 1000,
+    "indexnowKey": ""
+  },
+  {
+    "slug": "programs",
+    "base": "https://programs.elevateforhumanity.org",
+    "out": "sites/programs",
+    "chunk": 1000,
+    "latest": 1000,
+    "indexnowKey": ""
+  }
+]

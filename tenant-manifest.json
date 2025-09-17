@@ -1,0 +1,35 @@
+{
+  "generated": "2025-09-17T12:48:28.105Z",
+  "engine": "EFH-Multi-Tenant-Deploy/1.0",
+  "tenants": [
+    {
+      "slug": "marketing",
+      "base": "https://www.elevateforhumanity.org",
+      "out": "sites/marketing",
+      "pages": 11,
+      "sitemaps": 3,
+      "chunkSize": 1000,
+      "generated": "2025-09-17T12:48:28.104Z"
+    },
+    {
+      "slug": "programs",
+      "base": "https://programs.elevateforhumanity.org",
+      "out": "sites/programs",
+      "pages": 11,
+      "sitemaps": 3,
+      "chunkSize": 1000,
+      "generated": "2025-09-17T12:48:28.105Z"
+    }
+  ],
+  "summary": {
+    "totalTenants": 2,
+    "totalPages": 22,
+    "totalSitemaps": 6
+  },
+  "revenueModel": {
+    "singleTenant": "$5,000",
+    "multiTenant": "$25,000",
+    "enterpriseSaaS": "$50,000",
+    "whiteLabel": "$100,000"
+  }
+}

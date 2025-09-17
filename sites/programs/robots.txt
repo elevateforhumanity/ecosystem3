@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Multi-tenant enterprise sitemaps
+Sitemap: https://programs.elevateforhumanity.org/sitemap_index.xml
+
+# Crawl-delay for respectful crawling
+Crawl-delay: 1
+
+# Tenant: programs

@@ -1,0 +1,21 @@
+# Multi-tenant enterprise redirects for programs
+/career-uplift-services/certify-and-thrive-program   /programs/cybersecurity/ 301!
+/career-uplift-services/secure-your-future--security---safety-training /programs/electrical-trades/ 301!
+/career-uplift-services/healthcare-training          /programs/healthcare-cna/ 301!
+/career-uplift-services/cloud-computing-training     /programs/cloud-computing/ 301!
+/career-uplift-services/construction-skills-training /programs/construction/ 301!
+/career-uplift-services/beauty-and-wellness          /programs/beauty-wellness/ 301!
+
+# Blog redirects
+/blog.php /blog/ 301!
+/blog?p=:any /blog/ 301!
+
+# Clean URL patterns
+/programs/:program/index.html /programs/:program/ 301!
+
+# Multi-tenant security headers
+/*  /index.html  200
+  X-Frame-Options: DENY
+  X-XSS-Protection: 1; mode=block
+  X-Content-Type-Options: nosniff
+  X-Tenant: programs
