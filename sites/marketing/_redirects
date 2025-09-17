@@ -1,0 +1,48 @@
+# Legacy Career Uplift paths → new Program pages
+/career-uplift-services/certify-and-thrive-program        /programs/cybersecurity/        301!
+/career-uplift-services/secure-your-future--security---safety-training  /programs/electrical-trades/ 301!
+/career-uplift-services/healthcare-training               /programs/healthcare-cna/       301!
+/career-uplift-services/cloud-computing-training          /programs/cloud-computing/      301!
+/career-uplift-services/construction-skills-training      /programs/construction/         301!
+/career-uplift-services/beauty-and-wellness               /programs/beauty-wellness/      301!
+
+# Legacy program paths
+/programs/cna-hha      /programs/healthcare-cna/    301!
+/programs/electrical   /programs/electrical-trades/ 301!
+/programs/beauty       /programs/beauty-wellness/   301!
+
+# Blog variants → blog hub
+/blog.php     /blog/   301!
+/blog?p=*     /blog/   301!
+
+# Old marketing slugs
+/about-us     /about/     301!
+/contact-us   /contact/   301!
+/employer     /employers/ 301!
+
+# Force trailing slashes for consistency
+/programs     /programs/  301!
+/about        /about/     301!
+/contact      /contact/   301!
+/employers    /employers/ 301!
+
+# Legacy HTML extensions
+/index.html   /           301!
+/about.html   /about/     301!
+/contact.html /contact/   301!
+
+# Pass static assets straight through
+/assets/*  /assets/:splat  200
+
+# Old training paths
+/training/*   /programs/:splat  301!
+/courses/*    /programs/:splat  301!
+/program/*    /programs/:splat  301!
+
+# 410 for junk
+/old-test/*   - 410
+/tmp/*        - 410
+/utm/*        - 410
+
+# SPA fallback
+/*          /index.html     200

@@ -1,0 +1,20 @@
+[build]
+  publish = "."
+  command = "echo 'Static site - no build needed'"
+
+[build.environment]
+  NODE_VERSION = "18"
+
+# Form handling
+[forms]
+  [forms.contact]
+    name = "contact"
+    action = "/thank-you/"
+    
+  [forms.eligibility]
+    name = "eligibility"
+    action = "/thank-you/"
+    
+  [forms.application]
+    name = "application"
+    action = "/thank-you/"

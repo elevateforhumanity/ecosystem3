@@ -1,45 +1,86 @@
-# .gitpod.yml — Production preview in Gitpod
-image: gitpod/workspace-node
+# .gitpod.yml — Elevate for Humanity Auto-Reorg Environment
+image: gitpod/workspace-node:18
 
-# Optional: VS Code web extensions you'll probably want
+# VS Code extensions for development
 vscode:
   extensions:
     - esbenp.prettier-vscode
     - dbaeumer.vscode-eslint
     - bradlc.vscode-tailwindcss
+    - ms-vscode.vscode-json
+    - redhat.vscode-yaml
+    - ms-vscode.vscode-typescript-next
 
-# Tasks: setup Docker services and development environment
+# Auto-reorganization and setup
 tasks:
-  - name: Setup Environment
+  - name: Setup & Auto-Reorg
     init: |
-      # Add Node.js to PATH
-      export PATH="/usr/local/gitpod/shared/vscode/vscode-server/bin/6f17636121051a53c88d3e605c491d22af2ba755:$PATH"
-      echo 'export PATH="/usr/local/gitpod/shared/vscode/vscode-server/bin/6f17636121051a53c88d3e605c491d22af2ba755:$PATH"' >> ~/.bashrc
-      
-      # Install dependencies
-      npm ci || npm install --legacy-peer-deps || npm install --force
-      
-      # Build if needed
-      npm run build || echo "Build not required for development"
+      npm install -g pnpm
+      pnpm --version
+      node -v
+      echo "🚀 Elevate for Humanity Development Environment"
+      echo "📦 Installing dependencies..."
+      npm install || pnpm install
     command: |
-      # Start the development server
-      export PATH="/usr/local/gitpod/shared/vscode/vscode-server/bin/6f17636121051a53c88d3e605c491d22af2ba755:$PATH"
-      npm run dev
+      echo "🔄 Running automatic repo reorganization..."
+      node infra/scripts/repo-reorg.mjs || true
+      
+      echo "🌿 Creating reorganization branch..."
+      BRANCH_NAME="chore/reorg-$(date +%Y%m%d-%H%M%S)"
+      git checkout -b "$BRANCH_NAME" || true
+      
+      echo "📝 Staging changes..."
+      git add -A
+      
+      echo "💾 Committing reorganization..."
+      git commit -m "chore: repo reorg into /sites (marketing, programs, blog) + infra
 
-# Expose development ports
+- Restructured into monorepo with separate Netlify sites
+- Marketing site: sites/marketing/ (homepage, programs, about, contact)
+- Programs site: sites/programs/ (deep resources and documentation)  
+- Blog site: sites/blog/ (future blog content)
+- Infrastructure: infra/ (scripts, CI/CD, automation)
+- Updated redirects and headers for production deployment
+- Added GitHub Actions for CI/CD pipeline
+- Configured Git LFS for large files
+- Ready for multi-site Netlify deployment
+
+Co-authored-by: Ona <no-reply@ona.com>" || echo "Nothing to commit"
+      
+      echo "🚀 Pushing to GitHub..."
+      git push -u origin HEAD || true
+      
+      echo "📊 Showing reorganization log..."
+      cat infra/scripts/reorg.log || echo "No reorg log found"
+      
+      echo ""
+      echo "✅ Reorganization complete!"
+      echo "🔗 Create a PR to merge the reorganization"
+      echo "🌐 Then set up Netlify sites pointing to:"
+      echo "   - Marketing: sites/marketing/"
+      echo "   - Programs: sites/programs/"
+      echo "   - Blog: sites/blog/"
+
+# Development ports
 ports:
-  - port: 5173
+  - port: 8000
     onOpen: open-preview
     visibility: public
-    description: "Vite Development Server"
-  - port: 3000
+    description: "Marketing Site Preview"
+  - port: 8001  
     onOpen: ignore
     visibility: public
-    description: "Deviate Backend Service"
+    description: "Programs Site Preview"
+  - port: 8002
+    onOpen: ignore
+    visibility: public
+    description: "Blog Site Preview"
 
-# Optional: start tasks faster on subsequent opens
+# GitHub integration
 github:
   prebuilds:
     master: true
     branches: true
     pullRequests: true
+    addCheck: true
+    addComment: true

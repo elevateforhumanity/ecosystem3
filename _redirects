@@ -1,18 +1,70 @@
+# 1) Canonical host + HTTPS (apex is canonical)
+https://www.elevateforhumanity.org/* https://elevateforhumanity.org/:splat 301!
+http://elevateforhumanity.org/*    https://elevateforhumanity.org/:splat 301!
+http://www.elevateforhumanity.org/* https://elevateforhumanity.org/:splat 301!
+
+# 2) Trailing slash normalization (force slash)
+/about     /about/     301!
+/programs  /programs/  301!
+/contact   /contact/   301!
+/employers /employers/ 301!
+/blog      /blog/      301!
+
+# 3) High-value exact mappings
+/career-uplift-services/certify-and-thrive-program                  /programs/cybersecurity/        301!
+/career-uplift-services/secure-your-future--security---safety-training  /programs/electrical-trades/ 301!
+/career-uplift-services/healthcare-training                         /programs/healthcare-cna/       301!
+/career-uplift-services/cloud-computing-training                    /programs/cloud-computing/      301!
+/career-uplift-services/construction-skills-training                /programs/construction/         301!
+/career-uplift-services/beauty-and-wellness                         /programs/beauty-wellness/      301!
+
+# Legacy program paths
+/programs/cna-hha      /programs/healthcare-cna/    301!
+/programs/electrical   /programs/electrical-trades/ 301!
+/programs/beauty       /programs/beauty-wellness/   301!
+
+# Blog variants → blog hub
+/blog.php     /blog/   301!
+/blog?p=*     /blog/   301!
+
+# Old marketing slugs
+/about-us     /about/     301!
+/contact-us   /contact/   301!
+/employer     /employers/ 301!
+
+# Legacy HTML extensions
+/index.html   /           301!
+/about.html   /about/     301!
+/contact.html /contact/   301!
+
+# 4) Keyword-based wildcard mapping (best-effort)
+/career-uplift-services/*cyber*           /programs/cybersecurity/     301!
+/career-uplift-services/*cloud*           /programs/cloud-computing/   301!
+/career-uplift-services/*health*          /programs/healthcare-cna/    301!
+/career-uplift-services/*cna*             /programs/healthcare-cna/    301!
+/career-uplift-services/*electric*        /programs/electrical-trades/ 301!
+/career-uplift-services/*construct*       /programs/construction/      301!
+/career-uplift-services/*beauty*          /programs/beauty-wellness/   301!
+/career-uplift-services/*wellness*        /programs/beauty-wellness/   301!
+
+# Fallback for any other legacy career-uplift paths → Programs hub
+/career-uplift-services/*  /programs/   301!
+
+# Old training paths
+/training/*   /programs/:splat  301!
+/courses/*    /programs/:splat  301!
+/program/*    /programs/:splat  301!
+
+# 5) Hard 410 for junk
+/old-test/*   - 410
+/tmp/*        - 410
+/utm/*        - 410
+
 # Pass static assets straight through
 /assets/*  /assets/:splat  200
 
-# TEMPORARILY DISABLED: Redirect causing loop with external redirect rule
-# https://elevateforhumanity.org/* https://www.elevateforhumanity.org/:splat 301!
-# 
-# ISSUE: External service (Cloudflare/Netlify) is redirecting www→non-www
-# This conflicts with our non-www→www redirect, creating infinite loop
-
-# Note: HTTPS redirect removed - Cloudflare handles HTTP->HTTPS automatically
-# Keeping this would create a redirect loop with Cloudflare's "Always Use HTTPS"
-
 # Core ecosystem pages (serve actual HTML files)
 /hub /hub.html 200
-/programs /programs.html 200
 /lms /lms.html 200
 /connect /connect.html 200
 /compliance /compliance.html 200

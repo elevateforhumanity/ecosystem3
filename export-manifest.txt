@@ -1,0 +1,17 @@
+/
+/programs/
+/programs/cybersecurity/
+/programs/cloud-computing/
+/programs/healthcare-cna/
+/programs/electrical-trades/
+/programs/construction/
+/programs/beauty-wellness/
+/about/
+/employers/
+/contact/
+/blog/
+/privacy/
+/terms/
+/accessibility/
+/faq/
+/sitemap.html

@@ -40,6 +40,16 @@ efh-*
 attached_assets/
 data/fixtures/
 
+# Large files and exports
+complete-project-export.txt
+complete-file-list.txt
+core.*
+*.core
+*.dump
+deploy/archives/
+branding/raw/
+images/raw/
+
 # Sensitive files
 *secret*
 *key*
