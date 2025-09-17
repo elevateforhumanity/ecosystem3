@@ -63,7 +63,10 @@
     "sitemaps:tiny": "node scripts/sitemap-partitioner.mjs --base=https://www.elevateforhumanity.org --in=all-urls.txt --out=sites/marketing/sitemaps --chunk=5000",
     "robots": "node -e \"require('fs').writeFileSync('sites/marketing/robots.txt', 'User-agent: *\\nAllow: /\\nSitemap: https://www.elevateforhumanity.org/sitemap_index.xml\\n')\"",
     "seo:crawl": "node scripts/enterprise-crawl.mjs --base=https://www.elevateforhumanity.org --out=sites/marketing --chunk=1000 --latest=1000",
-    "seo:crawl:indexnow": "node scripts/enterprise-crawl.mjs --base=https://www.elevateforhumanity.org --out=sites/marketing --chunk=1000 --latest=1000"
+    "seo:crawl:indexnow": "node scripts/enterprise-crawl.mjs --base=https://www.elevateforhumanity.org --out=sites/marketing --chunk=1000 --latest=1000",
+    "memory:check": "node scripts/memory-manager.mjs",
+    "memory:cleanup": "node scripts/memory-manager.mjs --cleanup",
+    "memory:monitor": "./scripts/memory-monitor.sh"
   },
   "prisma": {
     "seed": "node prisma/seed.cjs"
