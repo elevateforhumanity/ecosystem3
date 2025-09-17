@@ -1,17 +1,34 @@
 [build]
-  command = "./build-deploy.sh"
-  publish = "deploy"
+  command = "npm run build"
+  publish = "dist"
+  functions = "netlify/functions"
 
 [build.environment]
   NODE_VERSION = "20"
   SECRETS_SCAN_SMART_DETECTION_ENABLED = "false"
 
-# Domain redirects handled in _redirects file to avoid conflicts
+# Long-tail pages: first-hit builds, then cached at CDN
+[[redirects]]
+  from = "/page/*"
+  to = "/.netlify/functions/page-odb"
+  status = 200
 
-# Pass through built assets
+# R2 assets (HTML fragments, PDFs, images) via proxy
 [[redirects]]
   from = "/assets/*"
-  to = "/assets/:splat"
+  to = "/.netlify/functions/r2-proxy"
+  status = 200
+
+# API proxy to Replit with failover to Supabase Edge Function
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api-proxy"
+  status = 200
+
+# Sitemap served from R2
+[[redirects]]
+  from = "/sitemap.xml"
+  to = "/assets/sitemaps/sitemap.xml"
   status = 200
 
 # Modern clean URL redirects
@@ -116,3 +133,8 @@
   for = "*.js"
   [headers.values]
     Cache-Control = "public, max-age=31536000"
+
+# Nightly cron (03:00 UTC) — triggers sitemap generation via repository_dispatch
+[[scheduled.functions]]
+  name = "sitemap-cron"
+  cron = "0 3 * * *"
