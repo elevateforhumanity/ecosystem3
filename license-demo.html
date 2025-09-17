@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>License System Demo - Elevate Platform</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+  
+  <style>
+    .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+    .demo-card { transition: all 0.3s ease; }
+    .demo-card:hover { transform: translateY(-2px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); }
+  </style>
+</head>
+<body class="bg-gray-50" x-data="licenseDemo()" x-init="init()">
+
+<!-- Header -->
+<header class="gradient-bg text-white">
+  <div class="max-w-6xl mx-auto px-4 py-6">
+    <div class="text-center">
+      <h1 class="text-3xl font-bold mb-2">🔐 Enterprise License System Demo</h1>
+      <p class="text-purple-100">HMAC-SHA256 Signed • Base64 Encoded • Tamper-Proof</p>
+    </div>
+  </div>
+</header>
+
+<!-- Main Content -->
+<main class="max-w-6xl mx-auto px-4 py-8">
+  
+  <!-- License Generation -->
+  <div class="bg-white rounded-xl shadow-lg p-6 mb-8 demo-card">
+    <h2 class="text-xl font-bold mb-4">🔑 Generate License</h2>
+    <div class="grid md:grid-cols-3 gap-4 mb-4">
+      <input 
+        type="email" 
+        x-model="email"
+        placeholder="customer@example.com"
+        class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+      >
+      <select 
+        x-model="productId"
+        class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+      >
+        <option value="price_1SiteClone">Site Clone Package</option>
+        <option value="price_1Enterprise">Enterprise License</option>
+        <option value="price_1WhiteLabel">White-Label Bundle</option>
+        <option value="price_1DoneForYou">Done-for-You Setup</option>
+      </select>
+      <input 
+        type="number" 
+        x-model="expiresInDays"
+        placeholder="365"
+        class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+      >
+    </div>
+    <button 
+      @click="generateLicense()"
+      class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+    >
+      Generate License
+    </button>
+  </div>
+
+  <!-- Generated License Display -->
+  <div x-show="generatedLicense" class="bg-white rounded-xl shadow-lg p-6 mb-8 demo-card">
+    <h3 class="text-xl font-bold mb-4">📋 Generated License</h3>
+    <div class="bg-gray-100 p-4 rounded-lg mb-4">
+      <p class="text-sm font-mono break-all" x-text="generatedLicense"></p>
+    </div>
+    <div class="grid md:grid-cols-2 gap-4 text-sm">
+      <div>
+        <p><strong>Email:</strong> <span x-text="licenseDetails.email"></span></p>
+        <p><strong>Product:</strong> <span x-text="licenseDetails.productId"></span></p>
+      </div>
+      <div>
+        <p><strong>Issued:</strong> <span x-text="licenseDetails.issuedAt"></span></p>
+        <p><strong>Expires:</strong> <span x-text="licenseDetails.expiresAt"></span></p>
+      </div>
+    </div>
+    <button 
+      @click="copyToClipboard(generatedLicense)"
+      class="mt-4 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors text-sm"
+    >
+      📋 Copy License
+    </button>
+  </div>
+
+  <!-- License Validation -->
+  <div class="bg-white rounded-xl shadow-lg p-6 mb-8 demo-card">
+    <h2 class="text-xl font-bold mb-4">✅ Validate License</h2>
+    <div class="flex gap-4 mb-4">
+      <input 
+        type="text" 
+        x-model="licenseToValidate"
+        placeholder="Paste license key here..."
+        class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+      >
+      <button 
+        @click="validateLicense()"
+        class="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition-colors"
+      >
+        Validate
+      </button>
+    </div>
+    
+    <div x-show="validationResult" class="mt-4">
+      <div 
+        :class="validationResult?.valid ? 'bg-green-100 border-green-500 text-green-800' : 'bg-red-100 border-red-500 text-red-800'"
+        class="border-l-4 p-4 rounded"
+      >
+        <div class="flex items-center">
+          <span x-text="validationResult?.valid ? '✅' : '❌'" class="text-2xl mr-3"></span>
+          <div>
+            <p class="font-bold" x-text="validationResult?.valid ? 'Valid License' : 'Invalid License'"></p>
+            <p x-show="!validationResult?.valid" x-text="'Reason: ' + validationResult?.reason"></p>
+          </div>
+        </div>
+        
+        <div x-show="validationResult?.valid" class="mt-4 grid md:grid-cols-2 gap-4 text-sm">
+          <div>
+            <p><strong>Email:</strong> <span x-text="validationResult.email"></span></p>
+            <p><strong>Product:</strong> <span x-text="validationResult.productId"></span></p>
+          </div>
+          <div>
+            <p><strong>Issued:</strong> <span x-text="validationResult.issuedAt"></span></p>
+            <p><strong>Expires:</strong> <span x-text="validationResult.expiresAt"></span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Security Features -->
+  <div class="grid md:grid-cols-3 gap-6 mb-8">
+    <div class="bg-white rounded-xl shadow-lg p-6 text-center demo-card">
+      <div class="text-3xl mb-3">🔒</div>
+      <h3 class="font-bold mb-2">HMAC-SHA256</h3>
+      <p class="text-gray-600 text-sm">Cryptographically signed with secret key</p>
+    </div>
+    
+    <div class="bg-white rounded-xl shadow-lg p-6 text-center demo-card">
+      <div class="text-3xl mb-3">📅</div>
+      <h3 class="font-bold mb-2">Expiration Check</h3>
+      <p class="text-gray-600 text-sm">Automatic expiry validation</p>
+    </div>
+    
+    <div class="bg-white rounded-xl shadow-lg p-6 text-center demo-card">
+      <div class="text-3xl mb-3">🛡️</div>
+      <h3 class="font-bold mb-2">Tamper Detection</h3>
+      <p class="text-gray-600 text-sm">Any modification invalidates license</p>
+    </div>
+  </div>
+
+  <!-- Test Cases -->
+  <div class="bg-white rounded-xl shadow-lg p-6">
+    <h3 class="text-xl font-bold mb-4">🧪 Test Cases</h3>
+    <div class="grid md:grid-cols-3 gap-4">
+      <button 
+        @click="testExpiredLicense()"
+        class="bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-700 transition-colors"
+      >
+        Test Expired License
+      </button>
+      <button 
+        @click="testTamperedLicense()"
+        class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors"
+      >
+        Test Tampered License
+      </button>
+      <button 
+        @click="testValidLicense()"
+        class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
+      >
+        Test Valid License
+      </button>
+    </div>
+  </div>
+
+</main>
+
+<!-- Notification -->
+<div 
+  x-show="notification.show" 
+  x-transition
+  :class="notification.type === 'success' ? 'bg-green-600' : 'bg-red-600'"
+  class="fixed top-4 right-4 text-white px-6 py-3 rounded-lg shadow-lg z-50"
+>
+  <span x-text="notification.message"></span>
+</div>
+
+<script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<script>
+  function licenseDemo() {
+    return {
+      email: 'customer@example.com',
+      productId: 'price_1SiteClone',
+      expiresInDays: 365,
+      generatedLicense: '',
+      licenseDetails: {},
+      licenseToValidate: '',
+      validationResult: null,
+      notification: { show: false, message: '', type: 'success' },
+      LICENSE_SECRET: 'elevateSuperSecretKey',
+
+      init() {
+        console.log('🔐 License Demo Initialized');
+      },
+
+      generateLicense() {
+        const issuedAt = new Date();
+        const expiresAt = new Date(issuedAt);
+        expiresAt.setDate(expiresAt.getDate() + parseInt(this.expiresInDays));
+
+        const payload = `${this.email}|${this.productId}|${issuedAt.toISOString()}|${expiresAt.toISOString()}`;
+        
+        // Create HMAC signature using CryptoJS
+        const signature = CryptoJS.HmacSHA256(payload, this.LICENSE_SECRET).toString();
+        
+        // Base64 encode payload
+        const encodedPayload = btoa(payload);
+        
+        this.generatedLicense = `${encodedPayload}.${signature}`;
+        this.licenseDetails = {
+          email: this.email,
+          productId: this.productId,
+          issuedAt: issuedAt.toLocaleDateString(),
+          expiresAt: expiresAt.toLocaleDateString()
+        };
+
+        this.showNotification('License generated successfully!', 'success');
+      },
+
+      validateLicense() {
+        if (!this.licenseToValidate.trim()) {
+          this.showNotification('Please enter a license key', 'error');
+          return;
+        }
+
+        try {
+          const [encodedPayload, signature] = this.licenseToValidate.split('.');
+          
+          if (!encodedPayload || !signature) {
+            this.validationResult = { valid: false, reason: 'Malformed license key' };
+            return;
+          }
+
+          const payload = atob(encodedPayload);
+          const hashCheck = CryptoJS.HmacSHA256(payload, this.LICENSE_SECRET).toString();
+
+          if (hashCheck !== signature) {
+            this.validationResult = { valid: false, reason: 'Invalid signature' };
+            return;
+          }
+
+          const [email, productId, issuedAt, expiresAt] = payload.split('|');
+          const now = new Date();
+          
+          if (now > new Date(expiresAt)) {
+            this.validationResult = { valid: false, reason: 'License expired' };
+            return;
+          }
+
+          this.validationResult = {
+            valid: true,
+            email,
+            productId,
+            issuedAt: new Date(issuedAt).toLocaleDateString(),
+            expiresAt: new Date(expiresAt).toLocaleDateString()
+          };
+
+          this.showNotification('License validated successfully!', 'success');
+
+        } catch (error) {
+          this.validationResult = { valid: false, reason: 'Malformed license key' };
+          this.showNotification('Error validating license', 'error');
+        }
+      },
+
+      testExpiredLicense() {
+        // Generate an expired license (expired yesterday)
+        const issuedAt = new Date();
+        issuedAt.setDate(issuedAt.getDate() - 2);
+        const expiresAt = new Date();
+        expiresAt.setDate(expiresAt.getDate() - 1);
+
+        const payload = `test@expired.com|price_1Test|${issuedAt.toISOString()}|${expiresAt.toISOString()}`;
+        const signature = CryptoJS.HmacSHA256(payload, this.LICENSE_SECRET).toString();
+        const encodedPayload = btoa(payload);
+        
+        this.licenseToValidate = `${encodedPayload}.${signature}`;
+        this.validateLicense();
+      },
+
+      testTamperedLicense() {
+        // Generate a valid license then tamper with it
+        this.generateLicense();
+        this.licenseToValidate = this.generatedLicense.slice(0, -5) + 'XXXXX';
+        this.validateLicense();
+      },
+
+      testValidLicense() {
+        this.generateLicense();
+        this.licenseToValidate = this.generatedLicense;
+        this.validateLicense();
+      },
+
+      async copyToClipboard(text) {
+        try {
+          await navigator.clipboard.writeText(text);
+          this.showNotification('License copied to clipboard!', 'success');
+        } catch (err) {
+          this.showNotification('Failed to copy license', 'error');
+        }
+      },
+
+      showNotification(message, type = 'success') {
+        this.notification = { show: true, message, type };
+        setTimeout(() => {
+          this.notification.show = false;
+        }, 3000);
+      }
+    }
+  }
+</script>
+
+</body>
+</html>

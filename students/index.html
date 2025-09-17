@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Portal | Elevate for Humanity</title>
+    <meta name="description" content="Access your Elevate for Humanity student portal for course materials, progress tracking, and career services.">
+    <link rel="canonical" href="https://www.elevateforhumanity.org/students/">
+    <meta property="og:title" content="Student Portal | Elevate for Humanity">
+    <meta property="og:description" content="Access course materials, track progress, and connect with career services.">
+    <meta property="og:url" content="https://www.elevateforhumanity.org/students/">
+    <meta property="og:type" content="website">
+    
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 0; padding: 20px; background: #f8f9fa; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .portal-card { background: white; border-radius: 8px; padding: 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin: 2rem 0; }
+        .login-form { max-width: 400px; margin: 0 auto; }
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: bold; }
+        .form-group input { width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+        .btn { display: inline-block; background: #007bff; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; border: none; cursor: pointer; width: 100%; }
+        .btn:hover { background: #0056b3; }
+        nav { margin-bottom: 2rem; }
+        nav a { margin-right: 1rem; color: #007bff; text-decoration: none; }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin: 2rem 0; }
+        .feature-card { background: white; padding: 1.5rem; border-radius: 8px; text-align: center; }
+        .feature-icon { font-size: 2rem; margin-bottom: 1rem; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/programs/">Programs</a>
+        <a href="/contracts/">Government Contracts</a>
+        <a href="/students/">Student Portal</a>
+        <a href="/contact/">Contact</a>
+    </nav>
+
+    <div class="container">
+        <div class="portal-card">
+            <h1>Student Portal</h1>
+            <p>Welcome to the Elevate for Humanity Student Portal. Access your courses, track your progress, and connect with career services.</p>
+
+            <div class="login-form">
+                <h2>Student Login</h2>
+                <form action="/api/student-login" method="post">
+                    <div class="form-group">
+                        <label for="email">Email Address:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <button type="submit" class="btn">Login to Portal</button>
+                </form>
+                
+                <p style="text-align: center; margin-top: 1rem;">
+                    <a href="/students/forgot-password">Forgot Password?</a> | 
+                    <a href="/programs/#apply">New Student? Apply Here</a>
+                </p>
+            </div>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📚</div>
+                <h3>Course Materials</h3>
+                <p>Access all your course content, assignments, and resources in one convenient location.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Progress Tracking</h3>
+                <p>Monitor your learning progress, view completed modules, and track certification requirements.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🎓</div>
+                <h3>Certifications</h3>
+                <p>View your earned certifications and download official certificates for your portfolio.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">💼</div>
+                <h3>Career Services</h3>
+                <p>Connect with career counselors, access job placement assistance, and explore employment opportunities.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">👥</div>
+                <h3>Student Community</h3>
+                <p>Connect with fellow students, participate in discussions, and collaborate on projects.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📞</div>
+                <h3>Support Services</h3>
+                <p>Get help when you need it with our comprehensive student support services.</p>
+            </div>
+        </div>
+
+        <div class="portal-card">
+            <h2>Need Help?</h2>
+            <p>If you're having trouble accessing your student portal or need technical assistance, our support team is here to help.</p>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1rem 0;">
+                <div>
+                    <h4>📧 Email Support</h4>
+                    <p><a href="mailto:support@elevateforhumanity.org">support@elevateforhumanity.org</a></p>
+                </div>
+                <div>
+                    <h4>📞 Phone Support</h4>
+                    <p><a href="tel:+13175550123">(317) 555-0123</a></p>
+                </div>
+                <div>
+                    <h4>🕒 Support Hours</h4>
+                    <p>Monday - Friday<br>8:00 AM - 6:00 PM EST</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="portal-card">
+            <h2>Student Resources</h2>
+            <ul>
+                <li><a href="/students/handbook">Student Handbook</a></li>
+                <li><a href="/students/technical-requirements">Technical Requirements</a></li>
+                <li><a href="/students/career-services">Career Services</a></li>
+                <li><a href="/students/financial-aid">Financial Aid Information</a></li>
+                <li><a href="/students/academic-calendar">Academic Calendar</a></li>
+                <li><a href="/policies/privacy.html">Privacy Policy</a></li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

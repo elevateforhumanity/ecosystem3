@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Video Player - Superior to LearnWorlds</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <script src="https://vjs.zencdn.net/8.6.1/video.min.js"></script>
+    <link href="https://vjs.zencdn.net/8.6.1/video-js.css" rel="stylesheet">
+    
+    <style>
+        .video-container {
+            position: relative;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .ai-chat-overlay {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        .progress-ring {
+            transform: rotate(-90deg);
+        }
+        .interactive-hotspot {
+            position: absolute;
+            background: rgba(59, 130, 246, 0.9);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        .notes-panel {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen" x-data="advancedVideoPlayer()">
+    <!-- Header -->
+    <header class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <div class="text-3xl">🎥</div>
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-900">Advanced Video Player</h1>
+                        <p class="text-gray-600">Superior to LearnWorlds with AI features</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="text-sm text-gray-600">
+                        Progress: <span class="font-semibold" x-text="`${Math.round(watchProgress)}%`"></span>
+                    </div>
+                    <button @click="toggleAIChat()" 
+                            class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700">
+                        🤖 AI Tutor
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 py-8">
+        <div class="grid lg:grid-cols-4 gap-8">
+            <!-- Video Player Section -->
+            <div class="lg:col-span-3">
+                <!-- Video Container -->
+                <div class="video-container mb-6">
+                    <video id="advanced-player" 
+                           class="video-js vjs-default-skin w-full" 
+                           controls 
+                           preload="auto" 
+                           data-setup='{"fluid": true, "responsive": true}'
+                           @timeupdate="updateProgress($event)"
+                           @ended="onVideoEnded()">
+                        <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
+                        <p class="vjs-no-js">
+                            To view this video please enable JavaScript, and consider upgrading to a web browser that
+                            <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>.
+                        </p>
+                    </video>
+
+                    <!-- Interactive Hotspots -->
+                    <template x-for="hotspot in activeHotspots" :key="hotspot.id">
+                        <div class="interactive-hotspot"
+                             :style="`top: ${hotspot.y}%; left: ${hotspot.x}%;`"
+                             @click="showHotspotContent(hotspot)">
+                            <span x-text="hotspot.icon"></span>
+                        </div>
+                    </template>
+
+                    <!-- AI Chat Overlay -->
+                    <div class="ai-chat-overlay" x-show="showAIChat">
+                        <div class="bg-white rounded-lg shadow-xl p-4 w-80 max-h-96 overflow-hidden">
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="font-semibold">🤖 AI Tutor</h3>
+                                <button @click="toggleAIChat()" class="text-gray-500 hover:text-gray-700">✕</button>
+                            </div>
+                            <div class="space-y-3 max-h-48 overflow-y-auto mb-3">
+                                <template x-for="message in aiMessages" :key="message.id">
+                                    <div class="text-sm" :class="message.type === 'user' ? 'text-right' : 'text-left'">
+                                        <div class="inline-block p-2 rounded-lg max-w-xs"
+                                             :class="message.type === 'user' ? 'bg-blue-600 text-white' : 'bg-gray-100'">
+                                            <span x-text="message.content"></span>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                            <div class="flex space-x-2">
+                                <input type="text" x-model="aiInput" @keyup.enter="sendAIMessage()"
+                                       placeholder="Ask about this video..."
+                                       class="flex-1 border border-gray-300 rounded px-2 py-1 text-sm">
+                                <button @click="sendAIMessage()" 
+                                        class="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700">
+                                    Send
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video Controls & Info -->
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-xl font-bold">Introduction to Advanced Concepts</h2>
+                        <div class="flex items-center space-x-4">
+                            <button @click="toggleBookmark()" 
+                                    :class="isBookmarked ? 'text-yellow-500' : 'text-gray-400'"
+                                    class="hover:text-yellow-500">
+                                ⭐ Bookmark
+                            </button>
+                            <button @click="downloadVideo()" class="text-blue-600 hover:text-blue-800">
+                                📥 Download
+                            </button>
+                            <button @click="shareVideo()" class="text-green-600 hover:text-green-800">
+                                🔗 Share
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Video Progress -->
+                    <div class="mb-4">
+                        <div class="flex justify-between text-sm text-gray-600 mb-2">
+                            <span>Progress</span>
+                            <span x-text="`${Math.round(watchProgress)}% Complete`"></span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                                 :style="`width: ${watchProgress}%`"></div>
+                        </div>
+                    </div>
+
+                    <!-- Video Chapters -->
+                    <div class="mb-6">
+                        <h3 class="font-semibold mb-3">📚 Chapters</h3>
+                        <div class="space-y-2">
+                            <template x-for="(chapter, index) in chapters" :key="index">
+                                <div class="flex items-center justify-between p-2 rounded hover:bg-gray-50 cursor-pointer"
+                                     @click="seekToChapter(chapter.time)"
+                                     :class="currentChapter === index ? 'bg-blue-50 border-l-4 border-blue-600' : ''">
+                                    <div class="flex items-center space-x-3">
+                                        <span class="text-sm text-gray-500" x-text="formatTime(chapter.time)"></span>
+                                        <span x-text="chapter.title"></span>
+                                    </div>
+                                    <span x-text="chapter.duration"></span>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Elements -->
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <button @click="showQuiz()" 
+                                class="bg-green-600 text-white p-3 rounded-lg hover:bg-green-700 text-center">
+                            ❓ Take Quiz
+                        </button>
+                        <button @click="showAssignment()" 
+                                class="bg-purple-600 text-white p-3 rounded-lg hover:bg-purple-700 text-center">
+                            📝 Assignment
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="lg:col-span-1 space-y-6">
+                <!-- Notes Panel -->
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="font-semibold mb-4">📝 My Notes</h3>
+                    <div class="notes-panel space-y-3 mb-4">
+                        <template x-for="note in notes" :key="note.id">
+                            <div class="p-3 bg-gray-50 rounded-lg">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-xs text-gray-500" x-text="formatTime(note.timestamp)"></span>
+                                    <button @click="deleteNote(note.id)" class="text-red-500 hover:text-red-700 text-xs">
+                                        Delete
+                                    </button>
+                                </div>
+                                <p class="text-sm" x-text="note.content"></p>
+                            </div>
+                        </template>
+                    </div>
+                    <div class="space-y-2">
+                        <textarea x-model="newNote" 
+                                  placeholder="Add a note at current time..."
+                                  class="w-full border border-gray-300 rounded px-3 py-2 text-sm h-20 resize-none"></textarea>
+                        <button @click="addNote()" 
+                                class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
+                            Add Note
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Learning Analytics -->
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="font-semibold mb-4">📊 Learning Analytics</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm">Watch Time</span>
+                            <span class="font-semibold" x-text="formatTime(totalWatchTime)"></span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm">Engagement Score</span>
+                            <span class="font-semibold text-green-600" x-text="`${engagementScore}/100`"></span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm">Notes Taken</span>
+                            <span class="font-semibold" x-text="notes.length"></span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm">Replays</span>
+                            <span class="font-semibold" x-text="replayCount"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Related Videos -->
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="font-semibold mb-4">🎬 Up Next</h3>
+                    <div class="space-y-3">
+                        <template x-for="video in relatedVideos" :key="video.id">
+                            <div class="flex space-x-3 p-2 rounded hover:bg-gray-50 cursor-pointer"
+                                 @click="loadVideo(video)">
+                                <img :src="video.thumbnail" :alt="video.title" 
+                                     class="w-16 h-12 object-cover rounded">
+                                <div class="flex-1">
+                                    <h4 class="text-sm font-medium" x-text="video.title"></h4>
+                                    <p class="text-xs text-gray-500" x-text="video.duration"></p>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Quiz Modal -->
+    <div x-show="showQuizModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-xl p-6 max-w-2xl w-full mx-4">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-xl font-bold">📝 Video Quiz</h3>
+                <button @click="showQuizModal = false" class="text-gray-500 hover:text-gray-700">✕</button>
+            </div>
+            <div x-show="currentQuizQuestion < quizQuestions.length">
+                <div class="mb-4">
+                    <div class="flex justify-between text-sm text-gray-600 mb-2">
+                        <span>Question <span x-text="currentQuizQuestion + 1"></span> of <span x-text="quizQuestions.length"></span></span>
+                        <span>Score: <span x-text="quizScore"></span>/<span x-text="quizQuestions.length"></span></span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                             :style="`width: ${(currentQuizQuestion / quizQuestions.length) * 100}%`"></div>
+                    </div>
+                </div>
+                <div x-show="quizQuestions[currentQuizQuestion]">
+                    <h4 class="font-semibold mb-4" x-text="quizQuestions[currentQuizQuestion]?.question"></h4>
+                    <div class="space-y-2">
+                        <template x-for="(option, index) in quizQuestions[currentQuizQuestion]?.options" :key="index">
+                            <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                                <input type="radio" :name="`question_${currentQuizQuestion}`" :value="index" 
+                                       x-model="selectedAnswer" class="mr-3">
+                                <span x-text="option"></span>
+                            </label>
+                        </template>
+                    </div>
+                    <div class="flex justify-between mt-6">
+                        <button @click="previousQuestion()" :disabled="currentQuizQuestion === 0"
+                                class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 disabled:bg-gray-400">
+                            Previous
+                        </button>
+                        <button @click="nextQuestion()" 
+                                class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                            <span x-text="currentQuizQuestion === quizQuestions.length - 1 ? 'Finish' : 'Next'"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div x-show="currentQuizQuestion >= quizQuestions.length" class="text-center">
+                <h4 class="text-xl font-bold mb-4">🎉 Quiz Complete!</h4>
+                <p class="text-lg mb-4">Your Score: <span class="font-bold text-green-600" x-text="quizScore"></span>/<span x-text="quizQuestions.length"></span></p>
+                <p class="text-gray-600 mb-6" x-text="`${Math.round((quizScore / quizQuestions.length) * 100)}% Correct`"></p>
+                <button @click="retakeQuiz()" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 mr-4">
+                    Retake Quiz
+                </button>
+                <button @click="showQuizModal = false" class="bg-gray-600 text-white px-6 py-2 rounded hover:bg-gray-700">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function advancedVideoPlayer() {
+            return {
+                // Video state
+                watchProgress: 0,
+                totalWatchTime: 0,
+                currentTime: 0,
+                duration: 0,
+                isBookmarked: false,
+                currentChapter: 0,
+                replayCount: 0,
+                engagementScore: 85,
+
+                // AI Chat
+                showAIChat: false,
+                aiInput: '',
+                aiMessages: [
+                    { id: 1, type: 'ai', content: 'Hi! I\'m your AI tutor. Ask me anything about this video!' }
+                ],
+
+                // Notes
+                notes: [],
+                newNote: '',
+
+                // Interactive elements
+                activeHotspots: [
+                    { id: 1, x: 30, y: 40, icon: '💡', content: 'Key concept explained here!' },
+                    { id: 2, x: 70, y: 60, icon: '📊', content: 'Important data visualization' }
+                ],
+
+                // Chapters
+                chapters: [
+                    { title: 'Introduction', time: 0, duration: '2:30' },
+                    { title: 'Core Concepts', time: 150, duration: '5:45' },
+                    { title: 'Practical Examples', time: 495, duration: '4:20' },
+                    { title: 'Summary', time: 755, duration: '1:15' }
+                ],
+
+                // Quiz
+                showQuizModal: false,
+                currentQuizQuestion: 0,
+                selectedAnswer: null,
+                quizScore: 0,
+                quizQuestions: [
+                    {
+                        question: 'What is the main topic of this video?',
+                        options: ['Advanced Concepts', 'Basic Introduction', 'Case Studies', 'Summary'],
+                        correct: 0
+                    },
+                    {
+                        question: 'Which chapter covers practical examples?',
+                        options: ['Chapter 1', 'Chapter 2', 'Chapter 3', 'Chapter 4'],
+                        correct: 2
+                    }
+                ],
+
+                // Related videos
+                relatedVideos: [
+                    { id: 1, title: 'Advanced Techniques', duration: '8:45', thumbnail: 'https://via.placeholder.com/160x120' },
+                    { id: 2, title: 'Case Study Analysis', duration: '12:30', thumbnail: 'https://via.placeholder.com/160x120' },
+                    { id: 3, title: 'Final Assessment', duration: '6:15', thumbnail: 'https://via.placeholder.com/160x120' }
+                ],
+
+                init() {
+                    // Initialize video player
+                    this.$nextTick(() => {
+                        const player = videojs('advanced-player');
+                        player.ready(() => {
+                            this.duration = player.duration();
+                        });
+                    });
+                },
+
+                updateProgress(event) {
+                    const video = event.target;
+                    this.currentTime = video.currentTime;
+                    this.watchProgress = (video.currentTime / video.duration) * 100;
+                    this.totalWatchTime = video.currentTime;
+                    
+                    // Update current chapter
+                    for (let i = this.chapters.length - 1; i >= 0; i--) {
+                        if (video.currentTime >= this.chapters[i].time) {
+                            this.currentChapter = i;
+                            break;
+                        }
+                    }
+                },
+
+                onVideoEnded() {
+                    this.watchProgress = 100;
+                    this.engagementScore = Math.min(100, this.engagementScore + 10);
+                },
+
+                toggleAIChat() {
+                    this.showAIChat = !this.showAIChat;
+                },
+
+                sendAIMessage() {
+                    if (!this.aiInput.trim()) return;
+                    
+                    this.aiMessages.push({
+                        id: Date.now(),
+                        type: 'user',
+                        content: this.aiInput
+                    });
+
+                    // Simulate AI response
+                    setTimeout(() => {
+                        const responses = [
+                            'That\'s a great question! Based on the current video timestamp, here\'s what I can explain...',
+                            'I can see you\'re at the key concept section. Let me break this down for you...',
+                            'This relates to what we covered in the previous chapter. Would you like me to explain the connection?',
+                            'That\'s an advanced topic! Here\'s a simplified explanation...'
+                        ];
+                        
+                        this.aiMessages.push({
+                            id: Date.now(),
+                            type: 'ai',
+                            content: responses[Math.floor(Math.random() * responses.length)]
+                        });
+                    }, 1000);
+
+                    this.aiInput = '';
+                },
+
+                addNote() {
+                    if (!this.newNote.trim()) return;
+                    
+                    this.notes.push({
+                        id: Date.now(),
+                        content: this.newNote,
+                        timestamp: this.currentTime
+                    });
+                    
+                    this.newNote = '';
+                    this.engagementScore = Math.min(100, this.engagementScore + 2);
+                },
+
+                deleteNote(id) {
+                    this.notes = this.notes.filter(note => note.id !== id);
+                },
+
+                toggleBookmark() {
+                    this.isBookmarked = !this.isBookmarked;
+                },
+
+                seekToChapter(time) {
+                    const video = document.getElementById('advanced-player');
+                    if (video) {
+                        video.currentTime = time;
+                    }
+                },
+
+                showQuiz() {
+                    this.showQuizModal = true;
+                    this.currentQuizQuestion = 0;
+                    this.quizScore = 0;
+                    this.selectedAnswer = null;
+                },
+
+                nextQuestion() {
+                    if (this.selectedAnswer !== null) {
+                        if (this.selectedAnswer === this.quizQuestions[this.currentQuizQuestion].correct) {
+                            this.quizScore++;
+                        }
+                    }
+                    
+                    this.currentQuizQuestion++;
+                    this.selectedAnswer = null;
+                },
+
+                previousQuestion() {
+                    if (this.currentQuizQuestion > 0) {
+                        this.currentQuizQuestion--;
+                        this.selectedAnswer = null;
+                    }
+                },
+
+                retakeQuiz() {
+                    this.currentQuizQuestion = 0;
+                    this.quizScore = 0;
+                    this.selectedAnswer = null;
+                },
+
+                showAssignment() {
+                    alert('📝 Assignment feature - Students would complete hands-on exercises here');
+                },
+
+                downloadVideo() {
+                    alert('📥 Video download would start here (if enabled by instructor)');
+                },
+
+                shareVideo() {
+                    alert('🔗 Share functionality - Generate shareable link with timestamp');
+                },
+
+                showHotspotContent(hotspot) {
+                    alert(`💡 Interactive Content: ${hotspot.content}`);
+                },
+
+                loadVideo(video) {
+                    alert(`Loading: ${video.title}`);
+                },
+
+                formatTime(seconds) {
+                    const mins = Math.floor(seconds / 60);
+                    const secs = Math.floor(seconds % 60);
+                    return `${mins}:${secs.toString().padStart(2, '0')}`;
+                }
+            }
+        }
+    </script>
+</body>
+</html>

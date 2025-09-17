@@ -3,8 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elevate for Humanity | Rise Forward Foundation | Workforce Development & Philanthropy</title>
-    <meta name="description" content="Elevate for Humanity transforms lives through workforce development, AI/Data Science training, and philanthropic initiatives. Rise Forward Foundation creating pathways to prosperity.">
+    <title>Elevate for Humanity | Workforce Development & Government Contracting</title>
+    <meta name="description" content="Elevate for Humanity delivers INTraining-approved workforce programs, certifications, and apprenticeships with employer connections and no-cost WIOA pathways.">
+    <link rel="canonical" href="https://www.elevateforhumanity.org/">
+    <meta property="og:title" content="Elevate for Humanity | Workforce Development & Government Contracting">
+    <meta property="og:description" content="INTraining-approved workforce programs, certifications, and apprenticeships with employer connections and no-cost WIOA pathways.">
+    <meta property="og:url" content="https://www.elevateforhumanity.org/">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://www.elevateforhumanity.org/assets/logo.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Elevate for Humanity | Workforce Development">
+    <meta name="twitter:description" content="INTraining-approved workforce programs with employer connections and WIOA pathways.">
     
     <!-- Essential Resource Preloads -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,45 +32,48 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "EducationalOrganization",
+      "@type": ["Organization","LocalBusiness","EducationalOrganization"],
       "name": "Elevate for Humanity",
       "alternateName": "Rise Forward Foundation",
-      "description": "Transforming lives through technology education, AI training, and workforce development programs.",
-      "url": "https://elevateforhumanity.org",
-
+      "description": "INTraining-approved workforce development programs, government contracting, and employer partnerships with WIOA pathways.",
+      "url": "https://www.elevateforhumanity.org/",
+      "logo": "https://www.elevateforhumanity.org/assets/logo.png",
       "address": {
         "@type": "PostalAddress",
-        "addressCountry": "US",
-        "addressRegion": "IN"
+        "streetAddress": "7009 East 56th Street",
+        "addressLocality": "Indianapolis",
+        "addressRegion": "IN",
+        "postalCode": "46226",
+        "addressCountry": "US"
       },
-      "offers": [
-        {
-          "@type": "Course",
-          "name": "AI & Data Science Bootcamp",
-          "description": "Comprehensive AI and machine learning training program",
-          "provider": {
-            "@type": "Organization",
-            "name": "Elevate for Humanity"
-          },
-          "courseMode": "blended",
-          "educationalCredentialAwarded": "Professional Certificate"
-        },
-        {
-          "@type": "Course", 
-          "name": "WIOA Workforce Development",
-          "description": "Federally-funded workforce training programs",
-          "provider": {
-            "@type": "Organization",
-            "name": "Elevate for Humanity"
-          },
-          "courseMode": "blended",
-          "offers": {
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+1-317-555-0123",
+        "contactType": "customer service",
+        "availableLanguage": "English"
+      },
+      "sameAs": [
+        "https://www.linkedin.com/company/elevate-for-humanity",
+        "https://www.facebook.com/elevateforhumanity"
+      ],
+      "serviceArea": {
+        "@type": "State",
+        "name": "Indiana"
+      },
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Workforce Development Programs",
+        "itemListElement": [
+          {
             "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "USD"
+            "itemOffered": {
+              "@type": "Course",
+              "name": "WIOA Workforce Development",
+              "description": "Federally-funded workforce training programs"
+            }
           }
-        }
-      ]
+        ]
+      }
     }
     </script>
     
@@ -1352,9 +1364,12 @@
                 </a>
             </div>
             <div class="nav-links">
-                <!-- Dynamic navigation will be rendered here by sister-sites-nav.js -->
-                <a href="/" class="nav-tab">Elevate</a>
-                <a href="/apply" class="nav-cta">Apply Now</a>
+                <a href="/" class="nav-tab">Home</a>
+                <a href="/programs/" class="nav-tab">Programs</a>
+                <a href="/contracts/" class="nav-tab">Government Contracts</a>
+                <a href="/students/" class="nav-tab">Student Portal</a>
+                <a href="/contact/" class="nav-tab">Contact</a>
+                <a href="/programs/#apply" class="nav-cta">Apply Now</a>
             </div>
             <div class="nav-mobile">
                 <button class="mobile-menu-btn">☰</button>
@@ -1543,7 +1558,7 @@
                     <h3>AI & Data Science Programs</h3>
                     <p><strong>89% Job Placement Rate</strong><br>
                     Google Cloud, Microsoft partnerships. Python, machine learning, data analytics training.</p>
-                    <a href="/programs.html" class="program-link">View Programs →</a>
+                    <a href="/programs/" class="program-link">View Programs →</a>
                 </div>
                 
                 <div class="program-card">
@@ -1559,7 +1574,7 @@
                     <h3>IBEW Electrical Apprenticeship</h3>
                     <p><strong>Union Partnership - No Cost</strong><br>
                     Registered apprenticeship with union benefits. $70,000+ average salary potential.</p>
-                    <a href="/programs.html" class="program-link">Apply Now →</a>
+                    <a href="/programs/#apply" class="program-link">Apply Now →</a>
                 </div>
                 
                 <div class="program-card">
@@ -1646,7 +1661,7 @@
             <div class="footer-content">
                 <div class="footer-brand">Elevate for Humanity</div>
                 <p>Rise Forward Foundation • Part of Selfish Inc. DBA Rise Foundation</p>
-                <p>📞 (555) 123-4567 • <a href="/sister-sites" style="color: var(--accent-green);">Sister Sites</a></p>
+                <p>📞 <a href="tel:+13175550123">(317) 555-0123</a> • <a href="/about/" style="color: var(--accent-green);">About Us</a></p>
             </div>
             <p>&copy; 2025 Selfish Inc. DBA Rise Foundation. All rights reserved.</p>
         </div>
@@ -1804,10 +1819,10 @@
                 <div class="footer-section">
                     <h4>Get Started</h4>
                     <ul>
-                        <li><a href="/apply">Apply Now</a></li>
+                        <li><a href="/programs/#apply">Apply Now</a></li>
                         <li><a href="/eligibility-verification.html">Check Eligibility</a></li>
                         <li><a href="/skills-assessment.html">Skills Assessment</a></li>
-                        <li><a href="/account.html">Student Portal</a></li>
+                        <li><a href="/students/">Student Portal</a></li>
                     </ul>
                 </div>
             </div>

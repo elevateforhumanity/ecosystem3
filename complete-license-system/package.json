@@ -1,0 +1,53 @@
+{
+  "name": "elevate-complete-license-system",
+  "version": "1.0.0",
+  "description": "Complete license issuance and tracking system for Elevate Platform",
+  "main": "webhook.js",
+  "scripts": {
+    "start": "node webhook.js",
+    "dev": "nodemon webhook.js",
+    "test": "npm run test:email && npm run test:webhook",
+    "test:email": "node -e \"require('./email').testEmail()\"",
+    "test:webhook": "stripe listen --forward-to localhost:4242/webhook",
+    "deploy": "pm2 start webhook.js --name elevate-license-system",
+    "logs": "pm2 logs elevate-license-system",
+    "stop": "pm2 stop elevate-license-system",
+    "restart": "pm2 restart elevate-license-system",
+    "docker:build": "docker build -t elevate-license-system .",
+    "docker:run": "docker run -p 4242:4242 --env-file .env elevate-license-system",
+    "setup": "node setup.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "body-parser": "^1.20.2",
+    "stripe": "^14.0.0",
+    "nodemailer": "^6.9.7",
+    "mongodb": "^6.3.0",
+    "dotenv": "^16.3.1",
+    "cors": "^2.8.5",
+    "helmet": "^7.1.0",
+    "express-rate-limit": "^7.1.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "keywords": [
+    "stripe",
+    "webhook",
+    "license",
+    "delivery",
+    "elevate",
+    "lms",
+    "ecommerce",
+    "automation"
+  ],
+  "author": "Rise Foundation",
+  "license": "MIT",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/elevateforhumanity/license-system.git"
+  }
+}

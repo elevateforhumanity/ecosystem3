@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | Elevate for Humanity</title>
+    <meta name="description" content="Contact Elevate for Humanity for workforce development programs, government contracting opportunities, or student support services.">
+    <link rel="canonical" href="https://www.elevateforhumanity.org/contact/">
+    <meta property="og:title" content="Contact Us | Elevate for Humanity">
+    <meta property="og:description" content="Get in touch for workforce development programs and government contracting opportunities.">
+    <meta property="og:url" content="https://www.elevateforhumanity.org/contact/">
+    <meta property="og:type" content="website">
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ContactPage",
+      "mainEntity": {
+        "@type": "Organization",
+        "name": "Elevate for Humanity",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "7009 East 56th Street",
+          "addressLocality": "Indianapolis",
+          "addressRegion": "IN",
+          "postalCode": "46226",
+          "addressCountry": "US"
+        },
+        "telephone": "+1-317-555-0123",
+        "email": "info@elevateforhumanity.org"
+      }
+    }
+    </script>
+    
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 0; padding: 20px; background: #f8f9fa; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 2rem 0; }
+        .contact-card { background: white; border-radius: 8px; padding: 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: bold; }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+        .form-group textarea { height: 120px; resize: vertical; }
+        .btn { display: inline-block; background: #007bff; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; border: none; cursor: pointer; }
+        .btn:hover { background: #0056b3; }
+        nav { margin-bottom: 2rem; }
+        nav a { margin-right: 1rem; color: #007bff; text-decoration: none; }
+        .contact-info { margin-bottom: 2rem; }
+        .contact-method { margin-bottom: 1.5rem; padding: 1rem; background: #e7f3ff; border-radius: 5px; }
+        @media (max-width: 768px) { .contact-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/programs/">Programs</a>
+        <a href="/contracts/">Government Contracts</a>
+        <a href="/students/">Student Portal</a>
+        <a href="/contact/">Contact</a>
+    </nav>
+
+    <div class="container">
+        <h1>Contact Elevate for Humanity</h1>
+        <p>Ready to transform your career or partner with us? We're here to help you take the next step toward success.</p>
+
+        <div class="contact-grid">
+            <div class="contact-card">
+                <h2>Get In Touch</h2>
+                <form action="/api/contact" method="post">
+                    <div class="form-group">
+                        <label for="name">Full Name *</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="inquiry-type">Inquiry Type *</label>
+                        <select id="inquiry-type" name="inquiry-type" required>
+                            <option value="">Select an option</option>
+                            <option value="program-enrollment">Program Enrollment</option>
+                            <option value="government-contracting">Government Contracting</option>
+                            <option value="employer-partnership">Employer Partnership</option>
+                            <option value="student-support">Student Support</option>
+                            <option value="general-information">General Information</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Message *</label>
+                        <textarea id="message" name="message" placeholder="Tell us how we can help you..." required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn">Send Message</button>
+                </form>
+            </div>
+
+            <div class="contact-card">
+                <h2>Contact Information</h2>
+                
+                <div class="contact-method">
+                    <h4>📞 Phone</h4>
+                    <p><a href="tel:+13175550123">(317) 555-0123</a></p>
+                    <p><small>Monday - Friday, 8:00 AM - 6:00 PM EST</small></p>
+                </div>
+
+                <div class="contact-method">
+                    <h4>📧 Email</h4>
+                    <p><a href="mailto:info@elevateforhumanity.org">info@elevateforhumanity.org</a></p>
+                    <p><small>We respond within 24 hours</small></p>
+                </div>
+
+                <div class="contact-method">
+                    <h4>📍 Address</h4>
+                    <p>7009 East 56th Street<br>
+                    Indianapolis, IN 46226</p>
+                </div>
+
+                <div class="contact-method">
+                    <h4>🎓 Student Support</h4>
+                    <p><a href="mailto:support@elevateforhumanity.org">support@elevateforhumanity.org</a></p>
+                    <p><small>For current students needing assistance</small></p>
+                </div>
+
+                <div class="contact-method">
+                    <h4>🏛️ Government Contracting</h4>
+                    <p><a href="mailto:contracts@elevateforhumanity.org">contracts@elevateforhumanity.org</a></p>
+                    <p><small>For government partnership opportunities</small></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-card">
+            <h2>Frequently Asked Questions</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                <div>
+                    <h4>How do I apply for programs?</h4>
+                    <p>Visit our <a href="/programs/">Programs page</a> to learn about available training opportunities and application requirements.</p>
+                </div>
+                <div>
+                    <h4>Are programs free?</h4>
+                    <p>Many of our programs are available at no cost to eligible participants through WIOA funding and other workforce development initiatives.</p>
+                </div>
+                <div>
+                    <h4>What are the requirements?</h4>
+                    <p>Requirements vary by program. Generally, participants must be eligible to work in the US and meet specific program criteria.</p>
+                </div>
+                <div>
+                    <h4>How long are the programs?</h4>
+                    <p>Program length varies from short-term certifications (2-4 weeks) to comprehensive training programs (3-6 months).</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-card">
+            <h2>Office Hours & Availability</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                <div>
+                    <h4>Monday - Friday</h4>
+                    <p>8:00 AM - 6:00 PM EST</p>
+                </div>
+                <div>
+                    <h4>Saturday</h4>
+                    <p>9:00 AM - 2:00 PM EST</p>
+                </div>
+                <div>
+                    <h4>Sunday</h4>
+                    <p>Closed</p>
+                </div>
+                <div>
+                    <h4>Emergency Support</h4>
+                    <p>24/7 for current students</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

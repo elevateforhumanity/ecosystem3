@@ -1,0 +1,39 @@
+{
+  "name": "elevate-webhook-server",
+  "version": "1.0.0",
+  "description": "Enhanced webhook server for Elevate Platform license delivery",
+  "main": "enhanced-webhook.js",
+  "scripts": {
+    "start": "node enhanced-webhook.js",
+    "dev": "nodemon enhanced-webhook.js",
+    "test": "stripe listen --forward-to localhost:4242/webhook",
+    "deploy": "pm2 start enhanced-webhook.js --name elevate-webhook",
+    "logs": "pm2 logs elevate-webhook",
+    "stop": "pm2 stop elevate-webhook"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "body-parser": "^1.20.2",
+    "stripe": "^14.0.0",
+    "nodemailer": "^6.9.7",
+    "dotenv": "^16.3.1",
+    "cors": "^2.8.5",
+    "helmet": "^7.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "keywords": [
+    "stripe",
+    "webhook",
+    "license",
+    "delivery",
+    "elevate",
+    "lms"
+  ],
+  "author": "Rise Foundation",
+  "license": "MIT",
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

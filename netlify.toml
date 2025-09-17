@@ -1,6 +1,6 @@
 [build]
-  command = "npm run build:deploy"
-  publish = "dist"
+  command = "npm ci && npm run ci:ignore || npm run build:partial"
+  publish = "deploy"
 
 [build.environment]
   NODE_VERSION = "20"
@@ -14,35 +14,56 @@
   to = "/assets/:splat"
   status = 200
 
-# Core ecosystem pages
+# Modern clean URL redirects
 [[redirects]]
-  from = "/hub"
-  to = "/hub.html"
+  from = "/hub.html"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/programs.html"
+  to = "/programs/"
+  status = 301
+
+[[redirects]]
+  from = "/government-services.html"
+  to = "/contracts/"
+  status = 301
+
+[[redirects]]
+  from = "/account.html"
+  to = "/students/"
+  status = 301
+
+[[redirects]]
+  from = "/connect.html"
+  to = "/contact/"
+  status = 301
+
+# Clean URL routing
+[[redirects]]
+  from = "/programs/*"
+  to = "/programs/index.html"
   status = 200
 
 [[redirects]]
-  from = "/programs"
-  to = "/programs.html"
+  from = "/contracts/*"
+  to = "/contracts/index.html"
   status = 200
 
 [[redirects]]
-  from = "/lms"
-  to = "/lms.html"
+  from = "/students/*"
+  to = "/students/index.html"
   status = 200
 
 [[redirects]]
-  from = "/connect"
-  to = "/connect.html"
+  from = "/contact/*"
+  to = "/contact/index.html"
   status = 200
 
 [[redirects]]
-  from = "/compliance"
-  to = "/compliance.html"
-  status = 200
-
-[[redirects]]
-  from = "/partners"
-  to = "/partners.html"
+  from = "/about/*"
+  to = "/about/index.html"
   status = 200
 
 # Student portal routes

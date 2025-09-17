@@ -3,20 +3,29 @@ User-agent: *
 Allow: /
 
 # Main content pages
-Allow: /index.html
-Allow: /hub.html
-Allow: /programs.html
-Allow: /lms.html
-Allow: /connect.html
-Allow: /pay.html
-Allow: /compliance.html
+Allow: /
+Allow: /programs/
+Allow: /contracts/
+Allow: /students/
+Allow: /about/
+Allow: /contact/
+Allow: /grants/
+Allow: /veterans/
+Allow: /policies/
+Allow: /accessibility/
 
 # Static assets
 Allow: /images/
+Allow: /assets/
 Allow: /client/
-Allow: /api/
 
-# Block admin and development files
+# Block admin and sensitive areas
+Disallow: /admin/
+Disallow: /api/
+Disallow: /logs/
+Disallow: /data/
+Disallow: /.env
+Disallow: /node_modules/
 Disallow: /tools/
 Disallow: /test/
 Disallow: /config/
@@ -26,16 +35,10 @@ Disallow: /.replit
 Disallow: /package.json
 
 # Sitemap location
-Sitemap: https://www.elevateforhumanity.org/sitemap-index.xml
 Sitemap: https://www.elevateforhumanity.org/sitemap.xml
-
-# Cache control
-Allow: /?v=*
-Allow: /programs?v=*
-Allow: /hub?v=*
 
 # Crawl delay for politeness
 Crawl-delay: 1
 
 # Last updated
-# Generated: 2025-09-08
+# Generated: 2024-09-16
