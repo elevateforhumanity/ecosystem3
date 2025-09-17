@@ -1,0 +1,284 @@
+{
+  "credentialing_partners": {
+    "google_cloud": {
+      "partner_name": "Google Cloud",
+      "partner_split": 50,
+      "elevate_split": 50,
+      "programs": [
+        {
+          "id": "gcp-cloud-digital-leader",
+          "name": "Google Cloud Digital Leader Certification",
+          "partner_price": 99,
+          "elevate_markup": 50,
+          "student_price": 149,
+          "duration": "4-6 weeks",
+          "level": "Beginner",
+          "certification": "Google Cloud Digital Leader",
+          "description": "Foundational cloud concepts and Google Cloud services"
+        },
+        {
+          "id": "gcp-associate-cloud-engineer",
+          "name": "Google Cloud Associate Cloud Engineer",
+          "partner_price": 200,
+          "elevate_markup": 100,
+          "student_price": 300,
+          "duration": "8-12 weeks",
+          "level": "Intermediate",
+          "certification": "Associate Cloud Engineer",
+          "description": "Deploy applications, monitor operations, manage enterprise solutions"
+        },
+        {
+          "id": "gcp-professional-data-engineer",
+          "name": "Google Cloud Professional Data Engineer",
+          "partner_price": 300,
+          "elevate_markup": 150,
+          "student_price": 450,
+          "duration": "12-16 weeks",
+          "level": "Advanced",
+          "certification": "Professional Data Engineer",
+          "description": "Design, build, and operationalize data processing systems"
+        }
+      ]
+    },
+    "microsoft": {
+      "partner_name": "Microsoft",
+      "partner_split": 50,
+      "elevate_split": 50,
+      "programs": [
+        {
+          "id": "az-900-fundamentals",
+          "name": "Microsoft Azure Fundamentals (AZ-900)",
+          "partner_price": 99,
+          "elevate_markup": 50,
+          "student_price": 149,
+          "duration": "4-6 weeks",
+          "level": "Beginner",
+          "certification": "Azure Fundamentals",
+          "description": "Cloud concepts, Azure services, security, privacy, compliance"
+        },
+        {
+          "id": "az-104-administrator",
+          "name": "Microsoft Azure Administrator (AZ-104)",
+          "partner_price": 200,
+          "elevate_markup": 100,
+          "student_price": 300,
+          "duration": "8-12 weeks",
+          "level": "Intermediate",
+          "certification": "Azure Administrator Associate",
+          "description": "Manage Azure subscriptions, secure identities, administer infrastructure"
+        },
+        {
+          "id": "dp-100-data-scientist",
+          "name": "Microsoft Azure Data Scientist (DP-100)",
+          "partner_price": 300,
+          "elevate_markup": 150,
+          "student_price": 450,
+          "duration": "12-16 weeks",
+          "level": "Advanced",
+          "certification": "Azure Data Scientist Associate",
+          "description": "Machine learning workloads on Azure using Azure Machine Learning"
+        }
+      ]
+    },
+    "comptia": {
+      "partner_name": "CompTIA",
+      "partner_split": 50,
+      "elevate_split": 50,
+      "programs": [
+        {
+          "id": "comptia-a-plus",
+          "name": "CompTIA A+ Certification",
+          "partner_price": 250,
+          "elevate_markup": 125,
+          "student_price": 375,
+          "duration": "8-12 weeks",
+          "level": "Beginner",
+          "certification": "CompTIA A+",
+          "description": "Hardware, networking, mobile devices, operating systems"
+        },
+        {
+          "id": "comptia-network-plus",
+          "name": "CompTIA Network+ Certification",
+          "partner_price": 300,
+          "elevate_markup": 150,
+          "student_price": 450,
+          "duration": "10-14 weeks",
+          "level": "Intermediate",
+          "certification": "CompTIA Network+",
+          "description": "Networking concepts, infrastructure, network operations"
+        },
+        {
+          "id": "comptia-security-plus",
+          "name": "CompTIA Security+ Certification",
+          "partner_price": 350,
+          "elevate_markup": 175,
+          "student_price": 525,
+          "duration": "12-16 weeks",
+          "level": "Intermediate",
+          "certification": "CompTIA Security+",
+          "description": "Cybersecurity fundamentals, risk management, incident response"
+        },
+        {
+          "id": "comptia-cysa-plus",
+          "name": "CompTIA CySA+ Certification",
+          "partner_price": 400,
+          "elevate_markup": 200,
+          "student_price": 600,
+          "duration": "14-18 weeks",
+          "level": "Advanced",
+          "certification": "CompTIA CySA+",
+          "description": "Cybersecurity analyst skills, threat detection, analysis"
+        }
+      ]
+    },
+    "ibew": {
+      "partner_name": "IBEW (International Brotherhood of Electrical Workers)",
+      "partner_split": 50,
+      "elevate_split": 50,
+      "programs": [
+        {
+          "id": "ibew-electrical-fundamentals",
+          "name": "IBEW Electrical Fundamentals",
+          "partner_price": 200,
+          "elevate_markup": 100,
+          "student_price": 300,
+          "duration": "6-8 weeks",
+          "level": "Beginner",
+          "certification": "IBEW Electrical Fundamentals Certificate",
+          "description": "Basic electrical theory, safety, tools, and practices"
+        },
+        {
+          "id": "ibew-apprentice-prep",
+          "name": "IBEW Apprenticeship Preparation",
+          "partner_price": 400,
+          "elevate_markup": 200,
+          "student_price": 600,
+          "duration": "12-16 weeks",
+          "level": "Intermediate",
+          "certification": "IBEW Apprenticeship Ready Certificate",
+          "description": "Comprehensive preparation for IBEW apprenticeship programs"
+        },
+        {
+          "id": "ibew-industrial-electrical",
+          "name": "IBEW Industrial Electrical Systems",
+          "partner_price": 500,
+          "elevate_markup": 250,
+          "student_price": 750,
+          "duration": "16-20 weeks",
+          "level": "Advanced",
+          "certification": "IBEW Industrial Electrical Certificate",
+          "description": "Industrial electrical systems, motor controls, PLCs"
+        }
+      ]
+    },
+    "milady": {
+      "partner_name": "Milady Training",
+      "partner_split": 50,
+      "elevate_split": 50,
+      "programs": [
+        {
+          "id": "milady-cosmetology-fundamentals",
+          "name": "Milady Cosmetology Fundamentals",
+          "partner_price": 300,
+          "elevate_markup": 150,
+          "student_price": 450,
+          "duration": "8-12 weeks",
+          "level": "Beginner",
+          "certification": "Milady Cosmetology Certificate",
+          "description": "Hair cutting, coloring, chemical services, salon management"
+        },
+        {
+          "id": "milady-barbering-complete",
+          "name": "Milady Complete Barbering Course",
+          "partner_price": 350,
+          "elevate_markup": 175,
+          "student_price": 525,
+          "duration": "10-14 weeks",
+          "level": "Intermediate",
+          "certification": "Milady Master Barber Certificate",
+          "description": "Advanced barbering techniques, business skills, state exam prep"
+        },
+        {
+          "id": "milady-nail-technology",
+          "name": "Milady Nail Technology Specialist",
+          "partner_price": 250,
+          "elevate_markup": 125,
+          "student_price": 375,
+          "duration": "6-8 weeks",
+          "level": "Beginner",
+          "certification": "Milady Nail Technology Certificate",
+          "description": "Manicures, pedicures, nail art, sanitation, state regulations"
+        }
+      ]
+    },
+    "nccer": {
+      "partner_name": "NCCER (National Center for Construction Education and Research)",
+      "partner_split": 50,
+      "elevate_split": 50,
+      "programs": [
+        {
+          "id": "nccer-construction-fundamentals",
+          "name": "NCCER Construction Core Curriculum",
+          "partner_price": 200,
+          "elevate_markup": 100,
+          "student_price": 300,
+          "duration": "6-8 weeks",
+          "level": "Beginner",
+          "certification": "NCCER Core Certificate",
+          "description": "Safety, construction math, hand tools, power tools, blueprints"
+        },
+        {
+          "id": "nccer-carpentry-level-1",
+          "name": "NCCER Carpentry Level 1",
+          "partner_price": 350,
+          "elevate_markup": 175,
+          "student_price": 525,
+          "duration": "10-14 weeks",
+          "level": "Intermediate",
+          "certification": "NCCER Carpentry Level 1 Certificate",
+          "description": "Framing, exterior finishing, concrete, masonry, blueprint reading"
+        },
+        {
+          "id": "nccer-hvac-level-1",
+          "name": "NCCER HVAC Level 1",
+          "partner_price": 400,
+          "elevate_markup": 200,
+          "student_price": 600,
+          "duration": "12-16 weeks",
+          "level": "Intermediate",
+          "certification": "NCCER HVAC Level 1 Certificate",
+          "description": "HVAC fundamentals, tools, safety, electrical theory, refrigeration"
+        },
+        {
+          "id": "nccer-plumbing-level-1",
+          "name": "NCCER Plumbing Level 1",
+          "partner_price": 380,
+          "elevate_markup": 190,
+          "student_price": 570,
+          "duration": "12-16 weeks",
+          "level": "Intermediate",
+          "certification": "NCCER Plumbing Level 1 Certificate",
+          "description": "Plumbing tools, materials, fixtures, water distribution systems"
+        }
+      ]
+    }
+  },
+  "revenue_model": {
+    "markup_percentage": 50,
+    "revenue_split": {
+      "elevate_for_humanity": 50,
+      "credentialing_partner": 50
+    },
+    "payment_processing": {
+      "platform": "Stripe",
+      "fee_structure": "2.9% + 30¢ per transaction",
+      "fee_responsibility": "Deducted from Elevate for Humanity's 50%"
+    }
+  },
+  "certification_process": {
+    "dual_certificates": true,
+    "elevate_certificate": "Certificate of Completion from Elevate for Humanity",
+    "partner_certificate": "Official certification from credentialing partner",
+    "delivery_method": "Digital certificates via email and student portal"
+  }
+}
