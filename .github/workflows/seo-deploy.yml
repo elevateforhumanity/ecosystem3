@@ -1,4 +1,4 @@
-name: SEO Crawl & Deploy
+name: Ultra-Tiny Chunk SEO Deploy
 
 on:
   push:
@@ -22,15 +22,19 @@ jobs:
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
 
-      - name: Build sitemaps + robots (with IndexNow)
+      - name: Ultra-Tiny Chunk Crawl (1k URLs per sitemap)
         env:
           INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
         run: |
+          echo "🔍 Starting ultra-tiny chunk crawl (1k URLs per sitemap)..."
           npm run seo:crawl
+          echo "📊 Crawl completed - generating month-based partitions"
+          
+          # Commit sitemap changes
           git config user.name "efh-bot"
           git config user.email "bot@elevateforhumanity.org"
           git add sites/marketing/sitemap_index.xml sites/marketing/sitemaps sites/marketing/robots.txt || true
-          git commit -m "chore: enterprise sitemaps refresh" || echo "no changes"
+          git commit -m "chore: ultra-tiny chunk sitemaps (1k URLs) - $(date '+%Y-%m-%d %H:%M')" || echo "no changes"
           git push || true
 
       - name: Deploy to Netlify (Marketing)
@@ -39,7 +43,7 @@ jobs:
           publish-dir: 'sites/marketing'
           production-branch: main
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          deploy-message: "Enterprise SEO: ${{ github.event.head_commit.message }}"
+          deploy-message: "Ultra-Tiny Chunk SEO: ${{ github.event.head_commit.message }}"
           enable-pull-request-comment: false
           enable-commit-comment: true
           overwrites-pull-request-comment: false
@@ -47,12 +51,15 @@ jobs:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID_MARKETING }}
 
-      - name: Verify deployment
+      - name: Verify Ultra-Tiny Chunk Deployment
         run: |
-          echo "🌍 Enterprise SEO deployment completed!"
+          echo "🌍 Ultra-Tiny Chunk Enterprise SEO deployment completed!"
           echo "📊 Deployment details:"
           echo "- Branch: ${{ github.ref_name }}"
           echo "- Commit: ${{ github.sha }}"
           echo "- Message: ${{ github.event.head_commit.message }}"
-          echo "- Sitemaps: Month-based partitioning with IndexNow"
-          echo "✅ Enterprise SEO system active"
+          echo "- Chunk Size: 1,000 URLs per sitemap (ultra-tiny for max Google performance)"
+          echo "- Partitioning: Month-based with section organization"
+          echo "- IndexNow: Instant search engine notifications"
+          echo "- Search Engines: Google + Bing ping automation"
+          echo "✅ Ultra-Tiny Chunk Enterprise SEO system active"

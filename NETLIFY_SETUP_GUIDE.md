@@ -1,8 +1,8 @@
-# 🚀 Netlify Multi-Site Setup Guide
+# 🚀 Ultra-Tiny Chunk Netlify Setup Guide
 
-## ✅ **AUTO-DEPLOY READY**
+## ✅ **ULTRA-TINY CHUNK SYSTEM READY**
 
-Your repository is now configured for automatic deployment to Netlify with multi-site support!
+Your repository is now configured for automatic deployment with **1,000 URLs per sitemap** (ultra-tiny chunks) for maximum Google performance!
 
 ---
 
@@ -20,15 +20,23 @@ NETLIFY_AUTH_TOKEN
 
 ### **2. Site IDs for Each Site**
 ```
-NETLIFY_SITE_ID_MARKETING    # For sites/marketing/
-NETLIFY_SITE_ID_PROGRAMS     # For sites/programs/
-NETLIFY_SITE_ID_BLOG         # For sites/blog/
+NETLIFY_SITE_ID_MARKETING    # For sites/marketing/ (primary site)
+NETLIFY_SITE_ID_PROGRAMS     # For sites/programs/ (if separate)
+INDEXNOW_KEY                 # For instant search engine notifications
 ```
 
 **How to get Site IDs:**
 1. Create each site in Netlify (see setup below)
 2. Go to Site settings → Site information
 3. Copy the "Site ID" value
+
+### **3. Ultra-Tiny Chunk Configuration**
+Your system is configured for **1,000 URLs per sitemap** instead of the industry standard 50,000:
+- ✅ **Faster Google crawling** (smaller files = faster processing)
+- ✅ **Month-based partitioning** (organized by date)
+- ✅ **Section organization** (marketing, programs, blog, employers, misc)
+- ✅ **IndexNow integration** (instant search engine notifications)
+- ✅ **Automated pings** (Google + Bing sitemap notifications)
 
 ---
 
