@@ -61,7 +61,9 @@
     "crawl:marketing": "node infra/scripts/crawl-site.mjs --base=http://localhost:8000 --max=100",
     "reorg": "node infra/scripts/repo-reorg.mjs",
     "sitemaps:tiny": "node scripts/sitemap-partitioner.mjs --base=https://www.elevateforhumanity.org --in=all-urls.txt --out=sites/marketing/sitemaps --chunk=5000",
-    "robots": "node -e \"require('fs').writeFileSync('sites/marketing/robots.txt', 'User-agent: *\\nAllow: /\\nSitemap: https://www.elevateforhumanity.org/sitemap_index.xml\\n')\""
+    "robots": "node -e \"require('fs').writeFileSync('sites/marketing/robots.txt', 'User-agent: *\\nAllow: /\\nSitemap: https://www.elevateforhumanity.org/sitemap_index.xml\\n')\"",
+    "seo:crawl": "node scripts/enterprise-crawl-simple.mjs --base=https://www.elevateforhumanity.org --out=sites/marketing --chunk=2000",
+    "seo:crawl:indexnow": "node scripts/enterprise-crawl-simple.mjs --base=https://www.elevateforhumanity.org --out=sites/marketing --chunk=2000"
   },
   "prisma": {
     "seed": "node prisma/seed.cjs"

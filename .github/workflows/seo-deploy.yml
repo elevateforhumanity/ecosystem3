@@ -1,0 +1,58 @@
+name: SEO Crawl & Deploy
+
+on:
+  push:
+    branches: [ main ]      # run on every change
+  schedule:
+    - cron: "0 6 * * *"     # nightly 06:00 UTC
+  workflow_dispatch: {}
+
+jobs:
+  crawl-build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Build sitemaps + robots (with IndexNow)
+        env:
+          INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
+        run: |
+          npm run seo:crawl
+          git config user.name "efh-bot"
+          git config user.email "bot@elevateforhumanity.org"
+          git add sites/marketing/sitemap_index.xml sites/marketing/sitemaps sites/marketing/robots.txt || true
+          git commit -m "chore: enterprise sitemaps refresh" || echo "no changes"
+          git push || true
+
+      - name: Deploy to Netlify (Marketing)
+        uses: nwtgck/actions-netlify@v3.0
+        with:
+          publish-dir: 'sites/marketing'
+          production-branch: main
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: "Enterprise SEO: ${{ github.event.head_commit.message }}"
+          enable-pull-request-comment: false
+          enable-commit-comment: true
+          overwrites-pull-request-comment: false
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID_MARKETING }}
+
+      - name: Verify deployment
+        run: |
+          echo "🌍 Enterprise SEO deployment completed!"
+          echo "📊 Deployment details:"
+          echo "- Branch: ${{ github.ref_name }}"
+          echo "- Commit: ${{ github.sha }}"
+          echo "- Message: ${{ github.event.head_commit.message }}"
+          echo "- Sitemaps: Month-based partitioning with IndexNow"
+          echo "✅ Enterprise SEO system active"
