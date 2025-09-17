@@ -42,6 +42,41 @@ jobs:
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
 
+      - name: Build ultra-chunked sitemaps (marketing)
+        run: |
+          echo "Generating ultra-tiny sitemaps (2k per file)..."
+          # Ensure URL list exists
+          if [ ! -f "all-urls.txt" ]; then
+            echo "Creating comprehensive URL list..."
+            cat > all-urls.txt << EOF
+          https://www.elevateforhumanity.org/
+          https://www.elevateforhumanity.org/about/
+          https://www.elevateforhumanity.org/contact/
+          https://www.elevateforhumanity.org/employers/
+          https://www.elevateforhumanity.org/programs/
+          https://www.elevateforhumanity.org/programs/cybersecurity/
+          https://www.elevateforhumanity.org/programs/cloud-computing/
+          https://www.elevateforhumanity.org/programs/healthcare-cna/
+          https://www.elevateforhumanity.org/programs/electrical-trades/
+          https://www.elevateforhumanity.org/programs/construction/
+          https://www.elevateforhumanity.org/programs/beauty-wellness/
+          https://www.elevateforhumanity.org/blog/
+          https://www.elevateforhumanity.org/privacy/
+          https://www.elevateforhumanity.org/terms/
+          https://www.elevateforhumanity.org/sitemap.html
+          EOF
+          fi
+          # Generate ultra-chunked sitemaps (2k per file)
+          node scripts/sitemap-partitioner.mjs --base=https://www.elevateforhumanity.org --in=all-urls.txt --out=sites/marketing/sitemaps --chunk=2000
+          node -e "require('fs').writeFileSync('sites/marketing/robots.txt','User-agent: *\nAllow: /\nSitemap: https://www.elevateforhumanity.org/sitemap_index.xml\n')"
+          # Auto-commit sitemap updates
+          git config user.name "efh-bot"
+          git config user.email "bot@elevateforhumanity.org"
+          git add sites/marketing/sitemap_index.xml sites/marketing/sitemaps sites/marketing/robots.txt || true
+          git commit -m "chore: refresh ultra-chunked sitemaps (2k per file)" || echo "no sitemap changes"
+          git push || true
+          echo "✅ Ultra-tiny sitemaps generated and committed"
+
       - name: Build site
         run: |
           echo "Building static site..."
