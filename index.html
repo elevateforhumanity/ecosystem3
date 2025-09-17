@@ -540,6 +540,213 @@
 
         /* Container */
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Eligibility Quick Check */
+        .eligibility-check {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            padding: 30px 0;
+            border-bottom: 1px solid #bbf7d0;
+        }
+        
+        .eligibility-box {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 2px solid #22c55e;
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .eligibility-box h3 {
+            color: #166534;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .eligibility-points {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        
+        .eligibility-point {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            color: #166534;
+        }
+        
+        .check-icon {
+            background: #22c55e;
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .eligibility-cta {
+            color: #166534;
+            text-decoration: none;
+            font-weight: 600;
+            border: 2px solid #22c55e;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+        
+        .eligibility-cta:hover {
+            background: #22c55e;
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .eligibility-points {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+        
+        /* Trust Badges */
+        .trust-badges {
+            background: #f8fafc;
+            padding: 20px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .trust-label {
+            text-align: center;
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+            font-weight: 500;
+        }
+        
+        .badges-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+        
+        .trust-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #475569;
+            transition: all 0.2s ease;
+        }
+        
+        .trust-badge:hover {
+            border-color: #4c1d95;
+            box-shadow: 0 2px 4px rgba(76, 29, 149, 0.1);
+        }
+        
+        .badge-icon {
+            font-size: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .badges-row {
+                gap: 12px;
+            }
+            
+            .trust-badge {
+                font-size: 0.8rem;
+                padding: 6px 10px;
+            }
+        }
+        
+        /* Success Story */
+        .success-story {
+            background: linear-gradient(135deg, #4c1d95 0%, #22c55e 100%);
+            padding: 40px 0;
+            color: white;
+        }
+        
+        .testimonial-card {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 32px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .quote-icon {
+            font-size: 4rem;
+            color: rgba(255, 255, 255, 0.3);
+            line-height: 1;
+            margin-bottom: 16px;
+        }
+        
+        .testimonial-text {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 24px;
+            font-style: italic;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        
+        .author-info strong {
+            display: block;
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+        }
+        
+        .author-info span {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+        
+        .success-badge {
+            background: rgba(34, 197, 94, 0.2);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        @media (max-width: 768px) {
+            .testimonial-card {
+                padding: 24px;
+            }
+            
+            .testimonial-text {
+                font-size: 1.1rem;
+            }
+            
+            .testimonial-author {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
 
         /* Impact Stats */
         .impact-stats {
@@ -1366,11 +1573,9 @@
             <div class="nav-links">
                 <a href="/" class="nav-tab">Home</a>
                 <a href="/programs/" class="nav-tab">Programs</a>
-                <a href="/contracts/" class="nav-tab">Government Contracts</a>
-                <a href="/students/" class="nav-tab">Student Portal</a>
+                <a href="/funding-options.html" class="nav-tab">Funding</a>
                 <a href="/contact/" class="nav-tab">Contact</a>
-                <a href="/elevate-store.html" class="nav-tab">Platform Store</a>
-                <a href="/programs/#apply" class="nav-cta">Apply Now</a>
+                <a href="/eligibility-check.html" class="nav-cta">Check Eligibility</a>
             </div>
             <div class="nav-mobile">
                 <button class="mobile-menu-btn">☰</button>
@@ -1386,11 +1591,68 @@
             <p class="foundation">Google Cloud • Microsoft • CompTIA • IBEW • Milady RISE • NCCER Partnerships</p>
             <p class="hero-descriptor">Federally Funded Programs Available</p>
             <div class="hero-cta">
-                <a href="/programs" class="cta-btn cta-primary">VIEW PROGRAMS</a>
-                <a href="/apply" class="cta-btn cta-secondary">APPLY NOW</a>
+                <a href="/eligibility-check.html" class="cta-btn cta-primary">CHECK YOUR ELIGIBILITY</a>
+                <a href="/programs" class="cta-btn cta-secondary">View Programs</a>
             </div>
         </div>
     </header>
+
+    <!-- Eligibility Quick Check -->
+    <section class="eligibility-check">
+        <div class="container">
+            <div class="eligibility-box">
+                <h3>✅ Do You Qualify for Free Training?</h3>
+                <div class="eligibility-points">
+                    <div class="eligibility-point">
+                        <span class="check-icon">✓</span>
+                        <span>Indiana resident</span>
+                    </div>
+                    <div class="eligibility-point">
+                        <span class="check-icon">✓</span>
+                        <span>18+ years old</span>
+                    </div>
+                    <div class="eligibility-point">
+                        <span class="check-icon">✓</span>
+                        <span>Meet income requirements</span>
+                    </div>
+                </div>
+                <a href="/eligibility-check.html" class="eligibility-cta">Check Full Eligibility →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Badges -->
+    <section class="trust-badges">
+        <div class="container">
+            <p class="trust-label">Approved & Partnered With:</p>
+            <div class="badges-row">
+                <div class="trust-badge">
+                    <span class="badge-icon">🏛️</span>
+                    <span class="badge-text">WIOA Approved</span>
+                </div>
+                <div class="trust-badge">
+                    <span class="badge-icon">☁️</span>
+                    <span class="badge-text">Google Cloud</span>
+                </div>
+                <div class="trust-badge">
+                    <span class="badge-icon">🔷</span>
+                    <span class="badge-text">Microsoft</span>
+                </div>
+                <div class="trust-badge">
+                    <span class="badge-icon">🛡️</span>
+                    <span class="badge-text">CompTIA</span>
+                </div>
+                <div class="trust-badge">
+                    <span class="badge-icon">⚡</span>
+                    <span class="badge-text">IBEW Union</span>
+                </div>
+                <div class="trust-badge">
+                    <span class="badge-icon">🏗️</span>
+                    <span class="badge-text">NCCER</span>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Impact Stats -->
     <section class="impact-stats">
@@ -1411,6 +1673,27 @@
                 <div class="stat">
                     <span class="stat-number">33+</span>
                     <span class="stat-label">Training Programs</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Student Success Story -->
+    <section class="success-story">
+        <div class="container">
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    <div class="quote-icon">"</div>
+                    <p class="testimonial-text">I went from unemployed to earning $65,000 as a cybersecurity analyst in just 4 months. The WIOA funding covered everything, and they helped me get hired before I even finished the program.</p>
+                    <div class="testimonial-author">
+                        <div class="author-info">
+                            <strong>Maria Rodriguez</strong>
+                            <span>CompTIA Security+ Graduate</span>
+                        </div>
+                        <div class="success-badge">
+                            <span>💼 Hired in 4 months</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
